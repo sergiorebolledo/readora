@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Fondo de Readora: se ve detrás de las barras del sistema -->
+    <color name="readora_bg">#0d0b1f</color>
+</resources>

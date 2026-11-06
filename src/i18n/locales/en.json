@@ -1,0 +1,273 @@
+{
+  "nav": {
+    "home": "Home",
+    "explore": "Discover",
+    "library": "Library",
+    "history": "History",
+    "reminders": "Reminders",
+    "sources": "Sources",
+    "settings": "Settings",
+    "search": "Search",
+    "searchLibrary": "Search title or author",
+    "searchExplore": "Search free books"
+  },
+  "common": {
+    "close": "Close",
+    "back": "Back",
+    "retry": "Retry",
+    "loading": "Loading…",
+    "seeAll": "See all",
+    "loadMore": "Load more",
+    "unknownAuthor": "Unknown author",
+    "pages": "{{count}} pages",
+    "pageOf": "Page {{page}} of {{total}}",
+    "pageShort": "p. {{page}} of {{total}}",
+    "added": "Added {{date}}",
+    "delete": "Delete",
+    "active": "Active"
+  },
+  "status": {
+    "por-leer": "To read",
+    "leyendo": "Reading",
+    "terminado": "Finished"
+  },
+  "shelf": {
+    "todos": "All",
+    "leyendo": "Continue reading",
+    "leyendoChip": "Reading",
+    "recientes": "Recently added",
+    "favoritos": "My favorites",
+    "por-leer": "To read",
+    "terminados": "Finished",
+    "pdf": "PDF",
+    "epub": "EPUB",
+    "comics": "Comics"
+  },
+  "sort": {
+    "label": "Sort: {{name}}",
+    "ultimo-leido": "Last read",
+    "recientes": "Recently added",
+    "titulo": "Title (A–Z)",
+    "autor": "Author (A–Z)",
+    "progreso": "Progress"
+  },
+  "import": {
+    "button": "Add books",
+    "importing": "Importing {{current}} of {{total}}: {{name}}",
+    "added_one": "✓ {{count}} book added",
+    "added_other": "✓ {{count}} books added",
+    "duplicated_one": "{{count}} was already in your library",
+    "duplicated_other": "{{count}} were already in your library",
+    "unsupported": "{{count}} with unsupported format",
+    "dropHere": "Drop your books here"
+  },
+  "home": {
+    "emptyTitle": "Your library is empty",
+    "emptyText": "Add your books in PDF, EPUB, TXT or CBZ. You can also drag them into this window, or find free books in Discover.",
+    "goExplore": "Find free books",
+    "resultsFor": "Results for “{{query}}”",
+    "noResults": "No books found."
+  },
+  "library": {
+    "title": "Library",
+    "empty": "There are no books on this shelf."
+  },
+  "book": {
+    "continueAt": "Continue at p. {{page}}",
+    "start": "Start reading",
+    "favorite": "Favorite",
+    "statusLabel": "Status",
+    "historyTitle": "History of this book",
+    "neverOpened": "You haven't opened it yet.",
+    "sessionsSummary": "{{count}} sessions · {{time}} in total",
+    "createReminder": "Create reminder",
+    "remove": "Remove from library",
+    "confirmRemove": "Remove “{{title}}” from your library?",
+    "coverOf": "Cover of {{title}}"
+  },
+  "reader": {
+    "opening": "Opening…",
+    "notFound": "This book is no longer in your library.",
+    "smallerText": "Smaller text",
+    "biggerText": "Bigger text",
+    "theme": "Theme",
+    "themes": {
+      "oscuro": "Dark",
+      "sepia": "Sepia",
+      "claro": "Light"
+    },
+    "prev": "Previous",
+    "next": "Next",
+    "prevPage": "Previous page",
+    "nextPage": "Next page",
+    "goToPage": "Go to page",
+    "position": "Page {{page}} of {{total}} · {{percent}}%",
+    "computingPages": "Counting pages…",
+    "loadingPdf": "Loading PDF…",
+    "loadingEpub": "Loading EPUB…",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "pageAlt": "Page {{page}}"
+  },
+  "history": {
+    "title": "Reading history",
+    "streak": "Current streak",
+    "streakValue_one": "{{count}} day 🔥",
+    "streakValue_other": "{{count}} days 🔥",
+    "totalTime": "Total time",
+    "sessions": "Sessions",
+    "finished": "Books finished",
+    "last7": "Last 7 days",
+    "noReading": "No reading",
+    "pagesShort": "{{count}} p.",
+    "empty": "No sessions yet. Open a book to start your history.",
+    "deletedBook": "Deleted book"
+  },
+  "reminders": {
+    "title": "Reminders",
+    "subtitle": "Create alerts to keep up your reading habit.",
+    "blocked": "Notifications are blocked. You'll see the alerts inside the app.",
+    "unsupported": "Notifications aren't supported here. You'll see the alerts inside the app.",
+    "enablePrompt": "Turn on notifications to get alerts even when the app is in the background.",
+    "enable": "Turn on",
+    "time": "Time",
+    "days": "Days",
+    "dayLetters": [
+      "S",
+      "M",
+      "T",
+      "W",
+      "T",
+      "F",
+      "S"
+    ],
+    "book": "Book (optional)",
+    "anyBook": "Any book",
+    "message": "Message (optional)",
+    "messagePlaceholder": "E.g. 20 minutes before bed",
+    "save": "Save reminder",
+    "everyDay": "Every day",
+    "empty": "You don't have any reminders yet.",
+    "deleteLabel": "Delete reminder",
+    "notifyTitleBook": "Time to read: {{title}}",
+    "notifyTitle": "Time to read 📚",
+    "notifyBodyBook": "You're on page {{page}}.",
+    "notifyBody": "Your library is waiting."
+  },
+  "duration": {
+    "hm": "{{h}} h {{m}} min",
+    "m": "{{m}} min",
+    "s": "{{s}} s"
+  },
+  "explore": {
+    "title": "Discover",
+    "subtitle": "Free and legal books to add to your library. Use the search bar above to find one.",
+    "language": "Language",
+    "noSources": "You have no sources turned on.",
+    "enableSources": "Turn on sources",
+    "resultsIn": "Results in {{source}}",
+    "noResultsIn": "No results in {{source}}. Try other words, accents (e.g. “Bécquer”) or another language.",
+    "loadError": "Couldn't load: {{message}}",
+    "owned": "Yours",
+    "addToLibrary": "Add to my library ({{format}})",
+    "downloading": "Downloading…",
+    "adding": "Adding…",
+    "readNow": "Read now",
+    "inLibrary": "✓ Already in your library.",
+    "findingEdition": "Looking for a downloadable edition…",
+    "noEdition": "We couldn't find a downloadable edition of this book.",
+    "seeOn": "See on {{source}}",
+    "addError": "Couldn't add it: {{message}}",
+    "otherLanguage": "The edition in your language wasn't available right now; an edition in “{{language}}” was added instead.",
+    "formats": {
+      "epub": "EPUB",
+      "pdf": "PDF",
+      "txt": "Text"
+    }
+  },
+  "bookLangs": {
+    "es": "Spanish",
+    "en": "English",
+    "pt": "Portuguese",
+    "fr": "French",
+    "all": "All languages"
+  },
+  "sources": {
+    "title": "Sources",
+    "subtitle": "Sources feed Discover with book catalogs. They work like Stremio add-ons: turn them on or off whenever you like.",
+    "online": "Online",
+    "onDevice": "On this device",
+    "catalogsInfo": "{{count}} catalogs · search included",
+    "toggle": "Turn on {{name}}",
+    "comingTitle": "Calibre / OPDS, Standard Ebooks…",
+    "comingText": "Coming soon: connect your Calibre server or other OPDS catalogs.",
+    "folderTitle": "Local folder",
+    "folderText": "Pick a folder (e.g. “My books”) and every PDF, EPUB, TXT and CBZ in it will be imported, subfolders included. Books you already have aren't duplicated, so you can use it again to add only the new ones.",
+    "folderButton": "Import folder",
+    "gutenberg": {
+      "description": "Public-domain classics: Cervantes, Austen, Dostoevsky, Poe… Free and legal.",
+      "note": "Public domain"
+    },
+    "openlibrary": {
+      "description": "Internet Archive's catalog. Scanned editions of public-domain books, in EPUB or PDF.",
+      "note": "Public domain (scans)"
+    }
+  },
+  "catalog": {
+    "populares": "Most popular",
+    "ficcion": "Fiction",
+    "novela": "Fiction",
+    "aventura": "Adventure",
+    "ciencia-ficcion": "Science fiction",
+    "poesia": "Poetry",
+    "teatro": "Drama",
+    "infantil": "Children & young adults",
+    "filosofia": "Philosophy",
+    "historia": "History",
+    "clasicos": "Classics",
+    "ciencia": "Science"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "App language",
+    "languageHelp": "Also sets the default language for books in Discover.",
+    "about": "About",
+    "aboutText": "{{name}} is a free, open reading app for PC, Android and Steam.",
+    "credits": "Credits",
+    "creditsText": "Design and keyboard shortcuts based on Stremio. Free books from Project Gutenberg and Open Library. Icons by Lucide.",
+    "license": "Open source",
+    "licenseText": "{{name}} is free software licensed under the GPL-2.0: you can use, study, modify and share it. It includes code adapted from stremio-web (© Smart Code, GPL-2.0).",
+    "licenseLink": "Read the license",
+    "sourceLink": "View source code"
+  },
+  "errors": {
+    "network": "Couldn't reach the source. Check your internet connection.",
+    "http": "The source returned an error ({{status}}).",
+    "gutenbergSlow": "Gutenberg isn't responding right now (its server is slow). Try again in a while."
+  },
+  "shortcuts": {
+    "title": "Keyboard shortcuts",
+    "general": "General",
+    "reader": "Reader",
+    "or": "or",
+    "to": "to",
+    "navigateTabs": "Go to a section",
+    "navigateSearch": "Search",
+    "navigateHistory": "Go back",
+    "fullscreen": "Full screen",
+    "shortcuts": "Show shortcuts",
+    "nextPage": "Next page",
+    "prevPage": "Previous page",
+    "biggerText": "Bigger text",
+    "smallerText": "Smaller text",
+    "toggleUi": "Show or hide controls",
+    "closeReader": "Close the reader",
+    "keys": {
+      "shift": "Shift",
+      "space": "Space",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down"
+    },
+    "hint": "Press ? on any screen to see this list."
+  }
+}

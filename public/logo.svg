@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Readora — icono de la app (fondo violeta + libro abierto + cinta marcapáginas) -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a48cff"/>
+      <stop offset="0.5" stop-color="#6c47f2"/>
+      <stop offset="1" stop-color="#2f1b8f"/>
+    </linearGradient>
+    <linearGradient id="page" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e3dcff"/>
+    </linearGradient>
+    <linearGradient id="ribbon" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd76a"/>
+      <stop offset="1" stop-color="#ffab3d"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.3" cy="0.2" r="0.8">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="512" height="512" rx="116" fill="url(#bg)"/>
+  <rect width="512" height="512" rx="116" fill="url(#glow)"/>
+  <g id="book">
+    <!-- sombra -->
+    <path d="M256 196c-46-30-104-38-150-28v214c46-10 104-2 150 28 46-30 104-38 150-28V168c-46-10-104-2-150 28z" fill="#1d0f66" opacity="0.35" transform="translate(0 14)"/>
+    <!-- páginas -->
+    <path d="M256 186c-46-30-104-38-150-28v214c46-10 104-2 150 28z" fill="url(#page)"/>
+    <path d="M256 186c46-30 104-38 150-28v214c-46-10-104-2-150 28z" fill="url(#page)" opacity="0.94"/>
+    <!-- lomo -->
+    <path d="M256 186v214" stroke="#6c47f2" stroke-width="6" stroke-linecap="round" opacity="0.45"/>
+    <!-- líneas de texto -->
+    <g stroke="#b9a8ff" stroke-width="9" stroke-linecap="round" fill="none">
+      <path d="M140 214c32-4 64 0 90 12"/>
+      <path d="M140 250c32-4 64 0 90 12"/>
+      <path d="M140 286c32-4 64 0 90 12"/>
+      <path d="M140 322c24-3 48-1 68 6"/>
+    </g>
+    <!-- cinta marcapáginas -->
+    <path d="M330 150v122l24-20 24 20V146c-17 0-33 1-48 4z" fill="url(#ribbon)"/>
+  </g>
+</svg>

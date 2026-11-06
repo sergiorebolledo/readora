@@ -1,0 +1,18 @@
+node_modules
+dist
+*.local
+.DS_Store
+tsconfig.tsbuildinfo
+
+# APK de prueba: se comparte por separado (Releases), no en el código
+*.apk
+*.aab
+
+# Firmas de Android: nunca subirlas
+*.keystore
+*.jks
+
+# Configuración local de herramientas
+.claude/
+.vscode/
+.idea/

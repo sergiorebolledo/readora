@@ -1,0 +1,37 @@
+@import 'tailwindcss';
+
+/*
+ * Paleta "noche violeta" (inspirada en Stremio).
+ * Cambiar estos valores cambia el color de toda la app.
+ */
+@theme {
+  --color-bg: #0d0b1f;
+  --color-bg-2: #17143a;
+  --color-surface: #1d1946;
+  --color-surface-2: #29245c;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-accent: #7b5bf5;
+  --color-accent-2: #9b82ff;
+  --color-muted: #a29fc4;
+}
+
+html {
+  color-scheme: dark;
+  font-family: Inter, system-ui, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 70% -10%, rgb(123 91 245 / 0.18), transparent 60%),
+    radial-gradient(900px 500px at 0% 100%, rgb(60 40 160 / 0.25), transparent 60%),
+    linear-gradient(160deg, var(--color-bg-2), var(--color-bg) 55%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}

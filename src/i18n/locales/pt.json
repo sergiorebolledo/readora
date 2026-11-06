@@ -1,0 +1,273 @@
+{
+  "nav": {
+    "home": "Início",
+    "explore": "Explorar",
+    "library": "Biblioteca",
+    "history": "Histórico",
+    "reminders": "Lembretes",
+    "sources": "Fontes",
+    "settings": "Configurações",
+    "search": "Pesquisar",
+    "searchLibrary": "Pesquisar título ou autor",
+    "searchExplore": "Pesquisar livros grátis"
+  },
+  "common": {
+    "close": "Fechar",
+    "back": "Voltar",
+    "retry": "Tentar novamente",
+    "loading": "Carregando…",
+    "seeAll": "Ver tudo",
+    "loadMore": "Carregar mais",
+    "unknownAuthor": "Autor desconhecido",
+    "pages": "{{count}} páginas",
+    "pageOf": "Página {{page}} de {{total}}",
+    "pageShort": "Pág. {{page}} de {{total}}",
+    "added": "Adicionado em {{date}}",
+    "delete": "Excluir",
+    "active": "Ativo"
+  },
+  "status": {
+    "por-leer": "Para ler",
+    "leyendo": "Lendo",
+    "terminado": "Concluído"
+  },
+  "shelf": {
+    "todos": "Todos",
+    "leyendo": "Continuar lendo",
+    "leyendoChip": "Lendo",
+    "recientes": "Adicionados recentemente",
+    "favoritos": "Meus favoritos",
+    "por-leer": "Para ler",
+    "terminados": "Concluídos",
+    "pdf": "PDF",
+    "epub": "EPUB",
+    "comics": "Quadrinhos"
+  },
+  "sort": {
+    "label": "Ordenar: {{name}}",
+    "ultimo-leido": "Último lido",
+    "recientes": "Adicionados recentemente",
+    "titulo": "Título (A–Z)",
+    "autor": "Autor (A–Z)",
+    "progreso": "Progresso"
+  },
+  "import": {
+    "button": "Adicionar livros",
+    "importing": "Importando {{current}} de {{total}}: {{name}}",
+    "added_one": "✓ {{count}} livro adicionado",
+    "added_other": "✓ {{count}} livros adicionados",
+    "duplicated_one": "{{count}} já estava na sua biblioteca",
+    "duplicated_other": "{{count}} já estavam na sua biblioteca",
+    "unsupported": "{{count}} com formato não suportado",
+    "dropHere": "Solte seus livros aqui"
+  },
+  "home": {
+    "emptyTitle": "Sua biblioteca está vazia",
+    "emptyText": "Adicione seus livros em PDF, EPUB, TXT ou CBZ. Você também pode arrastá-los para esta janela ou buscar livros grátis em Explorar.",
+    "goExplore": "Buscar livros grátis",
+    "resultsFor": "Resultados para “{{query}}”",
+    "noResults": "Nenhum livro encontrado."
+  },
+  "library": {
+    "title": "Biblioteca",
+    "empty": "Não há livros nesta estante."
+  },
+  "book": {
+    "continueAt": "Continuar na pág. {{page}}",
+    "start": "Começar a ler",
+    "favorite": "Favorito",
+    "statusLabel": "Status",
+    "historyTitle": "Histórico deste livro",
+    "neverOpened": "Você ainda não o abriu.",
+    "sessionsSummary": "{{count}} sessões · {{time}} no total",
+    "createReminder": "Criar lembrete",
+    "remove": "Remover da biblioteca",
+    "confirmRemove": "Remover “{{title}}” da sua biblioteca?",
+    "coverOf": "Capa de {{title}}"
+  },
+  "reader": {
+    "opening": "Abrindo…",
+    "notFound": "Este livro não está mais na sua biblioteca.",
+    "smallerText": "Letra menor",
+    "biggerText": "Letra maior",
+    "theme": "Tema",
+    "themes": {
+      "oscuro": "Escuro",
+      "sepia": "Sépia",
+      "claro": "Claro"
+    },
+    "prev": "Anterior",
+    "next": "Próxima",
+    "prevPage": "Página anterior",
+    "nextPage": "Próxima página",
+    "goToPage": "Ir para a página",
+    "position": "Página {{page}} de {{total}} · {{percent}}%",
+    "computingPages": "Contando páginas…",
+    "loadingPdf": "Carregando PDF…",
+    "loadingEpub": "Carregando EPUB…",
+    "zoomIn": "Aumentar zoom",
+    "zoomOut": "Diminuir zoom",
+    "pageAlt": "Página {{page}}"
+  },
+  "history": {
+    "title": "Histórico de leitura",
+    "streak": "Sequência atual",
+    "streakValue_one": "{{count}} dia 🔥",
+    "streakValue_other": "{{count}} dias 🔥",
+    "totalTime": "Tempo total",
+    "sessions": "Sessões",
+    "finished": "Livros concluídos",
+    "last7": "Últimos 7 dias",
+    "noReading": "Sem leitura",
+    "pagesShort": "{{count}} págs.",
+    "empty": "Ainda não há sessões. Abra um livro para começar seu histórico.",
+    "deletedBook": "Livro excluído"
+  },
+  "reminders": {
+    "title": "Lembretes",
+    "subtitle": "Crie avisos para manter seu hábito de leitura.",
+    "blocked": "As notificações estão bloqueadas. Você verá os avisos dentro do app.",
+    "unsupported": "Notificações não são suportadas aqui. Você verá os avisos dentro do app.",
+    "enablePrompt": "Ative as notificações para receber avisos mesmo com o app em segundo plano.",
+    "enable": "Ativar",
+    "time": "Hora",
+    "days": "Dias",
+    "dayLetters": [
+      "D",
+      "S",
+      "T",
+      "Q",
+      "Q",
+      "S",
+      "S"
+    ],
+    "book": "Livro (opcional)",
+    "anyBook": "Qualquer livro",
+    "message": "Mensagem (opcional)",
+    "messagePlaceholder": "Ex.: 20 minutos antes de dormir",
+    "save": "Salvar lembrete",
+    "everyDay": "Todos os dias",
+    "empty": "Você ainda não tem lembretes.",
+    "deleteLabel": "Excluir lembrete",
+    "notifyTitleBook": "Hora de ler: {{title}}",
+    "notifyTitle": "Hora de ler 📚",
+    "notifyBodyBook": "Você está na página {{page}}.",
+    "notifyBody": "Sua biblioteca está esperando."
+  },
+  "duration": {
+    "hm": "{{h}} h {{m}} min",
+    "m": "{{m}} min",
+    "s": "{{s}} s"
+  },
+  "explore": {
+    "title": "Explorar",
+    "subtitle": "Livros grátis e legais para adicionar à sua biblioteca. Use a busca acima para encontrar um.",
+    "language": "Idioma",
+    "noSources": "Você não tem fontes ativadas.",
+    "enableSources": "Ativar fontes",
+    "resultsIn": "Resultados em {{source}}",
+    "noResultsIn": "Sem resultados em {{source}}. Tente outras palavras, acentos ou outro idioma.",
+    "loadError": "Não foi possível carregar: {{message}}",
+    "owned": "Seu",
+    "addToLibrary": "Adicionar à minha biblioteca ({{format}})",
+    "downloading": "Baixando…",
+    "adding": "Adicionando…",
+    "readNow": "Ler agora",
+    "inLibrary": "✓ Já está na sua biblioteca.",
+    "findingEdition": "Procurando uma edição para baixar…",
+    "noEdition": "Não encontramos uma edição para baixar deste livro.",
+    "seeOn": "Ver em {{source}}",
+    "addError": "Não foi possível adicionar: {{message}}",
+    "otherLanguage": "A edição no seu idioma não estava disponível agora; foi adicionada uma edição em “{{language}}”.",
+    "formats": {
+      "epub": "EPUB",
+      "pdf": "PDF",
+      "txt": "Texto"
+    }
+  },
+  "bookLangs": {
+    "es": "Espanhol",
+    "en": "Inglês",
+    "pt": "Português",
+    "fr": "Francês",
+    "all": "Todos os idiomas"
+  },
+  "sources": {
+    "title": "Fontes",
+    "subtitle": "As fontes alimentam o Explorar com catálogos de livros. Funcionam como os complementos do Stremio: ative ou desative quando quiser.",
+    "online": "Na internet",
+    "onDevice": "Neste dispositivo",
+    "catalogsInfo": "{{count}} catálogos · busca incluída",
+    "toggle": "Ativar {{name}}",
+    "comingTitle": "Calibre / OPDS, Standard Ebooks…",
+    "comingText": "Em breve: conectar seu servidor Calibre ou outros catálogos OPDS.",
+    "folderTitle": "Pasta local",
+    "folderText": "Escolha uma pasta (por exemplo, “Meus livros”) e todos os PDF, EPUB, TXT e CBZ serão importados, incluindo subpastas. Livros que você já tem não são duplicados, então pode usar de novo para adicionar só os novos.",
+    "folderButton": "Importar pasta",
+    "gutenberg": {
+      "description": "Clássicos em domínio público: Cervantes, Austen, Dostoiévski, Poe… Grátis e legais.",
+      "note": "Domínio público"
+    },
+    "openlibrary": {
+      "description": "Catálogo do Internet Archive. Edições digitalizadas de livros em domínio público, em EPUB ou PDF.",
+      "note": "Domínio público (digitalizações)"
+    }
+  },
+  "catalog": {
+    "populares": "Mais populares",
+    "ficcion": "Romance",
+    "novela": "Romance",
+    "aventura": "Aventura",
+    "ciencia-ficcion": "Ficção científica",
+    "poesia": "Poesia",
+    "teatro": "Teatro",
+    "infantil": "Infantojuvenil",
+    "filosofia": "Filosofia",
+    "historia": "História",
+    "clasicos": "Clássicos",
+    "ciencia": "Ciência"
+  },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma do app",
+    "languageHelp": "Também define o idioma padrão dos livros no Explorar.",
+    "about": "Sobre",
+    "aboutText": "{{name}} é um app de leitura gratuito e aberto para PC, Android e Steam.",
+    "credits": "Créditos",
+    "creditsText": "Design e atalhos de teclado baseados no Stremio. Livros grátis do Project Gutenberg e da Open Library. Ícones do Lucide.",
+    "license": "Código aberto",
+    "licenseText": "{{name}} é software livre sob a licença GPL-2.0: você pode usá-lo, estudá-lo, modificá-lo e compartilhá-lo. Inclui código adaptado do stremio-web (© Smart Code, GPL-2.0).",
+    "licenseLink": "Ver a licença",
+    "sourceLink": "Ver o código-fonte"
+  },
+  "errors": {
+    "network": "Não foi possível conectar à fonte. Verifique sua conexão com a internet.",
+    "http": "A fonte respondeu com um erro ({{status}}).",
+    "gutenbergSlow": "O Gutenberg não está respondendo agora (o servidor está lento). Tente novamente mais tarde."
+  },
+  "shortcuts": {
+    "title": "Atalhos de teclado",
+    "general": "Geral",
+    "reader": "Leitor",
+    "or": "ou",
+    "to": "a",
+    "navigateTabs": "Ir para uma seção",
+    "navigateSearch": "Pesquisar",
+    "navigateHistory": "Voltar",
+    "fullscreen": "Tela cheia",
+    "shortcuts": "Ver atalhos",
+    "nextPage": "Próxima página",
+    "prevPage": "Página anterior",
+    "biggerText": "Letra maior",
+    "smallerText": "Letra menor",
+    "toggleUi": "Mostrar ou ocultar controles",
+    "closeReader": "Fechar o leitor",
+    "keys": {
+      "shift": "Shift",
+      "space": "Espaço",
+      "pageUp": "Page Up",
+      "pageDown": "Page Down"
+    },
+    "hint": "Pressione ? em qualquer tela para ver esta lista."
+  }
+}

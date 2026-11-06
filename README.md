@@ -5,6 +5,10 @@ Agrega tus PDF, EPUB, TXT y cómics CBZ y verás sus portadas, sabrás en qué p
 
 > App **gratuita**, **de código abierto (GPL-2.0)** y **multilingüe** (español, inglés, portugués y francés).
 
+## Descargar
+
+- **Android**: APK de prueba en [Releases](https://github.com/sergiorebolledo/readora/releases) (Android 7.0 o superior).
+
 ## Cómo ejecutarlo
 
 Requisitos: [Node.js](https://nodejs.org) 20 o superior.

@@ -38,6 +38,17 @@ El APK queda en `android/app/build/outputs/apk/debug/app-debug.apk`. Para instal
 
 También se puede abrir `android/` en Android Studio (`npx cap open android`) y pulsar ▶ para ejecutarla en un emulador.
 
+## Publicar una versión de prueba (GitHub Releases)
+
+1. Compilar el APK (ver arriba).
+2. Crear el Release con la etiqueta de la versión y adjuntar el APK renombrado:
+
+```bash
+gh release create v0.1.0 Readora-0.1.0-debug.apk --title "Readora 0.1.0 (prueba)" --notes-file notas.md --prerelease
+```
+
+Se marca como *prerelease* mientras sea un APK de depuración. Publicada: [v0.1.0](https://github.com/sergiorebolledo/readora/releases/tag/v0.1.0) (2026-11-06).
+
 ## Íconos y pantalla de inicio
 
 Se generan desde [`public/logo.svg`](../public/logo.svg):

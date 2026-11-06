@@ -18,6 +18,7 @@ Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 **Probado en el navegador**: `2` → Explorar, `0` → buscador, `?` y Ctrl + / (teclado inglés y español) → ventana de atajos; en el lector, → / Espacio / ← cambian de página, `+` agranda la letra, `1` no saca del lector, Esc vuelve a la ficha.
 
 - **Código publicado** en https://github.com/sergiorebolledo/readora (repositorio público). Ajustes tiene el botón "Ver el código fuente". El APK no se sube al repositorio (`.gitignore`); se compartirá en Releases.
+- **Release v0.1.0 (prueba)** en GitHub con el APK `Readora-0.1.0-debug.apk` (SHA-256 `c079806f…e89c`): https://github.com/sergiorebolledo/readora/releases/tag/v0.1.0
 
 **Pendiente**
 - Decidir cómo integrar Steamworks (ver [STEAM.md](STEAM.md)).

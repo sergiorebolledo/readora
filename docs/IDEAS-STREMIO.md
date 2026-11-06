@@ -5,7 +5,7 @@ Stremio es una biblioteca de películas y series (~15 mil ⭐ en GitHub). Revisa
 ## ✅ Decisión (2026-11-06): Readora es GPL-2.0
 
 El usuario decidió publicar Readora como **código abierto GPL-2.0** para poder reutilizar código de stremio-web.
-- Licencia en [`LICENSE.md`](../LICENSE.md) y `"license": "GPL-2.0-only"` en `package.json`.
+- Licencia en [`LICENSE`](../LICENSE) y `"license": "GPL-2.0-only"` en `package.json`.
 - Se eligió **GPL-2.0-only** (no GPL-3.0) porque stremio-web declara `gpl-2.0` sin "o posterior"; mezclar su código en una app GPL-3.0 no estaría permitido.
 - Cada archivo con código de Stremio mantiene el aviso `Copyright (C) 2017-2023 Smart code 203358507` y dice qué se cambió.
 - Obligación: quien reciba la app (APK, Steam) debe poder obtener el **código fuente completo**. Cuando se publique, hay que subir el repositorio (p. ej. a GitHub) y enlazarlo desde Ajustes y la página de Steam.

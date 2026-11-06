@@ -42,7 +42,7 @@ Otros comandos:
 
 ## Licencia
 
-Readora es software libre bajo la [GNU GPL versión 2](LICENSE.md) (GPL-2.0-only). Código fuente: https://github.com/sergiorebolledo/readora
+Readora es software libre bajo la [GNU GPL versión 2](LICENSE) (GPL-2.0-only). Código fuente: https://github.com/sergiorebolledo/readora
 Incluye código adaptado de [stremio-web](https://github.com/Stremio/stremio-web) (© Smart Code, GPL-2.0); los archivos que lo contienen lo indican en su encabezado. Ver [docs/IDEAS-STREMIO.md](docs/IDEAS-STREMIO.md).
 
 ## Documentación

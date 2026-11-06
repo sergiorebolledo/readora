@@ -8,7 +8,7 @@ Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
 **Hecho**
 - Instalado el **CLI de Claude Code** (2.1.319, en `%USERPROFILE%\.local\bin`, agregado al PATH) y el plugin **Claude Code [Beta] 0.1.14** en Android Studio 2026.1.2. Verificado: el `claude` de la terminal de Android Studio queda conectado al IDE.
-- Readora pasa a ser **GPL-2.0-only** (`LICENSE.md`, `package.json`, sección "Código abierto" en Ajustes).
+- Readora pasa a ser **GPL-2.0-only** (`LICENSE`, `package.json`, sección "Código abierto" en Ajustes).
 - **Atajos de teclado** adaptados de stremio-web: `1`–`7` secciones, `/` o `0` buscar, Retroceso volver, `F` pantalla completa, `?` o Ctrl + / ver atajos. En el lector: ← → Espacio Re Pág/Av Pág, `+`/`-` letra, `H` ocultar controles, Esc cerrar. Ventana de ayuda y lista en Ajustes, en los 4 idiomas.
 
 **Problemas encontrados**

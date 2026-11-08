@@ -16,7 +16,8 @@ Ninguna clave se escribe en el código. Hay tres lugares, y **ninguno se sube a 
 
 | Qué | Dónde | Ejemplo |
 |---|---|---|
-| Clave de PostHog | `.env.local` (en la carpeta del proyecto) | `VITE_POSTHOG_KEY=phc_abc123…` |
+| Configuración web de Firebase | `.env.local` (en la carpeta del proyecto) | `VITE_FIREBASE_APP_ID=1:4401…:web:…` |
+| Configuración Android de Firebase | `android/app/google-services.json` | se descarga de Firebase console |
 | ID del **banner** de AdMob | `.env.local` | `VITE_ADMOB_BANNER_ID=ca-app-pub-1234…/5678…` |
 | Enlace de donaciones | `.env.local` | `VITE_DONATE_URL=https://ko-fi.com/readora` |
 | ID de la **app** de AdMob | `android/app/src/main/res/values/strings.xml` → `admob_app_id` | `ca-app-pub-1234…~9876…` |
@@ -30,7 +31,7 @@ cp .env.example .env.local
 
 Después ábrelo con cualquier editor y rellena las líneas. Cada vez que cambies `.env.local` hay que volver a compilar (`npm run build`).
 
-> El ID de la **app** de AdMob (`strings.xml`) sí queda en el repositorio: es público (cualquiera lo ve dentro del APK), no es un secreto. La clave de PostHog `phc_…` también es pública por diseño (solo sirve para *enviar* eventos), pero se deja en `.env.local` para que quien copie el código no te mande sus datos.
+> El ID de la **app** de AdMob (`strings.xml`) sí queda en el repositorio: es público (cualquiera lo ve dentro del APK), no es un secreto. La configuración de Firebase (`.env.local` y `google-services.json`) también es pública por diseño (va dentro de la app), pero se deja fuera de git para que quien copie el código no te mande sus datos.
 
 Lo que **sí es secreto** y nunca se comparte: el archivo `readora-upload.jks` y su contraseña. Si se pierde, Google puede reemplazar la clave de subida, pero es un trámite; guarda una copia en un lugar seguro (por ejemplo un gestor de contraseñas o un USB).
 
@@ -44,7 +45,7 @@ Lo que **sí es secreto** y nunca se comparte: el archivo `readora-upload.jks` y
 2. **AdMob**: https://admob.google.com → agregar la app Android `app.readora`. Copiar:
    - el ID de la **app** en `strings.xml`;
    - el ID de un bloque **Banner** en `.env.local`.
-3. **PostHog**: https://eu.posthog.com (región UE) → proyecto "Readora". Copiar la clave `phc_…` a `.env.local`.
+3. **Firebase**: https://console.firebase.google.com → proyecto "Readora" (`readora-c6e11`). Ver [MONETIZACION.md](MONETIZACION.md#configurar).
 
 ### 1.2 Crear la firma (una sola vez)
 
@@ -100,7 +101,7 @@ Las cuentas personales creadas después de noviembre de 2023 deben hacer una **p
   - **Identificadores del dispositivo u otros** (ID de publicidad), lo recoge AdMob.
     - Se comparte con Google.
     - Fines: publicidad y analíticas.
-  - **Actividad en la app → Interacciones con la app**, lo recoge PostHog.
+  - **Actividad en la app → Interacciones con la app**, lo recoge Firebase Analytics (desde la 0.2.1; antes PostHog).
     - Es **opcional**.
     - Fin: analíticas.
   - **Información y rendimiento de la app → Registros de fallos y diagnósticos**, lo recoge AdMob.
@@ -140,7 +141,7 @@ Las cuentas personales creadas después de noviembre de 2023 deben hacer una **p
 ### 1.7 Después de publicar
 
 - **No toques tus propios anuncios reales.** Registra tu teléfono como "dispositivo de prueba" en AdMob.
-- Revisa "Android vitals" (fallos) en Play Console y los eventos en PostHog.
+- Revisa "Android vitals" (fallos) en Play Console y los eventos en Firebase (Analytics → Eventos).
 
 ---
 
@@ -245,7 +246,7 @@ Más adelante se puede automatizar con `makeappx` (SDK de Windows) y un `AppxMan
 - [ ] Claves reales en `.env.local` y `strings.xml` (sin IDs de prueba de AdMob)
 - [ ] `versionCode`/`versionName` y `package.json` actualizados
 - [ ] Probar el `.aab`/build final en un dispositivo real: descargar un libro, leer EPUB y PDF, recordatorio, cambiar idioma
-- [ ] Aviso de estadísticas: aceptar y rechazar, y comprobar en PostHog
+- [ ] Aviso de estadísticas: aceptar y rechazar, y comprobar en Firebase → DebugView
 - [ ] Anuncio visible solo en Inicio y Explorar (Android)
 - [ ] Política de privacidad al día si se agregó un evento o un servicio
 - [ ] Bitácora y ROADMAP actualizados

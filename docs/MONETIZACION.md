@@ -4,7 +4,7 @@ Readora es gratis. Para sostenerla y saber cómo se usa tiene tres piezas, todas
 
 | Pieza | Servicio | Dónde | Archivo |
 |---|---|---|---|
-| Estadísticas de uso | [PostHog](https://posthog.com) (plan gratis: 1 millón de eventos al mes) | Web, Android, PC | `src/lib/analytics.ts` |
+| Estadísticas de uso | [Firebase / Google Analytics](https://firebase.google.com/products/analytics) (gratis) | Web, Android, PC | `src/lib/analytics.ts` |
 | Anuncios | [Google AdMob](https://admob.google.com) | Solo Android | `src/lib/ads.ts` |
 | Donaciones | GitHub Sponsors, Ko-fi… (un enlace) | Todas | `src/brand.ts` (`DONATE_URL`) |
 
@@ -12,16 +12,15 @@ La política de privacidad pública está en [PRIVACIDAD.md](PRIVACIDAD.md). Goo
 
 > **Steam prohíbe los anuncios** y en PC no hay SDK de AdMob: la versión de escritorio se sostiene solo con donaciones.
 
-## Analítica (PostHog)
+## Analítica (Firebase / Google Analytics)
 
-- **Opt-in**: nada se envía hasta que la persona acepta el aviso "¿Nos ayudas a mejorar Readora?". Se puede cambiar en Ajustes → Privacidad. La decisión se guarda en `localStorage` (`estante:analitica`).
-- **Sin clave no hay analítica**: si `VITE_POSTHOG_KEY` está vacío, PostHog ni se descarga y el aviso no aparece.
-- **Solo eventos manuales**:
-  - sin autocaptura de clics;
-  - sin grabación de sesiones;
-  - sin encuestas.
-  - `before_send` borra las URLs.
-- **Servidor en la UE**: `https://eu.i.posthog.com`; se cambia con `VITE_POSTHOG_HOST`.
+Hasta la 0.2.0 se usaba PostHog (UE). Desde la 0.2.1 se usa **Firebase** (proyecto `readora-c6e11`, cuenta de Google Analytics "Sergio Rebolledo"): es gratis, sin límite de eventos, y trae listos los informes de versiones, países y dispositivos.
+
+- **Opt-in**: nada se envía hasta que la persona acepta el aviso "¿Nos ayudas a mejorar Readora?". Se puede cambiar en Ajustes → Privacidad. La decisión se guarda en `localStorage` (`estante:analitica-firebase`). Quien había aceptado PostHog vuelve a ver el aviso; quien había dicho que no, sigue en "no".
+- **Android**: SDK nativo con `@capacitor-firebase/analytics`. La recolección viene **apagada en `AndroidManifest.xml`** (`firebase_analytics_collection_enabled=false`) y solo se enciende con permiso. También apagados: ID de publicidad (`google_analytics_adid_collection_enabled`), SSAID, personalización de anuncios y registro automático de pantallas. Al rechazar se llama a `resetAnalyticsData` (borra el identificador de instalación).
+- **PC y web**: SDK de JavaScript (`firebase`), que **ni se descarga** hasta que la persona acepta. Modo de consentimiento con anuncios denegados (`ad_storage`, `ad_user_data`, `ad_personalization` = denied), dirección fija (`page_location` = origen, sin el `#/…` que lleva identificadores de libros) y título fijo "Readora".
+- **Sin configuración no hay analítica**: sin `VITE_FIREBASE_APP_ID` y `VITE_FIREBASE_MEASUREMENT_ID` en `.env.local`, el aviso no aparece. En Android además hace falta `android/app/google-services.json` (no se sube a git; sin él el plugin de Google Services no se aplica).
+- **Solo eventos manuales**. Google Analytics solo admite textos y números: las listas se envían unidas por comas y los sí/no como `"true"`/`"false"`. Firebase agrega por su cuenta `first_open`, `session_start` y `user_engagement`.
 
 ### Eventos
 
@@ -35,6 +34,8 @@ La política de privacidad pública está en [PRIVACIDAD.md](PRIVACIDAD.md). Goo
 | `reading_session` | format, minutes, pages | `Reader.tsx` |
 | `book_finished` | format | `db.ts` |
 | `reminder_created` | days, for_book | `Reminders.tsx` |
+| `highlight_created` | color, with_note | `Reader.tsx` |
+| `premium_purchase` | result | `premium.ts` |
 | `explore_searched` | language (nunca el texto buscado) | `Explore.tsx` |
 | `source_toggled` | source, enabled | `sources/index.ts` |
 | `language_changed` | language | `SettingsPage.tsx` |
@@ -44,21 +45,17 @@ La política de privacidad pública está en [PRIVACIDAD.md](PRIVACIDAD.md). Goo
 
 ### Configurar
 
-1. Crear una cuenta en https://eu.posthog.com (región UE) y un proyecto "Readora".
-2. Copiar la *Project API key* (`phc_…`) en `.env.local` como `VITE_POSTHOG_KEY=phc_…`.
-3. `npm run build` (o reiniciar `npm run dev`). Los eventos se ven en PostHog → Activity.
+1. https://console.firebase.google.com → proyecto con Google Analytics activado.
+2. Agregar una app **Android** con el paquete `app.readora` → descargar `google-services.json` a `android/app/`.
+3. Agregar una app **web** → copiar los valores de `firebaseConfig` a `.env.local` (`VITE_FIREBASE_*`, ver `.env.example`). Son públicos (van dentro de la app), pero se dejan fuera del código para que las copias no envíen datos a nuestra cuenta.
+4. `npm run build` (o reiniciar `npm run dev`).
+5. Ver los eventos al momento: Firebase console → Analytics → **DebugView**. En el emulador o teléfono de pruebas:
+   ```bash
+   adb shell setprop debug.firebase.analytics.app app.readora
+   ```
+   (para apagarlo: `adb shell setprop debug.firebase.analytics.app .none.`). Los informes normales tardan hasta 24 h.
 
-✅ Configurado el 2026-11-08: proyecto en la región **UE**, clave en `.env.local` del PC de compilación.
-
-> ⚠️ **Comprobar la región de la clave.** Una clave de un proyecto de EE. UU. enviada a `eu.i.posthog.com` recibe igual **200 OK**, pero los eventos se pierden. Para saber de qué región es una clave:
->
-> ```bash
-> curl -s -o /dev/null -w "%{http_code}" -X POST "https://eu.i.posthog.com/flags/?v=2" -H "Content-Type: application/json" -d '{"api_key":"phc_TU_CLAVE","distinct_id":"prueba"}'
-> ```
->
-> 200 = proyecto UE · 401 = la clave no es de la UE (probar con `us.i.posthog.com`).
-
-> PostHog muestra durante el registro varios asistentes ("Install Logs", "Workflows", `npx @posthog/wizard`…). **No hay que instalarlos**: modificarían el código y Readora ya trae su integración. La clave sale con el botón **"Copy project token"**.
+✅ Configurado el 2026-11-08: proyecto `readora-c6e11`, app Android `app.readora`, app web "Readora Web y escritorio" (`G-T6T1QHBWFE`). Probado en web (eventos a `google-analytics.com` con `npa=1`) y en el emulador Android (`screen_viewed` enviado; sin ID de publicidad; al rechazar se apaga y se borra).
 
 ## Anuncios (AdMob, solo Android)
 
@@ -125,4 +122,4 @@ Poner el enlace en `.env.local` como `VITE_DONATE_URL=https://ko-fi.com/…` (o 
 
 ## Licencia
 
-PostHog (MIT/Apache-2.0) y el plugin de RevenueCat (MIT) son libres. El SDK de Google Mobile Ads, UMP, Google Play Billing y el SDK de Steamworks no lo son. Por eso la licencia de Readora (GPL-3.0) trae una **excepción** que permite enlazarlos: ver [LICENSE-EXCEPTION.md](../LICENSE-EXCEPTION.md).
+El SDK de JavaScript de Firebase (Apache-2.0), su plugin de Capacitor (MIT) y el plugin de RevenueCat (MIT) son libres. El SDK de Firebase Analytics para Android, el SDK de Google Mobile Ads, UMP, Google Play Billing y el SDK de Steamworks no lo son. Por eso la licencia de Readora (GPL-3.0) trae una **excepción** que permite enlazarlos: ver [LICENSE-EXCEPTION.md](../LICENSE-EXCEPTION.md).

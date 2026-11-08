@@ -20,3 +20,6 @@ tsconfig.tsbuildinfo
 # Firma de Android (contraseñas): nunca subir
 keystore.properties
 android/keystore.properties
+
+# Configuración de Firebase para Android (se descarga de Firebase console)
+android/app/google-services.json

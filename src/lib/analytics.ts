@@ -1,21 +1,32 @@
-import type { PostHog } from 'posthog-js'
 import { platform } from './platform'
 import i18n from '../i18n'
 
 /**
- * Analítica de uso con PostHog (servidor en la Unión Europea).
+ * Analítica de uso con Firebase (Google Analytics 4).
  *
  * Privacidad (ver docs/PRIVACIDAD.md):
  * - Solo funciona si la persona acepta ("Compartir estadísticas anónimas"); se puede cambiar en Ajustes.
+ *   En Android la recolección viene APAGADA de fábrica (AndroidManifest.xml) y solo se enciende con permiso.
+ *   En PC/web el código de Firebase ni se descarga hasta que la persona acepta.
  * - Solo se envían los eventos de este archivo. Nunca títulos, autores, textos buscados ni archivos.
- * - Sin grabación de sesiones, sin captura automática de clics y sin perfiles de persona.
- * - Sin clave (`VITE_POSTHOG_KEY` en `.env.local`) la analítica queda apagada; así las copias del
- *   código abierto no envían datos a nuestra cuenta.
+ * - Sin ID de publicidad, sin señales de personalización de anuncios, sin pantallas automáticas
+ *   y sin identificador de persona (no se llama a setUserId).
+ * - Sin configuración (`VITE_FIREBASE_*` en `.env.local`) la analítica queda apagada; así las copias
+ *   del código abierto no envían datos a nuestra cuenta.
  */
 
-const KEY = import.meta.env.VITE_POSTHOG_KEY as string | undefined
-const HOST = (import.meta.env.VITE_POSTHOG_HOST as string | undefined) || 'https://eu.i.posthog.com'
-const CONSENT_KEY = 'estante:analitica'
+const CONFIG = {
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY as string | undefined,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID as string | undefined,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID as string | undefined,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID as string | undefined,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID as string | undefined,
+}
+// Clave nueva al pasar de PostHog a Firebase: quien había aceptado antes vuelve a ver el aviso
+// (cambió el servicio que recibe los datos). Quien había dicho que no, sigue en "no".
+const CONSENT_KEY = 'estante:analitica-firebase'
+const OLD_CONSENT_KEY = 'estante:analitica'
+const native = platform === 'android'
 
 export type Consent = 'granted' | 'denied' | 'unset'
 
@@ -38,16 +49,22 @@ export interface Events {
   premium_purchase: { result: 'success' | 'cancelled' | 'error' }
 }
 
-let client: PostHog | null = null
-let loading: Promise<PostHog | null> | null = null
+type Params = Record<string, string | number>
+interface Client {
+  log: (name: string, params: Params) => Promise<unknown>
+  setEnabled: (enabled: boolean) => Promise<unknown>
+}
+
+let loading: Promise<Client | null> | null = null
 
 /** ¿Esta compilación tiene analítica configurada? (Si no, no se pregunta nada a la persona.) */
-export const analyticsAvailable = !!KEY
+export const analyticsAvailable = !!(CONFIG.appId && CONFIG.measurementId)
 
 export function getConsent(): Consent {
   try {
     const v = localStorage.getItem(CONSENT_KEY)
-    return v === 'granted' || v === 'denied' ? v : 'unset'
+    if (v === 'granted' || v === 'denied') return v
+    return localStorage.getItem(OLD_CONSENT_KEY) === 'denied' ? 'denied' : 'unset'
   } catch {
     return 'unset'
   }
@@ -59,61 +76,76 @@ export async function setConsent(value: 'granted' | 'denied') {
   } catch {
     // sin almacenamiento: la elección dura solo esta sesión
   }
-  if (value === 'granted') {
-    const ph = await start()
-    ph?.opt_in_capturing()
-  } else if (client) {
-    client.opt_out_capturing()
-    client.reset()
+  if (value === 'granted') await start()
+  else if (loading) {
+    const client = await loading
+    await client?.setEnabled(false).catch(() => {})
+    // Borra el identificador de instalación y lo pendiente de enviar.
+    if (native) await import('@capacitor-firebase/analytics').then(({ FirebaseAnalytics }) => FirebaseAnalytics.resetAnalyticsData()).catch(() => {})
+    loading = null
   }
   window.dispatchEvent(new Event('readora:consent'))
 }
 
-/** Carga PostHog solo cuando hay clave y permiso (el código no se descarga si la persona dice que no). */
-function start(): Promise<PostHog | null> {
-  if (!KEY || getConsent() !== 'granted') return Promise.resolve(null)
-  if (client) return Promise.resolve(client)
-  loading ??= import('posthog-js').then(({ default: posthog }) => {
-    posthog.init(KEY, {
-      api_host: HOST,
-      persistence: 'localStorage',
-      person_profiles: 'identified_only',
-      autocapture: false,
-      capture_pageview: false,
-      capture_pageleave: false,
-      rageclick: false,
-      capture_dead_clicks: false,
-      capture_heatmaps: false,
-      capture_exceptions: false,
-      capture_performance: false,
-      disable_session_recording: true,
-      disable_surveys: true,
-      disable_product_tours: true,
-      disable_conversations: true,
-      disable_web_experiments: true,
-      disable_external_dependency_loading: true,
-      advanced_disable_flags: true,
-      // La URL de la app incluye identificadores internos de libros: se reemplaza por la pantalla.
-      before_send: (event) => {
-        if (!event) return event
-        for (const p of ['$current_url', '$pathname', '$referrer', '$initial_current_url', '$initial_pathname']) delete event.properties[p]
-        if (event.$set_once) {
-          delete event.$set_once.$initial_current_url
-          delete event.$set_once.$initial_pathname
-        }
-        return event
-      },
-    })
-    client = posthog
-    return posthog
+/** Prepara Firebase solo cuando hay configuración y permiso. */
+function start(): Promise<Client | null> {
+  if (!analyticsAvailable || getConsent() !== 'granted') return Promise.resolve(null)
+  loading ??= (native ? startNative() : startWeb()).catch((err) => {
+    console.warn('Analítica no disponible', err)
+    return null
   })
   return loading
 }
 
-/** Envía un evento (no hace nada sin permiso o sin clave). */
+/** Android: SDK nativo de Firebase (lee android/app/google-services.json). */
+async function startNative(): Promise<Client> {
+  const { FirebaseAnalytics } = await import('@capacitor-firebase/analytics')
+  await FirebaseAnalytics.setEnabled({ enabled: true })
+  return {
+    log: (name, params) => FirebaseAnalytics.logEvent({ name, params }),
+    setEnabled: (enabled) => FirebaseAnalytics.setEnabled({ enabled }),
+  }
+}
+
+/** PC y web: SDK de JavaScript de Firebase. */
+async function startWeb(): Promise<Client> {
+  const [{ initializeApp }, ga] = await Promise.all([import('firebase/app'), import('firebase/analytics')])
+  const { initializeAnalytics, logEvent, setAnalyticsCollectionEnabled } = ga
+  // Solo estadísticas: nada de publicidad (modo de consentimiento de Google).
+  ga.setConsent({ analytics_storage: 'granted', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' })
+  const app = initializeApp(CONFIG as Required<typeof CONFIG>)
+  const analytics = initializeAnalytics(app, {
+    config: {
+      send_page_view: false,
+      // La dirección de la app incluye identificadores internos de libros y el título de la ventana
+      // puede ser el de un libro: se envían fijos.
+      page_location: `${location.origin}/`,
+      page_referrer: '',
+      page_title: 'Readora',
+      allow_google_signals: false,
+      allow_ad_personalization_signals: false,
+    },
+  })
+  setAnalyticsCollectionEnabled(analytics, true)
+  return {
+    log: async (name, params) => logEvent(analytics, name, params),
+    setEnabled: async (enabled) => setAnalyticsCollectionEnabled(analytics, enabled),
+  }
+}
+
+/** Google Analytics solo admite textos y números: las listas se unen y los sí/no pasan a "true"/"false". */
+function toParams(props: object): Params {
+  const out: Params = {}
+  for (const [k, v] of Object.entries(props)) {
+    out[k] = Array.isArray(v) ? v.join(',') : typeof v === 'boolean' ? String(v) : (v as string | number)
+  }
+  return out
+}
+
+/** Envía un evento (no hace nada sin permiso o sin configuración). */
 export function track<E extends keyof Events>(event: E, props: Events[E]) {
-  if (!KEY || getConsent() !== 'granted') return
-  start().then((ph) => ph?.capture(event, props))
+  if (!analyticsAvailable || getConsent() !== 'granted') return
+  void start().then((c) => c?.log(event, toParams(props)).catch(() => {}))
 }
 
 /** Pantalla actual, sin identificadores: "leer/abc-123" → "leer". */

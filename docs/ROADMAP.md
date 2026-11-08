@@ -26,6 +26,7 @@
 - [x] v0.2: licencia GPL-3.0 + excepción, atajos reescritos sin código de Stremio
 - [x] v0.2: analítica opcional con PostHog, banner AdMob en Android, donaciones ([MONETIZACION.md](MONETIZACION.md))
 - [ ] Cuentas reales de PostHog y AdMob, enlace de donaciones, `app-ads.txt`
+- [x] v0.2.1: analítica cambiada de PostHog a Firebase / Google Analytics (opt-in, sin ID de publicidad)
 - [x] Subrayado de texto con colores y notas (EPUB), visibles en el lector y en la ficha del libro
 - [x] Suscripción "sin anuncios" de 2 USD al mes (código listo; falta configurar Play Console y RevenueCat)
 - [x] Revisión de seguridad (CSP, descargas solo HTTPS, permisos mínimos) y de UX/UI (2026-11-08)

@@ -12,7 +12,7 @@ Cuando buscas o descargas libros en **Explorar**, la app se conecta directamente
 
 ## Estadísticas anónimas (opcionales)
 
-Solo si **aceptas** el aviso "¿Nos ayudas a mejorar Readora?", la app envía estadísticas de uso a [PostHog](https://posthog.com) con servidores en la **Unión Europea**. Puedes cambiar de opinión cuando quieras en **Ajustes → Privacidad**.
+Solo si **aceptas** el aviso "¿Nos ayudas a mejorar Readora?", la app envía estadísticas de uso a **Google Analytics para Firebase** (servicio de Google; los datos pueden procesarse en servidores de Google fuera de tu país, incluido EE. UU.). Puedes cambiar de opinión cuando quieras en **Ajustes → Privacidad**.
 
 - **Qué se envía:**
   - pantallas visitadas;
@@ -31,7 +31,11 @@ Solo si **aceptas** el aviso "¿Nos ayudas a mejorar Readora?", la app envía es
   - nombres de archivos;
   - direcciones web;
   - tu nombre o correo.
-- PostHog asigna un identificador aleatorio al dispositivo. No se graban sesiones ni se capturan clics automáticamente.
+- Firebase asigna un identificador aleatorio a la instalación de la app (no es tu nombre ni el identificador de publicidad). Al desactivar las estadísticas, ese identificador y los datos pendientes se borran del dispositivo.
+- Firebase también registra datos técnicos generales: modelo y sistema del dispositivo, versión de la app, país aproximado (a partir de la conexión) y el inicio y la duración de cada uso.
+- **Sin publicidad**: las estadísticas no usan el identificador de publicidad ni se usan para personalizar anuncios. No se graban sesiones ni se capturan clics automáticamente.
+- Consulta [cómo usa Google los datos](https://policies.google.com/technologies/partner-sites).
+- Si aceptaste las estadísticas antes de la versión 0.2.1 (cuando se usaba PostHog), la app vuelve a preguntarte.
 
 ## Anuncios (solo Android)
 
@@ -74,7 +78,7 @@ Your books, progress, history, highlights and notes, reminders and settings are 
 
 ## Anonymous statistics (optional)
 
-Only if you **accept** the "Help us improve Readora?" prompt does the app send usage statistics to [PostHog](https://posthog.com), using servers in the **European Union**. You can change this at any time in **Settings → Privacy**.
+Only if you **accept** the "Help us improve Readora?" prompt does the app send usage statistics to **Google Analytics for Firebase** (a Google service; data may be processed on Google servers outside your country, including the US). You can change this at any time in **Settings → Privacy**.
 
 - **Sent:**
   - screens visited;
@@ -93,7 +97,11 @@ Only if you **accept** the "Help us improve Readora?" prompt does the app send u
   - file names;
   - URLs;
   - your name or email.
-- PostHog assigns a random device identifier. There is no session recording and no automatic click capture.
+- Firebase assigns a random identifier to the app installation (not your name and not the advertising ID). Turning statistics off deletes that identifier and any pending data from the device.
+- Firebase also records general technical data: device model and OS, app version, approximate country (from the connection), and when and for how long the app is used.
+- **No advertising**: statistics do not use the advertising ID and are not used to personalize ads. There is no session recording and no automatic click capture.
+- See [how Google uses data](https://policies.google.com/technologies/partner-sites).
+- If you accepted statistics before version 0.2.1 (when PostHog was used), the app asks you again.
 
 ## Ads (Android only)
 

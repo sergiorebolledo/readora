@@ -51,7 +51,7 @@ Readora es software libre bajo la [GNU GPL versión 3 o posterior](LICENSE), con
 
 ## Privacidad, anuncios y donaciones
 
-- Estadísticas de uso **anónimas y opcionales** con PostHog (servidor en la UE). Nunca se envían libros, títulos ni búsquedas.
+- Estadísticas de uso **anónimas y opcionales** con Google Analytics para Firebase. Nunca se envían libros, títulos ni búsquedas.
 - La versión de Android muestra un banner de AdMob en Inicio y Explorar (nunca en el lector).
 - Política: [docs/PRIVACIDAD.md](docs/PRIVACIDAD.md) · Configuración: [docs/MONETIZACION.md](docs/MONETIZACION.md)
 
@@ -66,7 +66,7 @@ Readora es software libre bajo la [GNU GPL versión 3 o posterior](LICENSE), con
 | [docs/FUENTES.md](docs/FUENTES.md) | Explorar y Fuentes: cómo funcionan y cómo agregar una |
 | [docs/IDIOMAS.md](docs/IDIOMAS.md) | Traducciones y cómo agregar un idioma |
 | [docs/ANDROID.md](docs/ANDROID.md) | Compilar e instalar la app de Android |
-| [docs/MONETIZACION.md](docs/MONETIZACION.md) | Analítica (PostHog), anuncios (AdMob) y donaciones |
+| [docs/MONETIZACION.md](docs/MONETIZACION.md) | Analítica (Firebase), anuncios (AdMob) y donaciones |
 | [docs/PRIVACIDAD.md](docs/PRIVACIDAD.md) | Política de privacidad (es/en) |
 | [docs/PUBLICAR.md](docs/PUBLICAR.md) | Dónde van las claves y cómo publicar en Google Play, Microsoft Store y Steam |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Fases del proyecto |

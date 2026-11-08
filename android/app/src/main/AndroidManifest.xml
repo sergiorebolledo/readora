@@ -12,6 +12,13 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />
+        <!-- Firebase Analytics: apagado hasta que la persona acepta en el aviso (src/lib/analytics.ts lo enciende).
+             Sin ID de publicidad, sin personalización de anuncios y sin registro automático de pantallas. -->
+        <meta-data android:name="firebase_analytics_collection_enabled" android:value="false" />
+        <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
+        <meta-data android:name="google_analytics_ssaid_collection_enabled" android:value="false" />
+        <meta-data android:name="google_analytics_default_allow_ad_personalization_signals" android:value="false" />
+        <meta-data android:name="google_analytics_automatic_screen_reporting_enabled" android:value="false" />
         <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|navigation|density"
             android:name=".MainActivity"

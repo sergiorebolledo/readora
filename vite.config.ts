@@ -37,7 +37,8 @@ function devProxy(): Plugin {
  * Política de seguridad de contenido (CSP), solo en la versión compilada (en desarrollo Vite
  * necesita scripts en línea). Si un libro o una página trae código malicioso, el navegador no
  * lo ejecuta y no puede enviar datos a otros servidores.
- * - connect-src https: → las fuentes de libros (Gutendex, Open Library, archive.org…) y PostHog.
+ * - connect-src https: → las fuentes de libros (Gutendex, Open Library, archive.org…) y Google Analytics.
+ * - script-src googletagmanager → Firebase Analytics en PC/web (solo se carga si la persona acepta).
  * - 'wasm-unsafe-eval' → decodificadores de imágenes de pdf.js.
  * - blob: → páginas de EPUB, portadas e imágenes guardadas en el dispositivo.
  * - ipc: y http://ipc.localhost → canal entre la página y Rust en la app de escritorio (Tauri 2).
@@ -46,7 +47,7 @@ function devProxy(): Plugin {
  */
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'wasm-unsafe-eval' https://eu-assets.i.posthog.com https://us-assets.i.posthog.com",
+  "script-src 'self' 'wasm-unsafe-eval' https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline' blob:",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data: blob:",

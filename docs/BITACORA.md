@@ -2,6 +2,41 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (15) — Analítica: de PostHog a Firebase
+
+**Pedido**: cambiar PostHog por Firebase y dejarlo configurado.
+
+**Firebase console** (navegador, con la cuenta del usuario; él autorizó aceptar los términos de Firebase y de Google Analytics)
+- Proyecto **Readora** (`readora-c6e11`), plan Spark (gratis). Google Developer Program y Gemini: no.
+- Google Analytics enlazado a la cuenta "Sergio Rebolledo" (propiedad nueva).
+- App **Android** `app.readora` → `android/app/google-services.json` (fuera de git, en `.gitignore`).
+- App **web** "Readora Web y escritorio" (`G-T6T1QHBWFE`) → valores en `.env.local` (`VITE_FIREBASE_*`).
+
+**Código**
+- `src/lib/analytics.ts` reescrito con la misma API (`track`, `trackScreen`, `setConsent`…), así que el resto de la app no cambió.
+  - Android: `@capacitor-firebase/analytics` 8.6.0 (SDK nativo).
+  - PC y web: `firebase` 12 (SDK de JavaScript), que solo se descarga si la persona acepta.
+  - Google Analytics no acepta listas ni sí/no: se envían como texto.
+- `AndroidManifest.xml`: recolección apagada de fábrica; sin ID de publicidad, SSAID, personalización de anuncios ni pantallas automáticas.
+- Web: modo de consentimiento con anuncios denegados (`npa=1`), dirección y título fijos (nada de `#/leer/<id>`).
+- Quien había aceptado PostHog vuelve a ver el aviso (clave nueva `estante:analitica-firebase`); quien había dicho que no, sigue en "no".
+- CSP: se quitó PostHog y se permitió `www.googletagmanager.com` (script de Google Analytics en PC/web).
+- Se desinstaló `posthog-js`.
+
+**Pruebas**
+- Web: sin aceptar no hay ninguna petición a Google. Al aceptar llegan `app_opened` y `screen_viewed` a `google-analytics.com` con `npa=1`, dirección `http://localhost/` y título "Readora".
+- Emulador Android (APK de depuración, `debug.firebase.analytics.app`):
+  - al abrir: "App measurement disabled via the manifest";
+  - al activar en Ajustes: `screen_viewed {screen: explorar}` enviado, con `resettable_device_id` vacío (sin ID de publicidad);
+  - al desactivar: `setEnabled(false)` y `resetAnalyticsData`; las pantallas siguientes ya no se envían.
+- Aviso: quien había aceptado antes lo ve de nuevo y Firebase no se carga; quien había rechazado no lo ve.
+
+**Documentos**: PRIVACIDAD (Google Analytics, posibles servidores fuera del país, identificador de instalación, sin publicidad), MONETIZACION, PUBLICAR, README, LICENSE-EXCEPTION (SDK de Firebase Analytics para Android, que no es libre) y ROADMAP.
+
+**Pendiente**
+- Formulario de seguridad de datos de Google Play: "Interacciones con la app" e "Identificadores del dispositivo" ya estaban declarados (por PostHog y AdMob). Revisar que el proveedor de analítica no cambie las respuestas.
+- Opcional: en Google Analytics → Administrar → Configuración de la cuenta, desactivar "compartir datos con Google".
+
 ## 2026-11-08 (14) — Errores del lector y subrayado con notas
 
 **Reporte del usuario (probando en su teléfono)**

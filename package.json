@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@capacitor-community/admob": "^8.3.0",
+    "@capacitor-firebase/analytics": "^8.6.0",
     "@capacitor/android": "^8.6.0",
     "@capacitor/app": "^8.1.2",
     "@capacitor/core": "^8.6.0",
@@ -28,12 +29,12 @@
     "dexie": "^4.4.7",
     "dexie-react-hooks": "^4.4.0",
     "epubjs": "^0.3.93",
+    "firebase": "^12.19.0",
     "i18next": "^26.7.2",
     "i18next-browser-languagedetector": "^8.3.0",
     "jszip": "^3.10.2",
     "lucide-react": "^1.69.0",
     "pdfjs-dist": "^6.5.438",
-    "posthog-js": "^1.447.3",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-i18next": "^17.1.13"

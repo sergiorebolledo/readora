@@ -108,7 +108,26 @@
     "loadingEpub": "Loading EPUB…",
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
-    "pageAlt": "Page {{page}}"
+    "pageAlt": "Page {{page}}",
+    "notes": {
+      "note": "Note",
+      "addNote": "Add note",
+      "edit": "Edit note",
+      "placeholder": "Write what this passage made you think…",
+      "save": "Save",
+      "delete": "Delete highlight",
+      "cancel": "Cancel",
+      "list": "Notes & highlights",
+      "empty": "Nothing highlighted yet. Press and hold a word, then drag to select text.",
+      "page": "p. {{page}}",
+      "highlightIn": "Highlight in {{color}}",
+      "colors": {
+        "amarillo": "yellow",
+        "verde": "green",
+        "azul": "blue",
+        "rosa": "pink"
+      }
+    }
   },
   "history": {
     "title": "Reading history",

@@ -61,16 +61,37 @@ export interface Reminder {
   lastFired: string | null
 }
 
+/** Texto subrayado en un libro, con una nota opcional (como subrayar un libro en papel). */
+export interface Highlight {
+  id?: number
+  bookId: string
+  /** Posición exacta del texto (CFI de rango en EPUB). */
+  location: string
+  /** El texto subrayado, para mostrarlo en la lista. */
+  text: string
+  color: 'amarillo' | 'verde' | 'azul' | 'rosa'
+  /** Nota escrita por la persona ('' = sin nota). */
+  note: string
+  /** Página aproximada donde está, para ordenar y mostrar. */
+  page: number
+  createdAt: number
+}
+
 export const db = new Dexie('estante') as Dexie & {
   books: EntityTable<Book, 'id'>
   sessions: EntityTable<ReadingSession, 'id'>
   reminders: EntityTable<Reminder, 'id'>
+  highlights: EntityTable<Highlight, 'id'>
 }
 
 db.version(1).stores({
   books: 'id, title, author, format, status, favorite, addedAt, lastOpenedAt',
   sessions: '++id, bookId, startedAt',
   reminders: '++id, enabled',
+})
+// v2: subrayados y notas.
+db.version(2).stores({
+  highlights: '++id, bookId, createdAt',
 })
 
 /** Guarda la posición de lectura y actualiza el estado automáticamente. */

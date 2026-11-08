@@ -25,6 +25,12 @@ export function useRoute() {
   return parts
 }
 
+/**
+ * Evento del botón "atrás" de Android. Se lanza antes de volver de pantalla: quien lo cancele
+ * (preventDefault) cierra algo propio en su lugar, p. ej. un panel abierto en el lector.
+ */
+export const BACK_EVENT = 'readora:atras'
+
 /** Navega a una ruta. Con `replace`, reemplaza la entrada actual del historial en vez de agregar una. */
 export function go(path: string, { replace = false } = {}) {
   if (replace) window.location.replace(`#/${path}`)

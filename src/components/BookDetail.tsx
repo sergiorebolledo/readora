@@ -1,10 +1,11 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { AlarmClock, Heart, Play, Trash2, X } from 'lucide-react'
+import { AlarmClock, Heart, NotebookPen, Play, Trash2, X } from 'lucide-react'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { db, type BookStatus } from '../db'
 import { locale } from '../i18n'
 import { formatDuration, go } from '../lib/hooks'
+import { HIGHLIGHT_COLORS } from '../reader/types'
 import { Cover } from './BookCard'
 
 const STATUS: BookStatus[] = ['por-leer', 'leyendo', 'terminado']
@@ -13,6 +14,7 @@ export function BookDetail({ id }: { id: string }) {
   const { t } = useTranslation()
   const book = useLiveQuery(() => db.books.get(id), [id])
   const sessions = useLiveQuery(() => db.sessions.where('bookId').equals(id).reverse().sortBy('startedAt'), [id])
+  const highlights = useLiveQuery(() => db.highlights.where('bookId').equals(id).sortBy('page'), [id])
   const close = () => history.length > 1 ? history.back() : go('')
 
   useEffect(() => {
@@ -26,10 +28,11 @@ export function BookDetail({ id }: { id: string }) {
 
   async function remove() {
     if (!book || !confirm(t('book.confirmRemove', { title: book.title }))) return
-    await db.transaction('rw', db.books, db.sessions, db.reminders, async () => {
+    await db.transaction('rw', [db.books, db.sessions, db.reminders, db.highlights], async () => {
       await db.books.delete(book.id)
       await db.sessions.where('bookId').equals(book.id).delete()
       await db.reminders.filter((r) => r.bookId === book.id).delete()
+      await db.highlights.where('bookId').equals(book.id).delete()
     })
     go('')
   }
@@ -93,6 +96,28 @@ export function BookDetail({ id }: { id: string }) {
                 ))}
               </select>
             </div>
+
+            {!!highlights?.length && (
+              <div className="mt-6">
+                <h3 className="mb-2 flex items-center gap-2 font-semibold">
+                  <NotebookPen className="h-4 w-4" /> {t('reader.notes.list')} <span className="text-sm font-normal text-muted">({highlights.length})</span>
+                </h3>
+                <ul className="max-h-72 space-y-2 overflow-y-auto">
+                  {highlights.map((h) => (
+                    <li key={h.id}>
+                      {/* Abre el libro justo en ese subrayado. */}
+                      <button onClick={() => go(`leer/${book.id}/${h.id}`, { replace: true })} className="block w-full rounded-lg bg-surface-2/60 px-3 py-2 text-left hover:bg-surface-2">
+                        <p className="line-clamp-2 border-l-4 pl-2 text-sm text-zinc-200" style={{ borderColor: HIGHLIGHT_COLORS[h.color] }}>
+                          {h.text}
+                        </p>
+                        {h.note && <p className="mt-1 whitespace-pre-wrap pl-3 text-sm text-white">📝 {h.note}</p>}
+                        <p className="mt-1 pl-3 text-xs text-muted">{t('reader.notes.page', { page: h.page })}</p>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             <div className="mt-6">
               <h3 className="mb-2 font-semibold">{t('book.historyTitle')}</h3>

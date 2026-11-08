@@ -2,6 +2,45 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (14) — Errores del lector y subrayado con notas
+
+**Reporte del usuario (probando en su teléfono)**
+- Al abrir un libro, volver con "Volver" y cerrar con la X, se reabría el libro: un bucle.
+- Cambiar el color del lector fallaba.
+- Pidió poder marcar palabras o frases y agregar notas, como quien subraya un libro en papel. Y preguntó dónde se ven después.
+
+**Arreglos**
+- **Bucle Volver/X**:
+  - abrir el lector desde la ficha y volver a ella reemplaza la entrada del historial (`go(ruta, { replace: true })`);
+  - probado en Android tocando la pantalla: Inicio → libro → lector → Volver → X lleva a Inicio;
+  - el botón atrás de Android desde el lector también vuelve a Inicio.
+- **Color del lector**:
+  - causa: epub.js agrega una hoja de estilo por cada tema y no quita la anterior, así que al volver a un tema ya usado ganaba el último agregado;
+  - ahora hay una sola hoja fija y el color se aplica con `themes.override`;
+  - probado en Android: oscuro → sepia → oscuro → claro → oscuro cambia bien cada vez.
+- **Botón atrás de Android y Escape**: si hay un panel abierto en el lector (nota, lista o selección), primero lo cierran. Nuevo evento `BACK_EVENT` en `hooks.ts`.
+
+**Nuevo: subrayado y notas (EPUB)**
+- Mantener presionada una palabra y arrastrar selecciona el texto. Aparece una barra con:
+  - 4 colores (amarillo, verde, azul, rosa);
+  - el botón "Nota".
+- Tocar un subrayado abre su ficha: cambiar el color, escribir la nota (se guarda mientras se escribe) o borrarlo.
+  - El toque se detecta dentro del libro: el aviso propio de epub.js no funcionaba en el WebView de Android.
+- Dónde se ven:
+  - en el lector, con el botón de notas (📝 con contador);
+  - en la **ficha del libro**, sección "Notas y subrayados". Tocar una abre el libro justo en esa parte (`#/leer/<libro>/<subrayado>`).
+- Datos:
+  - tabla `highlights` (Dexie v2), solo en el dispositivo;
+  - al quitar un libro se borran sus subrayados.
+- Analítica: evento `highlight_created` con el color y si tiene nota (nunca el texto). Privacidad (es/en) actualizada.
+- Traducido a es/en/pt/fr.
+- Por ahora solo en EPUB. PDF, TXT y cómics no tienen subrayado.
+
+**Pendiente**
+- El usuario dijo que el libro "no abre completamente". Falta que confirme qué ve exactamente.
+- Subir una versión nueva (versionCode 3) para que lo reciban los testers.
+- Compra de prueba: la cuenta `sergiorebolledo13` ya está en **Testers con licencia** (lista "licencia-readora"). Falta reinstalar desde Play y probarla.
+
 ## 2026-11-08 (13) — Prueba como usuario de la versión de Google Play
 
 **Pedido del usuario**: descargar la app de la prueba interna en el emulador y revisarla entera como usuario.

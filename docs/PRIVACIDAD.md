@@ -6,7 +6,7 @@ Readora es una app gratuita y de código abierto para leer libros. Esta polític
 
 ## Lo que se queda en tu dispositivo
 
-Tus libros, tu progreso, tu historial, tus recordatorios y tus ajustes se guardan **solo en tu dispositivo** (almacenamiento local del navegador o de la app). Readora no tiene servidores propios y no ve nada de esto.
+Tus libros, tu progreso, tu historial, tus subrayados y notas, tus recordatorios y tus ajustes se guardan **solo en tu dispositivo** (almacenamiento local del navegador o de la app). Readora no tiene servidores propios y no ve nada de esto.
 
 Cuando buscas o descargas libros en **Explorar**, la app se conecta directamente con Project Gutenberg (vía Gutendex) y Open Library. Esas búsquedas siguen las políticas de esos servicios.
 
@@ -22,7 +22,8 @@ Solo si **aceptas** el aviso "¿Nos ayudas a mejorar Readora?", la app envía es
   - fuente de una descarga (Gutenberg u Open Library);
   - idioma de la app, plataforma y versión;
   - atajos de teclado usados;
-  - si una compra de "sin anuncios" se completó, se canceló o falló (sin datos de pago).
+  - si una compra de "sin anuncios" se completó, se canceló o falló (sin datos de pago);
+  - cuando subrayas texto: solo el color y si agregaste una nota (nunca el texto ni la nota).
 - **Qué NUNCA se envía:**
   - títulos ni autores;
   - el contenido de tus libros;
@@ -69,7 +70,7 @@ Readora is a free, open-source app for reading books.
 
 ## What stays on your device
 
-Your books, progress, history, reminders and settings are stored **only on your device**. Readora has no servers of its own and sees none of it. Searches and downloads in **Discover** connect directly to Project Gutenberg (via Gutendex) and Open Library, under their policies.
+Your books, progress, history, highlights and notes, reminders and settings are stored **only on your device**. Readora has no servers of its own and sees none of it. Searches and downloads in **Discover** connect directly to Project Gutenberg (via Gutendex) and Open Library, under their policies.
 
 ## Anonymous statistics (optional)
 
@@ -83,7 +84,8 @@ Only if you **accept** the "Help us improve Readora?" prompt does the app send u
   - download source;
   - app language, platform and version;
   - keyboard shortcuts used;
-  - whether an "ad-free" purchase succeeded, was cancelled or failed (no payment data).
+  - whether an "ad-free" purchase succeeded, was cancelled or failed (no payment data);
+  - when you highlight text: only the color and whether you added a note (never the text or the note).
 - **Never sent:**
   - titles or authors;
   - book contents;

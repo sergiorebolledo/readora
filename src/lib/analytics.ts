@@ -30,6 +30,7 @@ export interface Events {
   reading_session: { format: string; minutes: number; pages: number }
   book_finished: { format: string }
   reminder_created: { days: number; for_book: boolean }
+  highlight_created: { color: string; with_note: boolean }
   explore_searched: { language: string }
   source_toggled: { source: string; enabled: boolean }
   language_changed: { language: string }

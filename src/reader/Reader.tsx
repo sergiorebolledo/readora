@@ -1,16 +1,17 @@
 import { useLiveQuery } from 'dexie-react-hooks'
-import { ChevronLeft } from 'lucide-react'
+import { ChevronLeft, NotebookPen } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { db, saveProgress, type Book } from '../db'
+import { db, saveProgress, type Book, type Highlight } from '../db'
 import { track } from '../lib/analytics'
-import { go, useSetting } from '../lib/hooks'
+import { BACK_EVENT, go, useSetting } from '../lib/hooks'
 import { useShortcut } from '../lib/shortcuts/Shortcuts'
 import { CbzReader } from './CbzReader'
 import { EpubReader } from './EpubReader'
+import { HighlightEditor, HighlightsPanel, SelectionBar } from './Highlights'
 import { PdfReader } from './PdfReader'
 import { TxtReader } from './TxtReader'
-import { THEMES, type FormatReaderProps, type ReaderNav, type ReaderTheme } from './types'
+import { THEMES, type FormatReaderProps, type ReaderNav, type ReaderTheme, type TextSelection } from './types'
 
 const READERS: Record<Book['format'], (p: FormatReaderProps) => React.ReactNode> = {
   pdf: PdfReader,
@@ -19,14 +20,17 @@ const READERS: Record<Book['format'], (p: FormatReaderProps) => React.ReactNode>
   cbz: CbzReader,
 }
 
-export function Reader({ id }: { id: string }) {
+/** `highlightId`: abrir el libro en ese subrayado (desde la ficha del libro) en vez de en la última página leída. */
+export function Reader({ id, highlightId }: { id: string; highlightId?: number }) {
   // Se lee una sola vez: el lector no debe reiniciarse cada vez que guardamos el progreso.
   const book = useLiveQuery(() => db.books.get(id), [id], null)
   const { t } = useTranslation()
   const [initial, setInitial] = useState<Book>()
   useEffect(() => {
-    if (book && !initial) setInitial(book)
-  }, [book, initial])
+    if (!book || initial) return
+    if (highlightId == null) return setInitial(book)
+    db.highlights.get(highlightId).then((h) => setInitial(h && h.bookId === book.id ? { ...book, location: h.location } : book))
+  }, [book, initial, highlightId])
 
   if (book === undefined) {
     return (
@@ -49,6 +53,44 @@ function ReaderShell({ book }: { book: Book }) {
   const [pos, setPos] = useState({ page: book.currentPage || 1, total: book.totalPages })
   const [showUi, setShowUi] = useState(true)
   const nav = useRef<ReaderNav | null>(null)
+
+  // ---- Subrayados y notas (por ahora en EPUB) ----
+  const canHighlight = book.format === 'epub'
+  const highlights = useLiveQuery(() => db.highlights.where('bookId').equals(book.id).sortBy('page'), [book.id], [] as Highlight[])
+  const [selection, setSelection] = useState<TextSelection | null>(null)
+  const [editing, setEditing] = useState<number | null>(null)
+  const [showList, setShowList] = useState(false)
+  const addHighlight = async (color: Highlight['color'], withNote: boolean) => {
+    if (!selection) return
+    const id = await db.highlights.add({ bookId: book.id, location: selection.location, text: selection.text, color, note: '', page: pos.page, createdAt: Date.now() })
+    track('highlight_created', { color, with_note: withNote })
+    nav.current?.clearSelection?.()
+    setSelection(null)
+    if (withNote) setEditing(id as number)
+  }
+  /** Cierra lo que esté abierto encima del libro. Devuelve false si no había nada. */
+  const closeOverlay = () => {
+    if (editing != null) setEditing(null)
+    else if (showList) setShowList(false)
+    else if (selection) {
+      nav.current?.clearSelection?.()
+      setSelection(null)
+    } else return false
+    return true
+  }
+  // Escape y el botón atrás de Android cierran primero el panel abierto; si no hay ninguno, salen del lector.
+  useShortcut('closeReader', () => {
+    if (!closeOverlay()) go(`libro/${book.id}`, { replace: true })
+  })
+  const closeOverlayRef = useRef(closeOverlay)
+  closeOverlayRef.current = closeOverlay
+  useEffect(() => {
+    const onBack = (e: Event) => {
+      if (closeOverlayRef.current()) e.preventDefault()
+    }
+    window.addEventListener(BACK_EVENT, onBack)
+    return () => window.removeEventListener(BACK_EVENT, onBack)
+  }, [])
 
   // ---- Sesión de lectura (historial) ----
   const session = useRef({ startedAt: Date.now(), fromPage: book.currentPage || 1, lastPage: book.currentPage || 1 })
@@ -98,7 +140,6 @@ function ReaderShell({ book }: { book: Book }) {
   useShortcut('biggerText', () => setFontSize((f) => Math.min(220, f + 10)))
   useShortcut('smallerText', () => setFontSize((f) => Math.max(70, f - 10)))
   useShortcut('toggleUi', () => setShowUi((v) => !v))
-  useShortcut('closeReader', () => go(`libro/${book.id}`, { replace: true }))
 
   const Format = READERS[book.format]
   const colors = THEMES[book.format === 'pdf' || book.format === 'cbz' ? 'oscuro' : theme]
@@ -119,6 +160,12 @@ function ReaderShell({ book }: { book: Book }) {
           <p className="truncate text-sm font-semibold">{book.title}</p>
           <p className="truncate text-xs text-muted">{book.author}</p>
         </div>
+        {canHighlight && (
+          <button onClick={() => setShowList(true)} className="relative rounded-full p-1.5 hover:bg-white/10" aria-label={t('reader.notes.list')}>
+            <NotebookPen className="h-5 w-5" />
+            {highlights.length > 0 && <span className="absolute -right-0.5 -top-0.5 min-w-4 rounded-full bg-accent px-1 text-center text-[10px] leading-4">{highlights.length}</span>}
+          </button>
+        )}
         {textFormat && (
           <div className="flex items-center gap-1 text-sm">
             <button onClick={() => setFontSize((f) => Math.max(70, f - 10))} className="rounded px-2 py-1 hover:bg-white/10" aria-label={t('reader.smallerText')}>
@@ -142,7 +189,16 @@ function ReaderShell({ book }: { book: Book }) {
       </header>
 
       <main className="relative flex-1 overflow-hidden" onDoubleClick={() => setShowUi((v) => !v)}>
-        <Format book={book} onLocate={onLocate} nav={nav} theme={theme} fontSize={fontSize} />
+        <Format
+          book={book}
+          onLocate={onLocate}
+          nav={nav}
+          theme={theme}
+          fontSize={fontSize}
+          highlights={canHighlight ? highlights : undefined}
+          onSelect={canHighlight ? setSelection : undefined}
+          onHighlightClick={canHighlight ? setEditing : undefined}
+        />
         {/* Zonas táctiles: tocar a la izquierda/derecha cambia de página (ideal en celular). */}
         <button aria-label={t('reader.prevPage')} onClick={() => nav.current?.prev()} className="absolute inset-y-0 left-0 z-10 w-[15%] cursor-w-resize opacity-0" />
         <button aria-label={t('reader.nextPage')} onClick={() => nav.current?.next()} className="absolute inset-y-0 right-0 z-10 w-[15%] cursor-e-resize opacity-0" />
@@ -173,6 +229,23 @@ function ReaderShell({ book }: { book: Book }) {
           <span className="hidden sm:inline">{t('reader.next')} </span>›
         </button>
       </footer>
+
+      {selection && !editing && <SelectionBar onPick={(c) => addHighlight(c, false)} onNote={() => addHighlight('amarillo', true)} onCancel={() => { nav.current?.clearSelection?.(); setSelection(null) }} />}
+      {editing != null && <HighlightEditor id={editing} onClose={() => setEditing(null)} />}
+      {showList && (
+        <HighlightsPanel
+          highlights={highlights}
+          onGo={(h) => {
+            setShowList(false)
+            nav.current?.goToLocation?.(h.location)
+          }}
+          onEdit={(h) => {
+            setShowList(false)
+            setEditing(h.id!)
+          }}
+          onClose={() => setShowList(false)}
+        />
+      )}
     </div>
   )
 }

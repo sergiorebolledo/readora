@@ -109,7 +109,26 @@
     "loadingEpub": "Carregando EPUB…",
     "zoomIn": "Aumentar zoom",
     "zoomOut": "Diminuir zoom",
-    "pageAlt": "Página {{page}}"
+    "pageAlt": "Página {{page}}",
+    "notes": {
+      "note": "Nota",
+      "addNote": "Adicionar nota",
+      "edit": "Editar nota",
+      "placeholder": "Escreva o que este trecho te fez pensar…",
+      "save": "Salvar",
+      "delete": "Apagar destaque",
+      "cancel": "Cancelar",
+      "list": "Notas e destaques",
+      "empty": "Nada destacado ainda. Toque e segure uma palavra e arraste para selecionar o texto.",
+      "page": "p. {{page}}",
+      "highlightIn": "Destacar em {{color}}",
+      "colors": {
+        "amarillo": "amarelo",
+        "verde": "verde",
+        "azul": "azul",
+        "rosa": "rosa"
+      }
+    }
   },
   "history": {
     "title": "Histórico de leitura",

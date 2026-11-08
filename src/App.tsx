@@ -13,7 +13,7 @@ import { ShortcutsDialog } from './components/ShortcutsHelp'
 import { SourcesPage } from './components/SourcesPage'
 import { Explore } from './components/explore/Explore'
 import { Reader } from './reader/Reader'
-import { go, useRoute } from './lib/hooks'
+import { BACK_EVENT, go, useRoute } from './lib/hooks'
 import { ConsentBanner } from './components/ConsentBanner'
 import { useBannerAd } from './lib/ads'
 import { initAnalytics, trackScreen } from './lib/analytics'
@@ -98,6 +98,8 @@ function AppContent() {
   useEffect(() => {
     if (!isNative) return
     const h = NativeApp.addListener('backButton', () => {
+      // Una pantalla puede cancelar el evento para cerrar algo propio (p. ej. un panel del lector).
+      if (!window.dispatchEvent(new Event(BACK_EVENT, { cancelable: true }))) return
       if (window.location.hash.replace(/^#\/?/, '')) history.back()
       else NativeApp.exitApp()
     })
@@ -116,7 +118,7 @@ function AppContent() {
   )
 
   // El lector ocupa toda la pantalla, sin barras de navegación.
-  if (section === 'leer' && param) return <Reader key={param} id={param} />
+  if (section === 'leer' && param) return <Reader key={param} id={param} highlightId={param2 ? Number(param2) : undefined} />
 
   const route = section === 'libro' ? '' : section ?? ''
 

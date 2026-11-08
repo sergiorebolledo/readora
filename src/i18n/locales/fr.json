@@ -109,7 +109,26 @@
     "loadingEpub": "Chargement de l'EPUB…",
     "zoomIn": "Zoom avant",
     "zoomOut": "Zoom arrière",
-    "pageAlt": "Page {{page}}"
+    "pageAlt": "Page {{page}}",
+    "notes": {
+      "note": "Note",
+      "addNote": "Ajouter une note",
+      "edit": "Modifier la note",
+      "placeholder": "Écrivez ce que ce passage vous inspire…",
+      "save": "Enregistrer",
+      "delete": "Supprimer le surlignage",
+      "cancel": "Annuler",
+      "list": "Notes et surlignages",
+      "empty": "Rien de surligné pour le moment. Appuyez longuement sur un mot puis faites glisser pour sélectionner le texte.",
+      "page": "p. {{page}}",
+      "highlightIn": "Surligner en {{color}}",
+      "colors": {
+        "amarillo": "jaune",
+        "verde": "vert",
+        "azul": "bleu",
+        "rosa": "rose"
+      }
+    }
   },
   "history": {
     "title": "Historique de lecture",

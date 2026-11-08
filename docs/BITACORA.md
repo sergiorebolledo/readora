@@ -2,6 +2,15 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (12) — RevenueCat conectado con Google Play
+
+- El usuario subió la clave JSON de la cuenta de servicio a la app de Google Play en RevenueCat (`app182759b469`, paquete `app.readora`). RevenueCat la marca como **"Valid credentials"**.
+- **Products → Import**: se importó `readora_sin_anuncios:mensual` desde Google Play (estado "Published").
+- **Entitlements → `sin_anuncios`**: se le asignó `readora_sin_anuncios:mensual`.
+- **Offerings → `default` → paquete Monthly (`$rc_monthly`)**: producto de Google Play `readora_sin_anuncios:mensual`. Mantiene también el `monthly` de Test Store para pruebas.
+- Queda un producto antiguo mal creado, `readora_sin_anuncios` con identificador `default:default` (estado "Not found"). Se puede borrar desde Products; no afecta.
+- Opcional pendiente: "Google developer notifications" (Pub/Sub). Sirve para que RevenueCat se entere al instante de renovaciones y cancelaciones; sin esto se entera igual, pero con retraso.
+
 ## 2026-11-08 (11) — Declaraciones de "Contenido de la aplicación" en Play Console
 
 Completadas en el navegador de la app, con la sesión del usuario y su confirmación. Play Console quedó en "Ya estás al día".

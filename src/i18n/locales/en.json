@@ -288,5 +288,23 @@
   },
   "ads": {
     "label": "Ad"
+  },
+  "premium": {
+    "title": "Readora ad-free",
+    "text": "Remove ads for {{price}} a month. Cancel anytime from Google Play.",
+    "textNoPrice": "Remove ads with a monthly subscription. Cancel anytime from Google Play.",
+    "buy": "Remove ads · {{price}}/month",
+    "restore": "Restore purchase",
+    "terms": "Renews every month until you cancel. Billed by Google Play.",
+    "thanks": "Thanks for supporting Readora! You won’t see ads anymore.",
+    "restored": "Purchase restored: you won’t see ads anymore.",
+    "notFound": "We couldn’t find an active subscription on this Google account.",
+    "unavailable": "Purchases aren’t available right now. Check your connection and try again.",
+    "unavailableShort": "Not available now",
+    "error": "The purchase couldn’t be completed ({{message}}).",
+    "active": "Active: you won’t see ads.",
+    "renews": "Renews on {{date}}.",
+    "until": "Cancelled: ad-free until {{date}}.",
+    "manage": "Manage subscription"
   }
 }

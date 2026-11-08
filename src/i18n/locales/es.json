@@ -289,5 +289,23 @@
   },
   "ads": {
     "label": "Anuncio"
+  },
+  "premium": {
+    "title": "Readora sin anuncios",
+    "text": "Quita los anuncios por {{price}} al mes. Cancela cuando quieras desde Google Play.",
+    "textNoPrice": "Quita los anuncios con una suscripción mensual. Cancela cuando quieras desde Google Play.",
+    "buy": "Quitar anuncios · {{price}}/mes",
+    "restore": "Restaurar compra",
+    "terms": "Se renueva cada mes hasta que la canceles. El cobro lo hace Google Play.",
+    "thanks": "¡Gracias por apoyar Readora! Ya no verás anuncios.",
+    "restored": "Compra restaurada: ya no verás anuncios.",
+    "notFound": "No encontramos una suscripción activa en esta cuenta de Google.",
+    "unavailable": "La compra no está disponible ahora. Revisa tu conexión e inténtalo de nuevo.",
+    "unavailableShort": "No disponible ahora",
+    "error": "No se pudo completar la compra ({{message}}).",
+    "active": "Activo: no verás anuncios.",
+    "renews": "Se renueva el {{date}}.",
+    "until": "Cancelada: sin anuncios hasta el {{date}}.",
+    "manage": "Gestionar suscripción"
   }
 }

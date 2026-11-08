@@ -82,6 +82,36 @@ La política de privacidad pública está en [PRIVACIDAD.md](PRIVACIDAD.md). Goo
 5. Publicar `app-ads.txt` cuando la app esté en Google Play.
 6. Para probar con anuncios reales en tu teléfono, regístralo como dispositivo de prueba en AdMob.
 
+## Suscripción "sin anuncios" (Google Play + RevenueCat)
+
+Por **2 USD al mes**, la persona no ve anuncios. La suscripción se renueva sola y se cancela desde Google Play. Google se queda con el 15 %.
+
+- Código: [`src/lib/premium.ts`](../src/lib/premium.ts) (estado y compra) y [`PremiumSection.tsx`](../src/components/PremiumSection.tsx) (Ajustes).
+- Con la suscripción activa, `App.tsx` no muestra el banner, y AdMob ni siquiera se inicia (no aparece el formulario de consentimiento de anuncios).
+- RevenueCat verifica el pago en sus servidores. La app guarda el último estado para que quien pagó no vea un anuncio al abrir sin internet.
+- Sin `VITE_REVENUECAT_KEY` la sección no aparece.
+- Plan gratis de RevenueCat: hasta 2.500 USD de ingresos al mes.
+
+### Configurar (en este orden)
+
+1. **Play Console → Configuración → Perfil de pagos**: crear el perfil de comerciante (datos bancarios y fiscales). Sin él no se puede cobrar.
+2. **Subir la app a Play Console**, al menos a "Prueba interna". Los productos solo se pueden crear después de subir un `.aab` que incluya la librería de cobros, cosa que esta versión ya hace. Ver [PUBLICAR.md](PUBLICAR.md).
+3. **Play Console → Monetizar → Suscripciones → Crear suscripción**:
+   - ID del producto: `readora_sin_anuncios`.
+   - Nombre: "Readora sin anuncios".
+   - Plan base: ID `mensual`, renovación automática **mensual**, precio **2 USD**. Play convierte el precio a cada moneda.
+   - Activar el plan base.
+4. **RevenueCat** (https://app.revenuecat.com):
+   1. Crear el proyecto "Readora" y agregar una app **Google Play** con el paquete `app.readora`.
+   2. Subir las **credenciales de cuenta de servicio** de Google (archivo JSON). RevenueCat explica paso a paso cómo crearlas en Google Cloud y darles acceso en Play Console. Pueden tardar hasta 36 horas en activarse.
+   3. **Product catalog → Entitlements**: crear el permiso con identificador exacto `sin_anuncios`.
+   4. **Products**: importar `readora_sin_anuncios:mensual` y asignarlo al permiso `sin_anuncios`.
+   5. **Offerings**: en la oferta `default` (marcada como actual), agregar un paquete **Monthly** con ese producto.
+   6. **API keys**: copiar la clave **pública** de Android (empieza con `goog_`) a `.env.local` como `VITE_REVENUECAT_KEY`.
+5. **Probar**: en Play Console → Configuración → **Pruebas de licencia**, agregar tu cuenta de Gmail.
+   - Instala la app desde el enlace de la prueba interna (no por cable).
+   - Las compras de prueba no se cobran y las suscripciones de prueba se renuevan cada pocos minutos.
+
 ## Donaciones
 
 Poner el enlace en `.env.local` como `VITE_DONATE_URL=https://ko-fi.com/…` (o GitHub Sponsors). Con el enlace puesto aparece la tarjeta "Apoya a Readora" en Ajustes. También se puede crear `.github/FUNDING.yml` para que GitHub muestre el botón "Sponsor".
@@ -90,4 +120,4 @@ Poner el enlace en `.env.local` como `VITE_DONATE_URL=https://ko-fi.com/…` (o 
 
 ## Licencia
 
-PostHog (MIT/Apache-2.0) es libre. El SDK de Google Mobile Ads, UMP y el SDK de Steamworks no lo son. Por eso la licencia de Readora (GPL-3.0) trae una **excepción** que permite enlazarlos: ver [LICENSE-EXCEPTION.md](../LICENSE-EXCEPTION.md).
+PostHog (MIT/Apache-2.0) y el plugin de RevenueCat (MIT) son libres. El SDK de Google Mobile Ads, UMP, Google Play Billing y el SDK de Steamworks no lo son. Por eso la licencia de Readora (GPL-3.0) trae una **excepción** que permite enlazarlos: ver [LICENSE-EXCEPTION.md](../LICENSE-EXCEPTION.md).

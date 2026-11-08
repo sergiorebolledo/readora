@@ -20,6 +20,7 @@
     "@capacitor/app": "^8.1.2",
     "@capacitor/core": "^8.6.0",
     "@capacitor/local-notifications": "^8.3.1",
+    "@revenuecat/purchases-capacitor": "^13.8.0",
     "@tauri-apps/api": "^2.12.4",
     "@tauri-apps/plugin-http": "^2.8.3",
     "@tauri-apps/plugin-notification": "^2.8.0",

@@ -60,6 +60,9 @@ function startAds(): Promise<boolean> {
 export function useBannerAd(visible: boolean) {
   useEffect(() => {
     if (!adsSupported) return
+    // Si todavía no hay banner y no toca mostrarlo (otra pantalla, o "sin anuncios"), no se inicia AdMob:
+    // así quien paga no ve tampoco el formulario de consentimiento de anuncios.
+    if (!visible && !bannerCreated) return
     let cancelled = false
     startAds().then(async (ok) => {
       if (!ok || cancelled) return

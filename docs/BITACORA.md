@@ -2,6 +2,36 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (6) — Suscripción "Readora sin anuncios"
+
+**Pedido del usuario**: un pago de 2 USD para quitar la publicidad por un mes.
+
+**Decisiones del usuario**:
+- **suscripción mensual** con renovación automática (no un pase suelto);
+- verificación con **RevenueCat**, recomendado: comprueba los pagos en su servidor y es gratis hasta 2.500 USD de ingresos al mes.
+
+**Hecho**
+- `@revenuecat/purchases-capacitor` 13.8.0 (MIT), que usa Google Play Billing.
+- `src/lib/premium.ts`:
+  - estado de la suscripción (permiso `sin_anuncios`);
+  - compra, restauración y caché local.
+- `PremiumSection` en Ajustes, en 4 idiomas:
+  - el precio sale de Google Play en la moneda local;
+  - "Restaurar compra" y "Gestionar suscripción";
+  - si la suscripción está cancelada, muestra hasta qué fecha sigue sin anuncios.
+- Con la suscripción activa no hay banner y AdMob no se inicia.
+- Evento de analítica `premium_purchase` (éxito, cancelada o error), sin datos de pago.
+- Licencia: se agregó **Google Play Billing Library** a la excepción.
+- Privacidad (es/en) y formulario de Play ("Historial de compras") actualizados.
+- Guía de configuración: [MONETIZACION.md](MONETIZACION.md).
+
+**Pendiente (usuario)**
+- Perfil de pagos en Play Console.
+- Subir la app a prueba interna.
+- Crear la suscripción `readora_sin_anuncios` / `mensual` a 2 USD.
+- Configurar RevenueCat y pasar la clave `goog_…`.
+- La compra real solo se puede probar con la app instalada desde Google Play y una cuenta de "prueba de licencia".
+
 ## 2026-11-08 (5) — Analítica PostHog activada
 
 **Pedido del usuario**: activar PostHog con la clave del proyecto (`phc_…`).

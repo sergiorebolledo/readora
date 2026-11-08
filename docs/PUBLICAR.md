@@ -104,6 +104,9 @@ Las cuentas personales creadas después de noviembre de 2023 deben hacer una **p
     - Es **opcional**.
     - Fin: analíticas.
   - **Información y rendimiento de la app → Registros de fallos y diagnósticos**, lo recoge AdMob.
+  - **Información financiera → Historial de compras**, lo recogen RevenueCat y Google Play.
+    - Solo si la persona se suscribe.
+    - Fin: funcionalidad de la app (saber si tiene "sin anuncios").
 - Cifrado en tránsito: **Sí**.
 - Eliminación de datos: indica que se pide por el enlace de contacto de la política (issues de GitHub).
 - Google publica una guía de qué declarar por el SDK de AdMob: búscala como "AdMob data disclosure".

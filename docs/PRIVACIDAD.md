@@ -21,7 +21,8 @@ Solo si **aceptas** el aviso "¿Nos ayudas a mejorar Readora?", la app envía es
   - minutos y páginas de cada sesión de lectura;
   - fuente de una descarga (Gutenberg u Open Library);
   - idioma de la app, plataforma y versión;
-  - atajos de teclado usados.
+  - atajos de teclado usados;
+  - si una compra de "sin anuncios" se completó, se canceló o falló (sin datos de pago).
 - **Qué NUNCA se envía:**
   - títulos ni autores;
   - el contenido de tus libros;
@@ -38,6 +39,17 @@ La versión de Android muestra un banner de **Google AdMob** en Inicio y Explora
 En la Unión Europea, el Reino Unido y otras regiones donde la ley lo exige, la app te pide permiso antes, con el formulario oficial de Google. Puedes cambiarlo en **Ajustes → Privacidad → Opciones de privacidad de anuncios**.
 
 Las versiones web y de escritorio no muestran anuncios.
+
+## Suscripción "sin anuncios" (opcional, solo Android)
+
+Si contratas "Readora sin anuncios", el pago lo hace **Google Play**. Readora no ve tu tarjeta ni tus datos de pago.
+
+Para comprobar que la suscripción está activa usamos [RevenueCat](https://www.revenuecat.com/privacy). RevenueCat recibe:
+- un identificador aleatorio de la app (no tu nombre ni tu correo);
+- el comprobante de compra de Google Play;
+- datos técnicos del dispositivo.
+
+Puedes cancelar la suscripción en Google Play → Pagos y suscripciones.
 
 ## Niños
 
@@ -70,7 +82,8 @@ Only if you **accept** the "Help us improve Readora?" prompt does the app send u
   - minutes and pages per reading session;
   - download source;
   - app language, platform and version;
-  - keyboard shortcuts used.
+  - keyboard shortcuts used;
+  - whether an "ad-free" purchase succeeded, was cancelled or failed (no payment data).
 - **Never sent:**
   - titles or authors;
   - book contents;
@@ -85,6 +98,17 @@ Only if you **accept** the "Help us improve Readora?" prompt does the app send u
 The Android version shows a **Google AdMob** banner on Home and Discover, never while you read. Google may use the device advertising ID and technical data to serve and measure ads; see [Google's policy](https://policies.google.com/technologies/ads).
 
 Where the law requires it (EU, UK…), the app first asks for consent with Google's official form. You can change your choice in **Settings → Privacy → Ad privacy options**. The web and desktop versions show no ads.
+
+## "Ad-free" subscription (optional, Android only)
+
+If you subscribe to "Readora ad-free", **Google Play** handles the payment; Readora never sees your card or payment details.
+
+To check that the subscription is active we use [RevenueCat](https://www.revenuecat.com/privacy), which receives:
+- a random app identifier (not your name or email);
+- the Google Play purchase receipt;
+- technical device data.
+
+You can cancel in Google Play → Payments & subscriptions.
 
 ## Children
 

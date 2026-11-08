@@ -18,6 +18,7 @@ as well as that of the covered work:
 
 - Google Mobile Ads SDK (AdMob) and Google User Messaging Platform SDK, used to show ads in
   the Android app;
+- Google Play Billing Library, used for the optional ad-free subscription in the Android app;
 - Steamworks SDK, used for the Steam version.
 
 All other parts of the combined work remain under the GNU GPL. You may remove this additional
@@ -32,14 +33,15 @@ Readora es software libre bajo la **GNU GPL versión 3 o posterior**: puedes usa
 modificarlo y compartirlo, siempre que tus versiones también sean libres y publiques su código.
 
 **Permiso adicional**: se permite combinar Readora con el SDK de anuncios de Google (AdMob y su
-formulario de consentimiento) y con el SDK de Steamworks, aunque esos SDK no son libres. El resto
+formulario de consentimiento), con la librería de cobros de Google Play (Google Play Billing) y
+con el SDK de Steamworks, aunque esos SDK no son libres. El resto
 del programa sigue siendo GPL. Este texto en español es solo un resumen; vale el texto en inglés.
 
 ### Licencias de terceros
 
 | Componente | Licencia |
 |---|---|
-| React, Capacitor, i18next, posthog-js | MIT |
+| React, Capacitor, i18next, posthog-js, RevenueCat (purchases-capacitor) | MIT |
 | pdf.js, Dexie | Apache-2.0 (compatible con GPL-3.0) |
 | epub.js | BSD-2-Clause |
 | JSZip | MIT (o GPL-3.0) |

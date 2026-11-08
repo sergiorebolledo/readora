@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { APP_NAME, DONATE_URL, PRIVACY_URL, SOURCE_URL } from '../brand'
 import { adPrivacyOptionsRequired, adsSupported, showAdPrivacyOptions } from '../lib/ads'
 import { analyticsAvailable, setConsent, track } from '../lib/analytics'
+import { usePremium } from '../lib/premium'
 import { LANGUAGES } from '../i18n'
 import { LANGS } from '../sources'
 import { useConsent } from './ConsentBanner'
+import { PremiumSection } from './PremiumSection'
 import { ShortcutsTable } from './ShortcutsHelp'
 
 const LICENSE_URL = 'https://github.com/sergiorebolledo/readora/blob/main/LICENSE-EXCEPTION.md'
@@ -98,6 +100,8 @@ export function SettingsPage() {
         </div>
       </section>
 
+      <PremiumSection />
+
       {DONATE_URL && (
         <section className="mt-8 flex items-center gap-4 rounded-2xl border border-accent/40 bg-accent/10 p-5">
           <Heart className="h-6 w-6 shrink-0 text-pink-300" />
@@ -134,9 +138,11 @@ function PrivacySection() {
   const consent = useConsent()
   const on = consent === 'granted'
   const [adOptions, setAdOptions] = useState(false)
+  const premium = usePremium()
   useEffect(() => {
-    if (adsSupported) adPrivacyOptionsRequired().then(setAdOptions)
-  }, [])
+    // Con "sin anuncios" no se inicia AdMob solo para esta comprobación.
+    if (adsSupported && premium.ready && !premium.active) adPrivacyOptionsRequired().then(setAdOptions)
+  }, [premium.ready, premium.active])
   return (
     <section className="mt-8">
       <h2 className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-accent-2">

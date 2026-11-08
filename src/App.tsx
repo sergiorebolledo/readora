@@ -17,6 +17,7 @@ import { go, useRoute } from './lib/hooks'
 import { ConsentBanner } from './components/ConsentBanner'
 import { useBannerAd } from './lib/ads'
 import { initAnalytics, trackScreen } from './lib/analytics'
+import { initPremium, usePremium } from './lib/premium'
 import { isNative, startReminderScheduler } from './lib/reminders'
 import { ShortcutsProvider } from './lib/shortcuts/Shortcuts'
 import { NAVIGATE_TABS_ROUTES, type ShortcutName } from './lib/shortcuts/definitions'
@@ -27,9 +28,13 @@ export default function App() {
   const [showShortcuts, setShowShortcuts] = useState(false)
   const reading = useRef(false)
 
-  useEffect(() => initAnalytics(), [])
-  // Anuncio (Android): solo en Inicio y Explorar, nunca en el lector.
-  useBannerAd(!section || section === 'explorar')
+  useEffect(() => {
+    initAnalytics()
+    initPremium()
+  }, [])
+  // Anuncio (Android): solo en Inicio y Explorar, nunca en el lector, y nunca con "Readora sin anuncios".
+  const premium = usePremium()
+  useBannerAd((!section || section === 'explorar') && premium.ready && !premium.active)
   // Solo la sección (leer, explorar…), nunca identificadores de libros.
   useEffect(() => trackScreen(section ?? ''), [section])
   reading.current = section === 'leer'

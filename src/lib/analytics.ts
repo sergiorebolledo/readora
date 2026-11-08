@@ -34,6 +34,7 @@ export interface Events {
   source_toggled: { source: string; enabled: boolean }
   language_changed: { language: string }
   shortcut_used: { shortcut: string }
+  premium_purchase: { result: 'success' | 'cancelled' | 'error' }
 }
 
 let client: PostHog | null = null

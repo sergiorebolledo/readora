@@ -68,7 +68,7 @@ export function BookDetail({ id }: { id: string }) {
             )}
 
             <div className="mt-5 flex flex-wrap items-center gap-3">
-              <button onClick={() => go(`leer/${book.id}`)} className="flex items-center gap-2 rounded-full bg-white px-6 py-2.5 font-semibold text-black hover:bg-zinc-200">
+              <button onClick={() => go(`leer/${book.id}`, { replace: true })} className="flex items-center gap-2 rounded-full bg-white px-6 py-2.5 font-semibold text-black hover:bg-zinc-200">
                 <Play className="h-4 w-4 fill-black" />
                 {book.progress > 0 ? t('book.continueAt', { page: book.currentPage }) : t('book.start')}
               </button>

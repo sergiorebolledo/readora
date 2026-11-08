@@ -98,7 +98,7 @@ function ReaderShell({ book }: { book: Book }) {
   useShortcut('biggerText', () => setFontSize((f) => Math.min(220, f + 10)))
   useShortcut('smallerText', () => setFontSize((f) => Math.max(70, f - 10)))
   useShortcut('toggleUi', () => setShowUi((v) => !v))
-  useShortcut('closeReader', () => go(`libro/${book.id}`))
+  useShortcut('closeReader', () => go(`libro/${book.id}`, { replace: true }))
 
   const Format = READERS[book.format]
   const colors = THEMES[book.format === 'pdf' || book.format === 'cbz' ? 'oscuro' : theme]
@@ -112,7 +112,7 @@ function ReaderShell({ book }: { book: Book }) {
           showUi ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
       >
-        <button onClick={() => go(`libro/${book.id}`)} className="flex items-center gap-1 rounded-full px-2 py-1 hover:bg-white/10" aria-label={t('common.back')}>
+        <button onClick={() => go(`libro/${book.id}`, { replace: true })} className="flex items-center gap-1 rounded-full px-2 py-1 hover:bg-white/10" aria-label={t('common.back')}>
           <ChevronLeft className="h-4 w-4" /> {t('common.back')}
         </button>
         <div className="min-w-0 flex-1">

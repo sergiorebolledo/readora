@@ -25,8 +25,10 @@ export function useRoute() {
   return parts
 }
 
-export function go(path: string) {
-  window.location.hash = `/${path}`
+/** Navega a una ruta. Con `replace`, reemplaza la entrada actual del historial en vez de agregar una. */
+export function go(path: string, { replace = false } = {}) {
+  if (replace) window.location.replace(`#/${path}`)
+  else window.location.hash = `/${path}`
 }
 
 /** Preferencia guardada en localStorage. */

@@ -2,6 +2,53 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (13) — Prueba como usuario de la versión de Google Play
+
+**Pedido del usuario**: descargar la app de la prueba interna en el emulador y revisarla entera como usuario.
+
+**Cómo se probó**
+- Emulador `turnopro_play_tester` (Android con Play Store real), cuenta de tester de la lista "pruebas".
+- La cuenta estaba en la lista, pero faltaba **aceptar la invitación**. Mientras no se acepta, Play muestra "Item not found". El usuario la aceptó con el enlace `https://play.google.com/apps/internaltest/4701724097567298321`.
+- La app se instaló desde Google Play: versión 0.2.0 (código 2), instalador `com.android.vending`.
+
+**Funciona**
+- Ficha en Play: "Readora (Early Access)", icono, capturas, "Contiene anuncios · Compras en la app", clasificación Teen.
+- Primer inicio en inglés (idioma del emulador), con el aviso de estadísticas opcionales.
+- El formulario de consentimiento de anuncios no aparece fuera de la UE, como corresponde.
+- Banner de AdMob en Inicio y Explorar. Dice "Test Ad" porque AdMob marca así todos los emuladores.
+- Explorar carga Gutenberg con portadas. Se descargó "Pride and Prejudice" (EPUB, 23,7 MB).
+- Lector:
+  - abre el EPUB y pasa páginas, sin anuncios;
+  - al salir guarda la página;
+  - "Continuar en p. 2" vuelve a esa página.
+- Historial: racha, tiempo total, sesiones, gráfico semanal y sesiones por libro.
+- Recordatorios:
+  - Android pide permiso de notificaciones y de alarmas exactas;
+  - el recordatorio quedó programado de lunes a viernes a las 21:00 (`dumpsys alarm`).
+- Biblioteca con filtros y progreso.
+- Cambio de idioma a español al instante.
+- Suscripción:
+  - el precio llega de Google Play en moneda local (CLP 2.000 al mes);
+  - el formulario de pago de Google se abre bien;
+  - al cancelarlo, la app vuelve a la oferta sin error.
+- La versión publicada no permite depurar el WebView, lo correcto para producción. Las pruebas se hicieron con `uiautomator`.
+
+**Error encontrado y corregido**
+- Pasos: Libro → Leer → "Volver" → cerrar la ficha con la X.
+  - Resultado: la app volvía a entrar al lector, porque "Volver" agregaba la ficha como una entrada nueva del historial.
+  - Arreglo: `go()` acepta `{ replace: true }`. Abrir el lector desde la ficha y volver a ella reemplaza la entrada en vez de apilarla.
+  - Probado en la versión web: Inicio → libro → lector → Volver → X lleva a Inicio.
+- Llega a los testers en la próxima versión que se suba (versionCode 3).
+
+**No se pudo probar: compra de prueba**
+- La cuenta del emulador **no está en "Testers con licencia"**: Play Console → Configuración → Testers con licencia está vacío.
+- Por eso Google Play ofreció un medio de pago real ("Entel") en vez de la tarjeta de prueba. La compra no se completó.
+- Para probarla: agregar la cuenta a "Testers con licencia". Así Play muestra "Tarjeta de prueba, siempre se aprueba" y no cobra.
+
+**Observaciones menores (sin cambios)**
+- El banner de anuncios queda por encima de la ficha de un libro de Explorar y tapa una franja; el contenido se puede desplazar.
+- Si el recordatorio se guarda antes de dar el permiso de alarmas exactas, Android lo programa con una ventana de hasta 1 hora. Los siguientes ya salen exactos.
+
 ## 2026-11-08 (12) — RevenueCat conectado con Google Play
 
 - El usuario subió la clave JSON de la cuenta de servicio a la app de Google Play en RevenueCat (`app182759b469`, paquete `app.readora`). RevenueCat la marca como **"Valid credentials"**.

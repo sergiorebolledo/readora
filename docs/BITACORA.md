@@ -2,6 +2,31 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (10) — Ficha de Play completa y suscripción creada
+
+**Ficha de la tienda** (subida por la API, en `en-US`, `es-419`, `es-ES`, `pt-BR` y `fr-FR`)
+- Título, descripción corta y descripción completa: [`store/play/listings.json`](../store/play/listings.json).
+- Icono de 512 px y banner de 1024×500 (`store/play/feature-1024x500.png`).
+- 4 capturas por idioma (`store/play/<idioma>/shot-1..4.png`): Inicio, Explorar, lector y Biblioteca, con texto arriba.
+  - Se tomaron en el emulador, con libros de dominio público descargados desde la misma app.
+  - Para las fotos se ocultó el banner de anuncios (`AdMob.hideBanner()` desde DevTools), como pidió el usuario.
+  - Historial quedó fuera: con 2 minutos de lectura se veía vacío.
+
+**Suscripción `readora_sin_anuncios`**
+- El usuario creó el perfil de pagos.
+- Creada y **activada** por la API: plan base `mensual`, P1M, 2 USD.
+  - Precios convertidos por Google a 174 regiones (p. ej. CLP 2.000 y MXN 43). Para otras regiones: 2 USD / 2 EUR.
+  - Ficha de la suscripción en 5 idiomas.
+- Detalle técnico: hay que crear con la versión de regiones que devuelve `pricing:convertRegionPrices` (era `2026/01`). Con `2022/02` falla: "Expected USD but got ARS".
+
+**Pendiente (usuario)**
+- RevenueCat:
+  - subir el JSON de la cuenta de servicio;
+  - importar `readora_sin_anuncios:mensual`;
+  - asignarlo al permiso;
+  - agregarlo a la oferta `default` como Monthly.
+- Formularios de Play Console (contenido de la app, seguridad de los datos) antes de pasar a producción.
+
 ## 2026-11-08 (9) — App creada en Play Console; logo subido por la API
 
 **Comprobado con la API de Google Play** (cuenta de servicio `gplay-967`)

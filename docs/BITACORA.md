@@ -15,8 +15,12 @@ Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
   - Ahora, si falla la consulta de consentimiento (configuración o red), igual se inicializa AdMob.
   - Verificado en el emulador: el banner vuelve a aparecer.
 
+- **Bloque Banner** creado por el usuario: `ca-app-pub-7176254903754964/1956492108`, en `.env.local`.
+  - Verificado en el emulador: la petición sale con el ID real y Google la marca como dispositivo de prueba.
+  - Google responde "Ad failed to load: 3" (**sin anuncio disponible**). Es normal en bloques recién creados y en cuentas nuevas: pueden pasar horas, y la cuenta y la app deben quedar aprobadas (vincular la app a Google Play al publicarla).
+  - Sin anuncio, la app no deja espacio vacío.
+
 **Pendiente (usuario)**
-- Crear un bloque **Banner** y pasar su ID.
 - Crear el mensaje GDPR en AdMob → Privacidad y mensajes.
 - Pasar la clave `phc_…` de PostHog.
 

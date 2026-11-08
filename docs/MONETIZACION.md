@@ -61,7 +61,7 @@ La política de privacidad pública está en [PRIVACIDAD.md](PRIVACIDAD.md). Goo
 
 1. Crear la cuenta en https://admob.google.com y agregar la app Android `app.readora`.
 2. Copiar el **ID de la app** (`ca-app-pub-XXXX~YYYY`) en `android/app/src/main/res/values/strings.xml` → `admob_app_id`. ✅ Hecho (2026-11-08): `ca-app-pub-7176254903754964~3796187388`.
-3. Crear un bloque de anuncios de tipo **Banner** y poner su ID (`ca-app-pub-XXXX/ZZZZ`) en `.env.local` como `VITE_ADMOB_BANNER_ID`.
+3. ✅ Hecho (2026-11-08): bloque **Banner** `ca-app-pub-7176254903754964/1956492108`, guardado en `.env.local` del PC de compilación (ese archivo no se sube a git: en otro PC hay que crearlo de nuevo). Crear un bloque de anuncios de tipo **Banner** y poner su ID (`ca-app-pub-XXXX/ZZZZ`) en `.env.local` como `VITE_ADMOB_BANNER_ID`.
 4. Crear el mensaje de consentimiento GDPR en "Privacidad y mensajes".
    - Sin él, Google responde *"no form(s) configured for the input app ID"*.
    - Desde el 2026-11-08 la app igual pide anuncios en ese caso, pero en Europa no podrá pedir permiso y saldrán pocos anuncios o ninguno.

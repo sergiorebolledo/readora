@@ -2,7 +2,13 @@
 
 Stremio es una biblioteca de películas y series (~15 mil ⭐ en GitHub). Revisamos [github.com/Stremio](https://github.com/Stremio) y [stremio-web](https://github.com/Stremio/stremio-web) para llevar sus buenas ideas a una biblioteca de **libros**.
 
-## ✅ Decisión (2026-11-06): Readora es GPL-2.0
+## 🔄 Actualización (2026-11-08, v0.2): ya no hay código de Stremio
+
+Para poder usar AdMob y Steamworks, y por la incompatibilidad de GPL-2.0 con las librerías Apache-2.0 (pdf.js, Dexie), los atajos se **reescribieron desde cero** y Readora pasó a **GPL-3.0-or-later con excepción** ([LICENSE-EXCEPTION.md](../LICENSE-EXCEPTION.md)).
+
+Stremio sigue siendo **solo referencia de diseño**: copiar código de stremio-web (GPL-2.0-only) ya **no** está permitido. Lo de abajo describe la v0.1.0.
+
+## Decisión anterior (2026-11-06): Readora es GPL-2.0
 
 El usuario decidió publicar Readora como **código abierto GPL-2.0** para poder reutilizar código de stremio-web.
 - Licencia en [`LICENSE`](../LICENSE) y `"license": "GPL-2.0-only"` en `package.json`.

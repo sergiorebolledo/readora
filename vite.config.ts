@@ -1,6 +1,7 @@
 import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import pkg from './package.json' with { type: 'json' }
 
 /**
  * Proxy SOLO para desarrollo: permite descargar libros de fuentes que no habilitan CORS.
@@ -33,7 +34,7 @@ function devProxy(): Plugin {
 }
 
 export default defineConfig({
-  define: { __APP_VERSION__: JSON.stringify(process.env.npm_package_version ?? '0.1.0') },
+  define: { __APP_VERSION__: JSON.stringify(pkg.version) },
   plugins: [react(), tailwindcss(), devProxy()],
   server: { port: 5173 },
 })

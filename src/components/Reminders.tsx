@@ -3,6 +3,7 @@ import { BellRing, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { db } from '../db'
+import { track } from '../lib/analytics'
 import { askNotificationPermission, getNotificationPermission, type Permission } from '../lib/reminders'
 
 export function Reminders({ presetBookId }: { presetBookId?: string }) {
@@ -25,6 +26,7 @@ export function Reminders({ presetBookId }: { presetBookId?: string }) {
     if (!days.length) return
     await db.reminders.add({ time, days, message: message.trim(), bookId: bookId || null, enabled: true, lastFired: null })
     setMessage('')
+    track('reminder_created', { days: days.length, for_book: !!bookId })
     if (permission === 'default') setPermission(await askNotificationPermission())
   }
 

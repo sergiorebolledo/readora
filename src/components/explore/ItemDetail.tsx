@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { db } from '../../db'
 import { go } from '../../lib/hooks'
+import { track } from '../../lib/analytics'
 import { importFile } from '../../lib/import'
 import { fetchBlob } from '../../lib/net'
 import { getSource, type CatalogItem, type Lang } from '../../sources'
@@ -72,11 +73,13 @@ export function ItemDetail({ item: initial, lang, onClose }: { item: CatalogItem
         cover,
         origin: { sourceId: item.sourceId, itemId: item.id },
       })
+      track('book_downloaded', { source: item.sourceId, format: download.format, other_language: !!download.otherLanguage })
       if (download.otherLanguage) {
         setNote(t('explore.otherLanguage', { language: download.otherLanguage }))
       }
       setState({ step: 'idle' })
     } catch (e) {
+      track('book_download_failed', { source: item.sourceId })
       setState({ step: 'error', message: (e as Error).message })
     }
   }

@@ -1,4 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie'
+import { track } from './lib/analytics'
 
 /** Formatos soportados en el MVP. */
 export type BookFormat = 'pdf' | 'epub' | 'txt' | 'cbz'
@@ -76,6 +77,7 @@ db.version(1).stores({
 export async function saveProgress(book: Book, page: number, total: number, location: string | null) {
   const progress = total > 0 ? Math.min(1, page / total) : 0
   const finished = progress >= 0.995
+  if (finished && !book.finishedAt) track('book_finished', { format: book.format })
   await db.books.update(book.id, {
     currentPage: page,
     totalPages: total,

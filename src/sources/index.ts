@@ -1,4 +1,5 @@
 import { locale } from '../i18n'
+import { track } from '../lib/analytics'
 import { useSetting } from '../lib/hooks'
 import { gutenberg } from './gutenberg'
 import { openLibrary } from './openlibrary'
@@ -20,7 +21,10 @@ export function useEnabledSources() {
   return {
     sources: SOURCES.filter((s) => isOn(s.id)),
     isOn,
-    toggle: (id: string) => setEnabled({ ...enabled, [id]: !isOn(id) }),
+    toggle: (id: string) => {
+      track('source_toggled', { source: id, enabled: !isOn(id) })
+      setEnabled({ ...enabled, [id]: !isOn(id) })
+    },
   }
 }
 

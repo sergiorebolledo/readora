@@ -85,7 +85,7 @@ export function Navbar({ route, search, onSearch, onFiles }: Props) {
       </header>
 
       {/* Pestañas inferiores (celular) */}
-      <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-line bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur sm:hidden">
+      <nav id="tabbar" className="fixed inset-x-0 bottom-0 z-30 flex border-t border-line bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur sm:hidden">
         {SECTIONS.filter((s) => s.mobile).map(({ path, icon: Icon, key }) => (
           <button
             key={path}

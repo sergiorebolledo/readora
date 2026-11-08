@@ -3,6 +3,7 @@ import { Plus } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import i18n from '../i18n'
 import { db } from '../db'
+import { track } from '../lib/analytics'
 import { ACCEPTED, detectFormat, importFile } from '../lib/import'
 
 export type Importer = ReturnType<typeof useImporter>
@@ -32,6 +33,7 @@ export function useImporter() {
     if (duplicated) parts.push(i18n.t('import.duplicated', { count: duplicated }))
     if (skipped) parts.push(i18n.t('import.unsupported', { count: skipped }))
     setStatus(parts.join(' · '))
+    track('books_imported', { added: ok, duplicated, unsupported: skipped, formats: [...new Set(files.map((f) => detectFormat(f.name)!))] })
     setTimeout(() => setStatus(null), 4000)
   }
 

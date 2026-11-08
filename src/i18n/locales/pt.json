@@ -234,11 +234,14 @@
     "about": "Sobre",
     "aboutText": "{{name}} é um app de leitura gratuito e aberto para PC, Android e Steam.",
     "credits": "Créditos",
-    "creditsText": "Design e atalhos de teclado baseados no Stremio. Livros grátis do Project Gutenberg e da Open Library. Ícones do Lucide.",
+    "creditsText": "Design inspirado no Stremio. Livros grátis do Project Gutenberg e da Open Library. Ícones do Lucide.",
     "license": "Código aberto",
-    "licenseText": "{{name}} é software livre sob a licença GPL-2.0: você pode usá-lo, estudá-lo, modificá-lo e compartilhá-lo. Inclui código adaptado do stremio-web (© Smart Code, GPL-2.0).",
+    "licenseText": "{{name}} é software livre sob a licença GPL-3.0: você pode usá-lo, estudá-lo, modificá-lo e compartilhá-lo.",
     "licenseLink": "Ver a licença",
-    "sourceLink": "Ver o código-fonte"
+    "sourceLink": "Ver o código-fonte",
+    "donateTitle": "Apoie o Readora",
+    "donateText": "O {{name}} é gratuito e de código aberto. Se você gosta, pode ajudar a mantê-lo.",
+    "donateButton": "Doar"
   },
   "errors": {
     "network": "Não foi possível conectar à fonte. Verifique sua conexão com a internet.",
@@ -269,5 +272,20 @@
       "pageDown": "Page Down"
     },
     "hint": "Pressione ? em qualquer tela para ver esta lista."
+  },
+  "privacy": {
+    "title": "Privacidade",
+    "bannerTitle": "Quer nos ajudar a melhorar o Readora?",
+    "bannerText": "Compartilhe estatísticas anônimas de uso (quais seções você usa, quais formatos lê). Nunca enviamos seus livros, títulos ou pesquisas.",
+    "accept": "Compartilhar",
+    "decline": "Não, obrigado",
+    "settingTitle": "Compartilhar estatísticas anônimas",
+    "settingText": "Ajuda a saber quais funções são usadas. Nunca inclui seus livros, títulos ou pesquisas.",
+    "adsNote": "A versão Android mostra anúncios em Início e Explorar (nunca durante a leitura).",
+    "policyLink": "Política de privacidade",
+    "adOptions": "Opções de privacidade de anúncios"
+  },
+  "ads": {
+    "label": "Anúncio"
   }
 }

@@ -2,6 +2,47 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 — v0.2: analítica, anuncios, donaciones y licencia GPL-3.0
+
+**Pedido del usuario**: un servicio de analítica gratuito (PostHog) para ver cómo se usa la app, y ponerle publicidad. Respuestas: monetizar con **anuncios y donaciones** ("Ambos"); analítica **con PostHog**.
+
+**Hecho**
+- **Analítica con PostHog** (`src/lib/analytics.ts`):
+  - opt-in con aviso inicial e interruptor en Ajustes → Privacidad;
+  - servidor UE y solo eventos manuales (13 eventos, ninguno con títulos ni búsquedas);
+  - sin clave en `.env.local` queda apagada.
+- **Anuncios AdMob solo en Android** (`src/lib/ads.ts`):
+  - un banner sobre la barra de pestañas, solo en Inicio y Explorar;
+  - consentimiento de Google (UMP) y botón "Opciones de privacidad de anuncios";
+  - usa los IDs de prueba de Google hasta tener cuenta.
+- **Donaciones**: tarjeta "Apoya a Readora" en Ajustes; aparece cuando se define `VITE_DONATE_URL`.
+- **Política de privacidad** pública en [PRIVACIDAD.md](PRIVACIDAD.md) (es/en). Guía de configuración en [MONETIZACION.md](MONETIZACION.md). Plantilla en `.env.example`.
+- **Licencia: GPL-3.0-or-later + excepción.** Dos motivos:
+  - los SDK de anuncios y Steamworks no son libres;
+  - pdf.js y Dexie son Apache-2.0, incompatibles con GPL-2.0.
+
+  Para poder cambiar la licencia se **reescribieron desde cero los atajos de teclado**, sin código de stremio-web (`keys.ts`, `Shortcuts.tsx`, `ShortcutsHelp.tsx`). Detalle en [LICENSE-EXCEPTION.md](../LICENSE-EXCEPTION.md). La v0.1.0 publicada sigue siendo GPL-2.0.
+- Versión **0.2.0** (`package.json`, Android `versionCode 2`). La versión de Ajustes ahora se lee de `package.json`.
+
+**Problemas encontrados**
+- Las teclas `1`–`7` no cambiaban de sección: el combo tenía 7 teclas y el comparador solo aceptaba una. Ahora varias teclas en un combo son alternativas.
+- La versión de Ajustes mostraba 0.1.0: `npm_package_version` no siempre existe. Se importa `package.json` en `vite.config.ts`.
+- El plugin de AdMob no exporta `PrivacyOptionsRequirementStatus`: se compara con el texto `'REQUIRED'`.
+
+**Probado**
+- **Navegador**:
+  - `1`, `2` y `7` navegan;
+  - `?` y Ctrl + / abren la ayuda y Esc la cierra;
+  - `0` enfoca el buscador;
+  - Ajustes muestra v0.2.0 y GPL-3.0;
+  - sin clave de PostHog no aparece el aviso.
+- **Emulador**: el banner "Test Ad" aparece en Inicio y Explorar sobre las pestañas y desaparece en Biblioteca.
+
+**Pendiente (lo tiene que hacer el usuario)**
+- Crear cuenta de PostHog (UE) y pasar la clave `phc_…`.
+- Crear cuenta de AdMob y pasar el ID de la app y del banner.
+- Elegir el enlace de donaciones (Ko-fi o GitHub Sponsors).
+
 ## 2026-11-06 — Claude Code en Android Studio, licencia GPL y atajos de teclado
 
 **Pedidos del usuario**: conectar Claude Code a Android Studio ("muestra los bugs"); hacer Readora **GPL** para aprovechar código de stremio-web.

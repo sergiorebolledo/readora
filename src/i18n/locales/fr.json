@@ -234,11 +234,14 @@
     "about": "À propos",
     "aboutText": "{{name}} est une application de lecture gratuite et ouverte pour PC, Android et Steam.",
     "credits": "Crédits",
-    "creditsText": "Design et raccourcis clavier basés sur Stremio. Livres gratuits de Project Gutenberg et d’Open Library. Icônes de Lucide.",
+    "creditsText": "Design inspiré de Stremio. Livres gratuits de Project Gutenberg et d’Open Library. Icônes de Lucide.",
     "license": "Open source",
-    "licenseText": "{{name}} est un logiciel libre sous licence GPL-2.0 : vous pouvez l’utiliser, l’étudier, le modifier et le partager. Il inclut du code adapté de stremio-web (© Smart Code, GPL-2.0).",
+    "licenseText": "{{name}} est un logiciel libre sous licence GPL-3.0 : vous pouvez l’utiliser, l’étudier, le modifier et le partager.",
     "licenseLink": "Lire la licence",
-    "sourceLink": "Voir le code source"
+    "sourceLink": "Voir le code source",
+    "donateTitle": "Soutenez Readora",
+    "donateText": "{{name}} est gratuit et open source. S’il vous plaît, vous pouvez aider à le faire vivre.",
+    "donateButton": "Faire un don"
   },
   "errors": {
     "network": "Impossible de joindre la source. Vérifiez votre connexion internet.",
@@ -269,5 +272,20 @@
       "pageDown": "Page suiv."
     },
     "hint": "Appuyez sur ? sur n’importe quel écran pour voir cette liste."
+  },
+  "privacy": {
+    "title": "Confidentialité",
+    "bannerTitle": "Nous aider à améliorer Readora ?",
+    "bannerText": "Partagez des statistiques d’utilisation anonymes (sections utilisées, formats lus). Nous n’envoyons jamais vos livres, titres ni recherches.",
+    "accept": "Partager",
+    "decline": "Non merci",
+    "settingTitle": "Partager des statistiques anonymes",
+    "settingText": "Nous aide à savoir quelles fonctions sont utilisées. N’inclut jamais vos livres, titres ni recherches.",
+    "adsNote": "La version Android affiche des publicités sur Accueil et Explorer (jamais pendant la lecture).",
+    "policyLink": "Politique de confidentialité",
+    "adOptions": "Options de confidentialité des publicités"
+  },
+  "ads": {
+    "label": "Publicité"
   }
 }

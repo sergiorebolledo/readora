@@ -3,6 +3,7 @@ import { ChevronLeft } from 'lucide-react'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { db, saveProgress, type Book } from '../db'
+import { track } from '../lib/analytics'
 import { go, useSetting } from '../lib/hooks'
 import { useShortcut } from '../lib/shortcuts/Shortcuts'
 import { CbzReader } from './CbzReader'
@@ -56,6 +57,7 @@ function ReaderShell({ book }: { book: Book }) {
       const s = session.current
       const seconds = Math.round((Date.now() - s.startedAt) / 1000)
       if (seconds >= 5) {
+        track('reading_session', { format: book.format, minutes: Math.round(seconds / 6) / 10, pages: Math.max(0, s.lastPage - s.fromPage) })
         db.sessions.add({
           bookId: book.id,
           startedAt: s.startedAt,
@@ -76,7 +78,9 @@ function ReaderShell({ book }: { book: Book }) {
       window.removeEventListener('pagehide', flush)
       flush()
     }
-  }, [book.id])
+  }, [book.id, book.format])
+
+  useEffect(() => track('book_opened', { format: book.format }), [book.id, book.format])
 
   const onLocate = useCallback(
     (page: number, total: number, location: string | null) => {

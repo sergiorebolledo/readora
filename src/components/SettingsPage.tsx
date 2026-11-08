@@ -1,11 +1,15 @@
-import { Check, Code2, ExternalLink, Keyboard, Languages, Scale } from 'lucide-react'
+import { BarChart3, Check, Code2, ExternalLink, Heart, Keyboard, Languages, Scale } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { APP_NAME, SOURCE_URL } from '../brand'
+import { APP_NAME, DONATE_URL, PRIVACY_URL, SOURCE_URL } from '../brand'
+import { adPrivacyOptionsRequired, adsSupported, showAdPrivacyOptions } from '../lib/ads'
+import { analyticsAvailable, setConsent, track } from '../lib/analytics'
 import { LANGUAGES } from '../i18n'
 import { LANGS } from '../sources'
-import { ShortcutsList } from './ShortcutsModal'
+import { useConsent } from './ConsentBanner'
+import { ShortcutsTable } from './ShortcutsHelp'
 
-const GPL_URL = 'https://www.gnu.org/licenses/old-licenses/gpl-2.0.html'
+const LICENSE_URL = 'https://github.com/sergiorebolledo/readora/blob/main/LICENSE-EXCEPTION.md'
 
 const CREDITS = [
   { name: 'Stremio', url: 'https://github.com/Stremio/stremio-web' },
@@ -23,6 +27,7 @@ export function SettingsPage() {
 
   function changeLanguage(code: string) {
     i18n.changeLanguage(code)
+    track('language_changed', { language: code })
     // El idioma de los libros en Explorar acompaña al de la app (se puede cambiar después en Explorar).
     if ((LANGS as string[]).includes(code)) localStorage.setItem('estante:explorar:idioma', JSON.stringify(code))
   }
@@ -65,7 +70,7 @@ export function SettingsPage() {
         </h2>
         <p className="mb-4 text-sm text-muted">{t('shortcuts.hint')}</p>
         <div className="rounded-2xl border border-line bg-surface p-5">
-          <ShortcutsList />
+          <ShortcutsTable />
         </div>
       </section>
 
@@ -88,11 +93,26 @@ export function SettingsPage() {
           <a href={SOURCE_URL} target="_blank" rel="noreferrer" className="flex items-center gap-1.5 rounded-full bg-accent px-4 py-1.5 text-sm font-semibold shadow-lg shadow-accent/30 hover:bg-accent-2">
             <Code2 className="h-4 w-4" /> {t('settings.sourceLink')}
           </a>
-          <a href={GPL_URL} target="_blank" rel="noreferrer" className="flex items-center gap-1 rounded-full border border-line px-4 py-1.5 text-sm text-muted hover:text-white">
-            {t('settings.licenseLink')} (GPL-2.0) <ExternalLink className="h-3.5 w-3.5" />
+          <a href={LICENSE_URL} target="_blank" rel="noreferrer" className="flex items-center gap-1 rounded-full border border-line px-4 py-1.5 text-sm text-muted hover:text-white">
+            {t('settings.licenseLink')} (GPL-3.0) <ExternalLink className="h-3.5 w-3.5" />
           </a>
         </div>
       </section>
+
+      {DONATE_URL && (
+        <section className="mt-8 flex items-center gap-4 rounded-2xl border border-accent/40 bg-accent/10 p-5">
+          <Heart className="h-6 w-6 shrink-0 text-pink-300" />
+          <div className="min-w-0 flex-1">
+            <h2 className="font-semibold">{t('settings.donateTitle')}</h2>
+            <p className="text-sm text-muted">{t('settings.donateText', { name: APP_NAME })}</p>
+          </div>
+          <a href={DONATE_URL} target="_blank" rel="noreferrer" className="shrink-0 rounded-full bg-pink-400 px-4 py-2 text-sm font-semibold text-black hover:bg-pink-300">
+            {t('settings.donateButton')}
+          </a>
+        </section>
+      )}
+
+      <PrivacySection />
 
       <section className="mt-8">
         <h2 className="mb-2 text-xs font-semibold uppercase tracking-widest text-accent-2">{t('settings.credits')}</h2>
@@ -106,5 +126,50 @@ export function SettingsPage() {
         </div>
       </section>
     </div>
+  )
+}
+
+/** Privacidad: permiso de estadísticas anónimas y enlace a la política. */
+function PrivacySection() {
+  const { t } = useTranslation()
+  const consent = useConsent()
+  const on = consent === 'granted'
+  const [adOptions, setAdOptions] = useState(false)
+  useEffect(() => {
+    if (adsSupported) adPrivacyOptionsRequired().then(setAdOptions)
+  }, [])
+  return (
+    <section className="mt-8">
+      <h2 className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-widest text-accent-2">
+        <BarChart3 className="h-4 w-4" /> {t('privacy.title')}
+      </h2>
+      {analyticsAvailable && (
+        <label className="flex cursor-pointer items-start justify-between gap-4 rounded-2xl border border-line bg-surface p-4">
+          <span>
+            <span className="block text-sm font-semibold">{t('privacy.settingTitle')}</span>
+            <span className="mt-0.5 block text-sm text-muted">{t('privacy.settingText')}</span>
+          </span>
+          <button
+            role="switch"
+            aria-checked={on}
+            onClick={() => setConsent(on ? 'denied' : 'granted')}
+            className={`relative mt-1 h-6 w-11 shrink-0 rounded-full transition-colors ${on ? 'bg-accent' : 'bg-surface-2'}`}
+          >
+            <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${on ? 'left-[22px]' : 'left-0.5'}`} />
+          </button>
+        </label>
+      )}
+      {adOptions && (
+        <button onClick={() => showAdPrivacyOptions()} className="mt-3 rounded-full border border-line px-4 py-1.5 text-sm hover:bg-surface-2">
+          {t('privacy.adOptions')}
+        </button>
+      )}
+      <p className="mt-2 text-sm text-muted">
+        {t('privacy.adsNote')}{' '}
+        <a href={PRIVACY_URL} target="_blank" rel="noreferrer" className="text-accent-2 hover:text-white">
+          {t('privacy.policyLink')}
+        </a>
+      </p>
+    </section>
   )
 }

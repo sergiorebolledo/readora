@@ -3,7 +3,7 @@
 Biblioteca personal de libros con estilo de catálogo (inspirado en Stremio) para PC, Android y Steam.
 Agrega tus PDF, EPUB, TXT y cómics CBZ y verás sus portadas, sabrás en qué página vas, tendrás tu historial de lectura y recordatorios.
 
-> App **gratuita**, **de código abierto (GPL-2.0)** y **multilingüe** (español, inglés, portugués y francés).
+> App **gratuita**, **de código abierto (GPL-3.0)** y **multilingüe** (español, inglés, portugués y francés).
 
 ## Descargar
 
@@ -42,12 +42,18 @@ Otros comandos:
 - Funciona sin internet; los datos quedan en el dispositivo.
 - **Ajustes**: idioma de la app (ES, EN, PT, FR), acerca de y créditos.
 - **Android**: APK con notificaciones nativas para los recordatorios.
-- **Atajos de teclado** (adaptados de Stremio): `1`–`7` secciones, `/` buscar, `F` pantalla completa, `?` ver todos; en el lector ← → Espacio, `+`/`-` letra, `H` ocultar controles.
+- **Atajos de teclado**: `1`–`7` secciones, `/` buscar, `F` pantalla completa, `?` ver todos; en el lector ← → Espacio, `+`/`-` letra, `H` ocultar controles.
 
 ## Licencia
 
-Readora es software libre bajo la [GNU GPL versión 2](LICENSE) (GPL-2.0-only). Código fuente: https://github.com/sergiorebolledo/readora
-Incluye código adaptado de [stremio-web](https://github.com/Stremio/stremio-web) (© Smart Code, GPL-2.0); los archivos que lo contienen lo indican en su encabezado. Ver [docs/IDEAS-STREMIO.md](docs/IDEAS-STREMIO.md).
+Readora es software libre bajo la [GNU GPL versión 3 o posterior](LICENSE), con una [excepción](LICENSE-EXCEPTION.md) que permite usar los SDK de Google Mobile Ads y Steamworks. Código fuente: https://github.com/sergiorebolledo/readora
+(La v0.1.0 se publicó como GPL-2.0 con código de stremio-web; desde la v0.2.0 ese código se reescribió.)
+
+## Privacidad, anuncios y donaciones
+
+- Estadísticas de uso **anónimas y opcionales** con PostHog (servidor en la UE). Nunca se envían libros, títulos ni búsquedas.
+- La versión de Android muestra un banner de AdMob en Inicio y Explorar (nunca en el lector).
+- Política: [docs/PRIVACIDAD.md](docs/PRIVACIDAD.md) · Configuración: [docs/MONETIZACION.md](docs/MONETIZACION.md)
 
 ## Documentación
 
@@ -60,6 +66,8 @@ Incluye código adaptado de [stremio-web](https://github.com/Stremio/stremio-web
 | [docs/FUENTES.md](docs/FUENTES.md) | Explorar y Fuentes: cómo funcionan y cómo agregar una |
 | [docs/IDIOMAS.md](docs/IDIOMAS.md) | Traducciones y cómo agregar un idioma |
 | [docs/ANDROID.md](docs/ANDROID.md) | Compilar e instalar la app de Android |
+| [docs/MONETIZACION.md](docs/MONETIZACION.md) | Analítica (PostHog), anuncios (AdMob) y donaciones |
+| [docs/PRIVACIDAD.md](docs/PRIVACIDAD.md) | Política de privacidad (es/en) |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Fases del proyecto |
 | [docs/STEAM.md](docs/STEAM.md) | Plan para publicar en Steam |
 | [docs/BITACORA.md](docs/BITACORA.md) | Registro de avances por sesión |

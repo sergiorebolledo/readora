@@ -22,7 +22,10 @@
 - [x] Descargas con HTTP nativo en Android
 - [ ] Descargas con HTTP nativo en PC (Tauri)
 - [x] Ajustes: idioma, acerca de, créditos
-- [x] Licencia GPL-2.0 y atajos de teclado adaptados de stremio-web
+- [x] Licencia GPL-2.0 y atajos de teclado adaptados de stremio-web (v0.1)
+- [x] v0.2: licencia GPL-3.0 + excepción, atajos reescritos sin código de Stremio
+- [x] v0.2: analítica opcional con PostHog, banner AdMob en Android, donaciones ([MONETIZACION.md](MONETIZACION.md))
+- [ ] Cuentas reales de PostHog y AdMob, enlace de donaciones, `app-ads.txt`
 - [x] Código fuente público en GitHub y enlazado desde Ajustes
 - [ ] Ajustes: tema, color de acento, copia de seguridad
 - [ ] Calendario de lectura y metas

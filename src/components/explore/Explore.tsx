@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight, Puzzle, RotateCw } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { db } from '../../db'
+import { track } from '../../lib/analytics'
 import { go } from '../../lib/hooks'
 import { LANGS, getSource, useEnabledSources, useExploreLang, type CatalogItem, type Lang, type Source } from '../../sources'
 import { ExploreCard, SkeletonCards } from './ExploreCard'
@@ -35,6 +36,9 @@ export function Explore({ sourceId, catalogId, search }: { sourceId?: string; ca
   const { t } = useTranslation()
   const catName = (id: string) => t(`catalog.${id}`)
   const query = useDebounced(search.trim(), 500)
+  useEffect(() => {
+    if (query) track('explore_searched', { language: lang })
+  }, [query, lang])
 
   const source = getSource(sourceId)
   const catalog = source?.catalogs.find((c) => c.id === catalogId)

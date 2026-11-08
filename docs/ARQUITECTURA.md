@@ -75,6 +75,22 @@ Se usa enrutado por **hash** porque funciona igual en navegador, Capacitor (Andr
 
 - Definiciones: [`src/lib/shortcuts/definitions.ts`](../src/lib/shortcuts/definitions.ts) (grupos, nombres, teclas y clave de traducción).
 - Motor: [`src/lib/shortcuts/Shortcuts.tsx`](../src/lib/shortcuts/Shortcuts.tsx) — `ShortcutsProvider` escucha el teclado; los atajos generales los resuelve `App.tsx` y cada pantalla se suscribe a los suyos con `useShortcut('nombre', fn)` (el lector usa `nextPage`, `prevPage`, etc.).
-- Ayuda: `?` o Ctrl + / abre [`ShortcutsModal`](../src/components/ShortcutsModal.tsx); la misma lista está en Ajustes.
+- Teclas: [`src/lib/shortcuts/keys.ts`](../src/lib/shortcuts/keys.ts) — `pressedKey` y `comboMatches`:
+  - varias teclas en un combo son alternativas (`1`…`7`);
+  - `Mod` significa Ctrl, o ⌘ en Mac;
+  - los símbolos se comparan por carácter, así que funcionan con teclado español e inglés.
+- Ayuda: `?` o Ctrl + / abre `ShortcutsDialog` ([`ShortcutsHelp.tsx`](../src/components/ShortcutsHelp.tsx)); la misma tabla (`ShortcutsTable`) está en Ajustes.
 - Para agregar un atajo: sumarlo a `definitions.ts`, traducir su `label` en los 4 idiomas (sección `shortcuts`) y manejarlo en `App.tsx` o con `useShortcut`.
-- Código adaptado de stremio-web (GPL-2.0): ver [IDEAS-STREMIO.md](IDEAS-STREMIO.md).
+- Escrito desde cero en v0.2 (ya no contiene código de stremio-web).
+
+## Analítica y anuncios
+
+- [`src/lib/analytics.ts`](../src/lib/analytics.ts):
+  - `track(evento, props)` está tipado con la interfaz `Events` y no hace nada sin consentimiento o sin clave;
+  - PostHog se carga con `import()` solo cuando hace falta;
+  - [`ConsentBanner.tsx`](../src/components/ConsentBanner.tsx) pregunta una vez y `useConsent()` sigue el estado (evento `readora:consent`).
+- [`src/lib/ads.ts`](../src/lib/ads.ts):
+  - `useBannerAd(visible)` en `App.tsx` muestra u oculta el banner nativo según la sección;
+  - la altura del banner se publica en `--ad-h` para dejarle espacio;
+  - el consentimiento UMP se pide en `startAds()`.
+- Detalle y configuración: [MONETIZACION.md](MONETIZACION.md).

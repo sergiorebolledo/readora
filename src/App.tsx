@@ -9,24 +9,33 @@ import { LibraryPage } from './components/LibraryPage'
 import { Navbar } from './components/Navbar'
 import { Reminders } from './components/Reminders'
 import { SettingsPage } from './components/SettingsPage'
-import { ShortcutsModal } from './components/ShortcutsModal'
+import { ShortcutsDialog } from './components/ShortcutsHelp'
 import { SourcesPage } from './components/SourcesPage'
 import { Explore } from './components/explore/Explore'
 import { Reader } from './reader/Reader'
 import { go, useRoute } from './lib/hooks'
+import { ConsentBanner } from './components/ConsentBanner'
+import { useBannerAd } from './lib/ads'
+import { initAnalytics, trackScreen } from './lib/analytics'
 import { isNative, startReminderScheduler } from './lib/reminders'
 import { ShortcutsProvider } from './lib/shortcuts/Shortcuts'
 import { NAVIGATE_TABS_ROUTES, type ShortcutName } from './lib/shortcuts/definitions'
 
-/** Envuelve la app con los atajos de teclado (adaptados de stremio-web) y su ventana de ayuda. */
+/** Envuelve la app con los atajos de teclado y su ventana de ayuda. */
 export default function App() {
   const [section] = useRoute()
   const [showShortcuts, setShowShortcuts] = useState(false)
   const reading = useRef(false)
+
+  useEffect(() => initAnalytics(), [])
+  // Anuncio (Android): solo en Inicio y Explorar, nunca en el lector.
+  useBannerAd(!section || section === 'explorar')
+  // Solo la sección (leer, explorar…), nunca identificadores de libros.
+  useEffect(() => trackScreen(section ?? ''), [section])
   reading.current = section === 'leer'
 
   // Devuelve false si el atajo no se usó, para no bloquear la tecla.
-  const onShortcut = useCallback((name: ShortcutName, _combo: number, key: string) => {
+  const onShortcut = useCallback((name: ShortcutName, key: string) => {
     switch (name) {
       case 'shortcuts':
         setShowShortcuts((v) => !v)
@@ -64,9 +73,10 @@ export default function App() {
   }, [])
 
   return (
-    <ShortcutsProvider onShortcut={onShortcut}>
+    <ShortcutsProvider onGlobal={onShortcut}>
       <AppContent />
-      {showShortcuts && <ShortcutsModal onClose={() => setShowShortcuts(false)} />}
+      {section !== 'leer' && <ConsentBanner />}
+      {showShortcuts && <ShortcutsDialog onClose={() => setShowShortcuts(false)} />}
     </ShortcutsProvider>
   )
 }
@@ -120,7 +130,7 @@ function AppContent() {
     >
       <Navbar route={route} search={search} onSearch={setSearch} onFiles={importer.importFiles} />
 
-      <main className="min-h-screen pb-24 pt-20 sm:pb-12 sm:pl-20">
+      <main className="min-h-screen pb-[calc(6rem+var(--ad-h,0px))] pt-20 sm:pb-12 sm:pl-20">
         {section === 'historial' ? (
           <History />
         ) : section === 'recordatorios' ? (
@@ -146,7 +156,7 @@ function AppContent() {
         </div>
       )}
       {importer.status && (
-        <div className="fixed bottom-20 left-1/2 z-50 -translate-x-1/2 rounded-full bg-surface-2 px-5 py-2 text-sm shadow-xl sm:bottom-6">
+        <div className="fixed bottom-[calc(5rem+var(--ad-h,0px))] left-1/2 z-50 -translate-x-1/2 rounded-full bg-surface-2 px-5 py-2 text-sm shadow-xl sm:bottom-6">
           {importer.status}
         </div>
       )}

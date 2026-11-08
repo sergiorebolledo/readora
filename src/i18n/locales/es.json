@@ -234,11 +234,14 @@
     "about": "Acerca de",
     "aboutText": "{{name}} es una app de lectura gratuita y abierta para PC, Android y Steam.",
     "credits": "Créditos",
-    "creditsText": "Diseño y atajos de teclado basados en Stremio. Libros gratis de Project Gutenberg y Open Library. Iconos de Lucide.",
+    "creditsText": "Diseño inspirado en Stremio. Libros gratis de Project Gutenberg y Open Library. Iconos de Lucide.",
     "license": "Código abierto",
-    "licenseText": "{{name}} es software libre con licencia GPL-2.0: puedes usarlo, estudiarlo, modificarlo y compartirlo. Incluye código adaptado de stremio-web (© Smart Code, GPL-2.0).",
+    "licenseText": "{{name}} es software libre con licencia GPL-3.0: puedes usarlo, estudiarlo, modificarlo y compartirlo.",
     "licenseLink": "Ver la licencia",
-    "sourceLink": "Ver el código fuente"
+    "sourceLink": "Ver el código fuente",
+    "donateTitle": "Apoya a Readora",
+    "donateText": "{{name}} es gratis y de código abierto. Si te gusta, puedes ayudar a mantenerla.",
+    "donateButton": "Donar"
   },
   "errors": {
     "network": "No se pudo conectar con la fuente. Revisa tu conexión a internet.",
@@ -269,5 +272,20 @@
       "pageDown": "Av Pág"
     },
     "hint": "Pulsa ? en cualquier pantalla para ver esta lista."
+  },
+  "privacy": {
+    "title": "Privacidad",
+    "bannerTitle": "¿Nos ayudas a mejorar Readora?",
+    "bannerText": "Comparte estadísticas anónimas de uso (qué secciones usas, qué formatos lees). Nunca enviamos tus libros, títulos ni búsquedas.",
+    "accept": "Compartir",
+    "decline": "No, gracias",
+    "settingTitle": "Compartir estadísticas anónimas",
+    "settingText": "Nos ayuda a saber qué funciones se usan. No incluye tus libros, títulos ni búsquedas.",
+    "adsNote": "La versión de Android muestra anuncios en Inicio y Explorar (nunca mientras lees).",
+    "policyLink": "Política de privacidad",
+    "adOptions": "Opciones de privacidad de anuncios"
+  },
+  "ads": {
+    "label": "Anuncio"
   }
 }

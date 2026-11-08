@@ -1,5 +1,5 @@
 /**
- * Atajos de teclado de Readora (misma estructura que shortcuts.json de stremio-web).
+ * Atajos de teclado de Readora: grupos, nombres y teclas.
  * `label` es una clave de traducción (sección `shortcuts` de los archivos de idioma).
  * Teclas: nombres de `KeyboardEvent.key` normalizados ("F", "1", "ArrowLeft", "Space"…),
  * más los modificadores "Ctrl", "Shift" y "Mod" (⌘ en Apple, Ctrl en el resto).

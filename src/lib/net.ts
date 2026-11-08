@@ -10,6 +10,14 @@ import i18n from '../i18n'
  * - PC/Steam (Tauri): se usará el plugin HTTP de Tauri (pendiente).
  */
 export async function fetchBlob(url: string): Promise<Blob> {
+  // Solo descargas cifradas: una dirección http:// o rara (javascript:, file:…) que venga de un catálogo se rechaza.
+  let parsed: URL
+  try {
+    parsed = new URL(url)
+  } catch {
+    throw new Error(i18n.t('errors.network'))
+  }
+  if (parsed.protocol !== 'https:') throw new Error(i18n.t('errors.network'))
   if (Capacitor.isNativePlatform()) return fetchNative(url)
 
   const target = import.meta.env.DEV ? `/__proxy?url=${encodeURIComponent(url)}` : url

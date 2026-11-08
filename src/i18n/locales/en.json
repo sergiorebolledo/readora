@@ -79,11 +79,12 @@
     "statusLabel": "Status",
     "historyTitle": "History of this book",
     "neverOpened": "You haven't opened it yet.",
-    "sessionsSummary": "{{count}} sessions · {{time}} in total",
     "createReminder": "Create reminder",
     "remove": "Remove from library",
     "confirmRemove": "Remove “{{title}}” from your library?",
-    "coverOf": "Cover of {{title}}"
+    "coverOf": "Cover of {{title}}",
+    "sessionsSummary_one": "{{count}} session · {{time}} in total",
+    "sessionsSummary_other": "{{count}} sessions · {{time}} in total"
   },
   "reader": {
     "opening": "Opening…",
@@ -194,7 +195,7 @@
   },
   "sources": {
     "title": "Sources",
-    "subtitle": "Sources feed Discover with book catalogs. They work like Stremio add-ons: turn them on or off whenever you like.",
+    "subtitle": "Sources feed Discover with book catalogs. Turn them on or off whenever you like.",
     "online": "Online",
     "onDevice": "On this device",
     "catalogsInfo": "{{count}} catalogs · search included",
@@ -234,7 +235,7 @@
     "about": "About",
     "aboutText": "{{name}} is a free, open reading app for PC, Android and Steam.",
     "credits": "Credits",
-    "creditsText": "Design inspired by Stremio. Free books from Project Gutenberg and Open Library. Icons by Lucide.",
+    "creditsText": "Free books from Project Gutenberg and Open Library. Icons by Lucide.",
     "license": "Open source",
     "licenseText": "{{name}} is free software licensed under the GPL-3.0: you can use, study, modify and share it.",
     "licenseLink": "Read the license",

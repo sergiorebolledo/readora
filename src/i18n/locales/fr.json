@@ -79,11 +79,13 @@
     "statusLabel": "Statut",
     "historyTitle": "Historique de ce livre",
     "neverOpened": "Vous ne l'avez pas encore ouvert.",
-    "sessionsSummary": "{{count}} sessions · {{time}} au total",
     "createReminder": "Créer un rappel",
     "remove": "Retirer de la bibliothèque",
     "confirmRemove": "Retirer « {{title}} » de votre bibliothèque ?",
-    "coverOf": "Couverture de {{title}}"
+    "coverOf": "Couverture de {{title}}",
+    "sessionsSummary_one": "{{count}} session · {{time}} au total",
+    "sessionsSummary_other": "{{count}} sessions · {{time}} au total",
+    "sessionsSummary_many": "{{count}} sessions · {{time}} au total"
   },
   "reader": {
     "opening": "Ouverture…",
@@ -194,7 +196,7 @@
   },
   "sources": {
     "title": "Sources",
-    "subtitle": "Les sources alimentent Découvrir avec des catalogues de livres. Elles fonctionnent comme les extensions de Stremio : activez-les ou désactivez-les quand vous voulez.",
+    "subtitle": "Les sources alimentent Découvrir avec des catalogues de livres. Activez-les ou désactivez-les quand vous voulez.",
     "online": "En ligne",
     "onDevice": "Sur cet appareil",
     "catalogsInfo": "{{count}} catalogues · recherche incluse",
@@ -234,7 +236,7 @@
     "about": "À propos",
     "aboutText": "{{name}} est une application de lecture gratuite et ouverte pour PC, Android et Steam.",
     "credits": "Crédits",
-    "creditsText": "Design inspiré de Stremio. Livres gratuits de Project Gutenberg et d’Open Library. Icônes de Lucide.",
+    "creditsText": "Livres gratuits de Project Gutenberg et d’Open Library. Icônes de Lucide.",
     "license": "Open source",
     "licenseText": "{{name}} est un logiciel libre sous licence GPL-3.0 : vous pouvez l’utiliser, l’étudier, le modifier et le partager.",
     "licenseLink": "Lire la licence",

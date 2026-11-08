@@ -20,7 +20,7 @@ function devProxy(): Plugin {
             res.statusCode = 403
             return res.end('Dominio no permitido')
           }
-          const upstream = await fetch(target, { redirect: 'follow', headers: { 'User-Agent': 'Estante/0.1 (lector personal de libros)' } })
+          const upstream = await fetch(target, { redirect: 'follow', headers: { 'User-Agent': 'Readora-dev (lector de libros)' } })
           res.statusCode = upstream.status
           res.setHeader('Content-Type', upstream.headers.get('content-type') ?? 'application/octet-stream')
           res.end(Buffer.from(await upstream.arrayBuffer()))
@@ -33,8 +33,39 @@ function devProxy(): Plugin {
   }
 }
 
+/**
+ * Política de seguridad de contenido (CSP), solo en la versión compilada (en desarrollo Vite
+ * necesita scripts en línea). Si un libro o una página trae código malicioso, el navegador no
+ * lo ejecuta y no puede enviar datos a otros servidores.
+ * - connect-src https: → las fuentes de libros (Gutendex, Open Library, archive.org…) y PostHog.
+ * - 'wasm-unsafe-eval' → decodificadores de imágenes de pdf.js.
+ * - blob: → páginas de EPUB, portadas e imágenes guardadas en el dispositivo.
+ */
+const CSP = [
+  "default-src 'self'",
+  "script-src 'self' 'wasm-unsafe-eval' https://eu-assets.i.posthog.com https://us-assets.i.posthog.com",
+  "style-src 'self' 'unsafe-inline' blob:",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data: blob:",
+  "media-src 'self' blob:",
+  "connect-src 'self' blob: data: https:",
+  "frame-src 'self' blob:",
+  "worker-src 'self' blob:",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'none'",
+].join('; ')
+
+function contentSecurityPolicy(): Plugin {
+  return {
+    name: 'readora-csp',
+    apply: 'build',
+    transformIndexHtml: () => [{ tag: 'meta', attrs: { 'http-equiv': 'Content-Security-Policy', content: CSP }, injectTo: 'head-prepend' }],
+  }
+}
+
 export default defineConfig({
   define: { __APP_VERSION__: JSON.stringify(pkg.version) },
-  plugins: [react(), tailwindcss(), devProxy()],
+  plugins: [react(), tailwindcss(), devProxy(), contentSecurityPolicy()],
   server: { port: 5173 },
 })

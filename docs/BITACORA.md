@@ -2,6 +2,45 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (2) — Revisión completa: seguridad, UX/UI y guía de publicación
+
+**Pedido del usuario**:
+- dónde poner las claves;
+- un análisis completo: UX/UI, seguridad y que todo funcione;
+- cómo subir la app a Microsoft Store, Play Store y Steam.
+
+**Probado** (navegador en escritorio y móvil, y emulador Android con la versión compilada):
+- Inicio, Explorar (descargar un libro), ficha del libro, lector EPUB, Historial, Recordatorios, Fuentes y Ajustes;
+- atajos de teclado;
+- el banner de prueba.
+
+**Problemas encontrados y corregidos**
+- **Lector EPUB, tema oscuro**: textos con color propio del libro (p. ej. "Translator: …") salían negros sobre negro. Ahora el tema fuerza el color en todo el texto.
+- **Ficha del libro**: la portada se estiraba al alto del panel y quedaba recortada.
+- "1 sesiones" → plurales correctos en los 4 idiomas.
+- Botón "+" del celular sin nombre para lectores de pantalla → `aria-label`.
+- Biblioteca vacía sin salida → botón "Buscar libros gratis".
+- Textos visibles que nombraban a **Stremio** (Fuentes, créditos) → quitados: las tiendas revisan el uso de marcas ajenas.
+
+**Seguridad**
+- **CSP** en la versión compilada (`vite.config.ts`). En el emulador bloqueaba los estilos de los EPUB (`blob:`); se agregó `blob:` a `style-src` y se volvió a verificar.
+- Las descargas solo aceptan `https://` (`net.ts`).
+- Los EPUB no ejecutan scripts (verificado: el marco aislado los bloquea).
+- Se quitó el permiso `SCHEDULE_EXACT_ALARM`: Google Play pide justificarlo y los recordatorios funcionan sin él.
+- **Firma de Android** preparada:
+  - `build.gradle` lee `android/keystore.properties`;
+  - ese archivo y `*.jks` están en `.gitignore`.
+- `npm audit`: el aviso de `@xmldom/xmldom` (dentro de epubjs) no aplica en la app, que usa el parser del navegador. Los demás avisos son de herramientas de desarrollo.
+
+**Documentado**: [PUBLICAR.md](PUBLICAR.md) explica:
+- dónde va cada clave;
+- la firma;
+- Google Play: prueba cerrada de 12 personas por 14 días y respuestas de los formularios;
+- Microsoft Store: cuenta gratis;
+- Steam: 100 USD y **anuncios prohibidos**.
+
+**Hallazgo importante**: para Microsoft Store y Steam hace falta la **app de escritorio con Tauri**. La versión web no puede descargar de Project Gutenberg (CORS).
+
 ## 2026-11-08 — v0.2: analítica, anuncios, donaciones y licencia GPL-3.0
 
 **Pedido del usuario**: un servicio de analítica gratuito (PostHog) para ver cómo se usa la app, y ponerle publicidad. Respuestas: monetizar con **anuncios y donaciones** ("Ambos"); analítica **con PostHog**.

@@ -68,6 +68,7 @@ Readora es software libre bajo la [GNU GPL versión 3 o posterior](LICENSE), con
 | [docs/ANDROID.md](docs/ANDROID.md) | Compilar e instalar la app de Android |
 | [docs/MONETIZACION.md](docs/MONETIZACION.md) | Analítica (PostHog), anuncios (AdMob) y donaciones |
 | [docs/PRIVACIDAD.md](docs/PRIVACIDAD.md) | Política de privacidad (es/en) |
+| [docs/PUBLICAR.md](docs/PUBLICAR.md) | Dónde van las claves y cómo publicar en Google Play, Microsoft Store y Steam |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | Fases del proyecto |
 | [docs/STEAM.md](docs/STEAM.md) | Plan para publicar en Steam |
 | [docs/BITACORA.md](docs/BITACORA.md) | Registro de avances por sesión |

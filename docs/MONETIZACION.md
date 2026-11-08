@@ -8,7 +8,9 @@ Readora es gratis. Para sostenerla y saber cómo se usa tiene tres piezas, todas
 | Anuncios | [Google AdMob](https://admob.google.com) | Solo Android | `src/lib/ads.ts` |
 | Donaciones | GitHub Sponsors, Ko-fi… (un enlace) | Todas | `src/brand.ts` (`DONATE_URL`) |
 
-La política de privacidad pública está en [PRIVACIDAD.md](PRIVACIDAD.md). Google Play pide su enlace.
+La política de privacidad pública está en [PRIVACIDAD.md](PRIVACIDAD.md). Google Play pide su enlace. Cómo publicar en cada tienda: [PUBLICAR.md](PUBLICAR.md).
+
+> **Steam prohíbe los anuncios** y en PC no hay SDK de AdMob: la versión de escritorio se sostiene solo con donaciones.
 
 ## Analítica (PostHog)
 

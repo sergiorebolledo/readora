@@ -21,7 +21,12 @@ export function EpubReader({ book, onLocate, nav, theme, fontSize }: FormatReade
       epub = ePub(buffer)
       const r = epub.renderTo(host.current!, { width: '100%', height: '100%', flow: 'paginated', spread: 'auto', allowScriptedContent: false })
       for (const [name, c] of Object.entries(THEMES)) {
-        r.themes.register(name, { body: { background: `${c.bg} !important`, color: `${c.fg} !important` }, a: { color: 'inherit !important' } })
+        r.themes.register(name, {
+          body: { background: `${c.bg} !important`, color: `${c.fg} !important` },
+          // El CSS del libro puede fijar colores propios (p. ej. texto gris oscuro): se fuerzan los del tema para que siempre se lea.
+          'body *': { color: 'inherit !important', 'background-color': 'transparent !important' },
+          a: { color: 'inherit !important' },
+        })
       }
       r.themes.select(theme)
       r.themes.fontSize(`${fontSize}%`)

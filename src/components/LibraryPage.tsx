@@ -61,7 +61,14 @@ export function LibraryPage({ shelfId, search }: { shelfId?: string; search: str
           ))}
         </div>
       ) : (
-        <p className="py-16 text-center text-muted">{t('library.empty')}</p>
+        <div className="flex flex-col items-center gap-4 py-16 text-center">
+          <p className="text-muted">{t('library.empty')}</p>
+          {!books.length && (
+            <button onClick={() => go('explorar')} className="rounded-full bg-accent px-5 py-2 text-sm font-semibold shadow-lg shadow-accent/30 hover:bg-accent-2">
+              {t('home.goExplore')}
+            </button>
+          )}
+        </div>
       )}
     </div>
   )

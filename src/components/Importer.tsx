@@ -59,6 +59,7 @@ export function ImportButton({ onFiles, big = false }: { onFiles: (f: FileList) 
       />
       <button
         onClick={() => input.current?.click()}
+        aria-label={big ? undefined : t('import.button')}
         className={
           big
             ? 'flex items-center gap-2 rounded-full bg-accent px-8 py-3 text-lg font-semibold shadow-lg shadow-accent/30 hover:bg-accent-2'

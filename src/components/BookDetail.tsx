@@ -41,7 +41,7 @@ export function BookDetail({ id }: { id: string }) {
           <X className="h-4 w-4" />
         </button>
         <div className="flex flex-col gap-6 p-6 sm:flex-row">
-          <Cover book={book} className="mx-auto w-44 shrink-0 shadow-xl sm:mx-0" />
+          <Cover book={book} className="mx-auto w-44 shrink-0 self-start shadow-xl sm:mx-0" />
           <div className="min-w-0 flex-1">
             <h2 className="pr-8 text-2xl font-bold">{book.title}</h2>
             <p className="text-muted">{book.author}</p>

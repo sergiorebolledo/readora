@@ -16,3 +16,7 @@ tsconfig.tsbuildinfo
 .claude/
 .vscode/
 .idea/
+
+# Firma de Android (contraseñas): nunca subir
+keystore.properties
+android/keystore.properties

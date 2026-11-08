@@ -26,6 +26,10 @@
 - [x] v0.2: licencia GPL-3.0 + excepción, atajos reescritos sin código de Stremio
 - [x] v0.2: analítica opcional con PostHog, banner AdMob en Android, donaciones ([MONETIZACION.md](MONETIZACION.md))
 - [ ] Cuentas reales de PostHog y AdMob, enlace de donaciones, `app-ads.txt`
+- [x] Revisión de seguridad (CSP, descargas solo HTTPS, permisos mínimos) y de UX/UI (2026-11-08)
+- [ ] Publicar en Google Play: firma, prueba cerrada (12 personas, 14 días), formularios ([PUBLICAR.md](PUBLICAR.md))
+- [ ] App de escritorio con Tauri (requisito para Microsoft Store y Steam)
+- [ ] Publicar en Microsoft Store y Steam (sin anuncios en PC)
 - [x] Código fuente público en GitHub y enlazado desde Ajustes
 - [ ] Ajustes: tema, color de acento, copia de seguridad
 - [ ] Calendario de lectura y metas

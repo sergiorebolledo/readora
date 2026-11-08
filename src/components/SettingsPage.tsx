@@ -12,7 +12,6 @@ import { ShortcutsTable } from './ShortcutsHelp'
 const LICENSE_URL = 'https://github.com/sergiorebolledo/readora/blob/main/LICENSE-EXCEPTION.md'
 
 const CREDITS = [
-  { name: 'Stremio', url: 'https://github.com/Stremio/stremio-web' },
   { name: 'Project Gutenberg', url: 'https://www.gutenberg.org' },
   { name: 'Open Library', url: 'https://openlibrary.org' },
   { name: 'Lucide', url: 'https://lucide.dev' },

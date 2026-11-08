@@ -48,6 +48,10 @@ La política de privacidad pública está en [PRIVACIDAD.md](PRIVACIDAD.md). Goo
 2. Copiar la *Project API key* (`phc_…`) en `.env.local` como `VITE_POSTHOG_KEY=phc_…`.
 3. `npm run build` (o reiniciar `npm run dev`). Los eventos se ven en PostHog → Activity.
 
+✅ Configurado el 2026-11-08: proyecto en la región UE, clave en `.env.local` del PC de compilación.
+
+> PostHog muestra durante el registro varios asistentes ("Install Logs", "Workflows", `npx @posthog/wizard`…). **No hay que instalarlos**: modificarían el código y Readora ya trae su integración. La clave sale con el botón **"Copy project token"**.
+
 ## Anuncios (AdMob, solo Android)
 
 - **Un solo banner adaptable**, encima de la barra de pestañas y **solo en Inicio y Explorar**. Nunca aparece en el lector ni en Ajustes.

@@ -2,6 +2,22 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (5) — Analítica PostHog activada
+
+**Pedido del usuario**: activar PostHog. El usuario pegó la clave del proyecto (`phc_…`).
+
+**Hecho**
+- Clave en `.env.local`, que no se sube a git.
+- No se usó el asistente de PostHog (`npx @posthog/wizard`, ni "ai-observability", que es para apps con IA): habría cambiado la integración propia de Readora.
+
+**Probado**
+- **Navegador**:
+  - sin aceptar, **no** se envía nada;
+  - con "Compartir", 3 envíos a `eu.i.posthog.com` respondieron 200.
+- **Emulador** (versión compilada con CSP):
+  - aparece el aviso;
+  - tras "Share", 2 envíos con respuesta 200, comprobados por DevTools del WebView.
+
 ## 2026-11-08 (4) — ID real de AdMob
 
 **Pedido del usuario**: colocar los IDs de AdMob que creó.

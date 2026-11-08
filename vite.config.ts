@@ -40,6 +40,9 @@ function devProxy(): Plugin {
  * - connect-src https: → las fuentes de libros (Gutendex, Open Library, archive.org…) y PostHog.
  * - 'wasm-unsafe-eval' → decodificadores de imágenes de pdf.js.
  * - blob: → páginas de EPUB, portadas e imágenes guardadas en el dispositivo.
+ * - ipc: y http://ipc.localhost → canal entre la página y Rust en la app de escritorio (Tauri 2).
+ *   La página se sirve desde http://tauri.localhost (Windows) o tauri://localhost (Linux), que es 'self'.
+ *   Las descargas con el plugin HTTP de Tauri también viajan por ese canal, así que la CSP no las frena.
  */
 const CSP = [
   "default-src 'self'",
@@ -48,7 +51,7 @@ const CSP = [
   "img-src 'self' data: blob: https:",
   "font-src 'self' data: blob:",
   "media-src 'self' blob:",
-  "connect-src 'self' blob: data: https:",
+  "connect-src 'self' blob: data: https: ipc: http://ipc.localhost",
   "frame-src 'self' blob:",
   "worker-src 'self' blob:",
   "object-src 'none'",

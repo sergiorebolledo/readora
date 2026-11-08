@@ -4,12 +4,16 @@ import { liveQuery } from 'dexie'
 import { db, type Reminder } from '../db'
 import i18n from '../i18n'
 import { dayKey } from './hooks'
+import { isDesktop } from './platform'
 
 /**
  * Recordatorios.
  * - Android (Capacitor): se programan notificaciones locales nativas que se repiten cada semana
  *   y llegan aunque la app esté cerrada. Se reprograman cada vez que cambian los recordatorios.
- * - Web / PC por ahora: la app revisa cada 30 s si toca algún aviso (solo con la app abierta).
+ * - PC (Tauri): la app revisa cada 30 s si toca algún aviso y lo muestra como notificación nativa de
+ *   Windows / Linux (plugin de notificaciones de Tauri). Solo con la app abierta: en escritorio Tauri no
+ *   puede programar avisos con la app cerrada.
+ * - Web: igual que en PC, pero con las notificaciones del navegador.
  */
 export const isNative = Capacitor.isNativePlatform()
 
@@ -20,6 +24,10 @@ export async function getNotificationPermission(): Promise<Permission> {
     const p = await LocalNotifications.checkPermissions()
     return p.display === 'granted' ? 'granted' : p.display === 'denied' ? 'denied' : 'default'
   }
+  if (isDesktop) {
+    const { isPermissionGranted } = await import('@tauri-apps/plugin-notification')
+    return (await isPermissionGranted()) ? 'granted' : 'default'
+  }
   if (!('Notification' in window)) return 'unsupported'
   return Notification.permission as Permission
 }
@@ -28,6 +36,10 @@ export async function askNotificationPermission(): Promise<Permission> {
   if (isNative) {
     const p = await LocalNotifications.requestPermissions()
     return p.display === 'granted' ? 'granted' : 'denied'
+  }
+  if (isDesktop) {
+    const { requestPermission } = await import('@tauri-apps/plugin-notification')
+    return (await requestPermission()) as Permission
   }
   if (!('Notification' in window)) return 'unsupported'
   return (await Notification.requestPermission()) as Permission
@@ -93,13 +105,23 @@ export function startReminderScheduler(onFire: (title: string, body: string) => 
       if (now.getHours() * 60 + now.getMinutes() - (h * 60 + m) > 15) continue
       const { title, body, link } = await texts(r)
       await db.reminders.update(r.id!, { lastFired: today })
-      notifyWeb(title, body, link)
+      if (isDesktop) notifyDesktop(title, body)
+      else notifyWeb(title, body, link)
       onFire(title, body)
     }
   }
   check()
   const id = window.setInterval(check, 30_000)
   return () => window.clearInterval(id)
+}
+
+async function notifyDesktop(title: string, body: string) {
+  try {
+    const { isPermissionGranted, sendNotification } = await import('@tauri-apps/plugin-notification')
+    if (await isPermissionGranted()) sendNotification({ title, body })
+  } catch (e) {
+    console.warn('No se pudo mostrar la notificación', e)
+  }
 }
 
 function notifyWeb(title: string, body: string, link: string) {

@@ -2,6 +2,48 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (3) — App de escritorio con Tauri 2 (Windows)
+
+**Pedido**: empaquetar Readora como app de escritorio para Windows (y Linux si es fácil). Es requisito para Microsoft Store y Steam.
+
+**Hecho**
+- **Tauri 2** en `src-tauri/`:
+  - `identifier` `app.readora`, nombre "Readora", versión tomada de `package.json`;
+  - íconos generados desde `resources/icon-only.png`;
+  - ventana de 1200×800 con fondo oscuro;
+  - arrastre de archivos de Tauri desactivado para que siga funcionando soltar libros en la página.
+- **Descargas** (`net.ts`): en escritorio `fetchBlob` usa `@tauri-apps/plugin-http`. Rust hace la petición, sin CORS.
+  - Lista blanca en `src-tauri/capabilities/default.json`: solo `https://` de gutenberg.org, gutendex.com, openlibrary.org y archive.org, con sus subdominios.
+- **Recordatorios** (`reminders.ts`): notificación nativa con `@tauri-apps/plugin-notification`. Solo con la app abierta, porque Tauri no programa avisos en escritorio.
+- **Enlaces externos** (`platform.ts`): se abren en el navegador del usuario con `@tauri-apps/plugin-opener`.
+- **Anuncios**: confirmado que AdMob no se carga en Tauri. `adsSupported` exige Android y en Tauri `Capacitor.getPlatform()` devuelve `web`.
+- **CSP**: `connect-src` suma `ipc:` y `http://ipc.localhost`, el canal de Tauri. El origen `http://tauri.localhost` ya cuenta como `'self'`.
+- **Analítica**: `platform` ahora distingue `android`, `desktop` y `web`.
+- **Herramientas instaladas** con `winget`, con permiso del usuario: Rust (rustup, stable MSVC) y Visual Studio 2022 Build Tools (C++ y SDK de Windows). Tauri descargó NSIS y WiX solo.
+- Scripts nuevos: `npm run desktop:dev` y `npm run desktop:build`.
+
+**Resultado** (`npm run desktop:build`):
+- `Readora_0.2.0_x64-setup.exe` (NSIS, 2,9 MB, se instala para el usuario sin pedir administrador);
+- `Readora_0.2.0_x64_es-ES.msi` y `_en-US.msi` (3,75 MB cada uno).
+- Tauri **no genera MSIX**. [PUBLICAR.md](PUBLICAR.md) explica las dos vías para la Store: subir el `.exe` firmado o convertirlo con MSIX Packaging Tool.
+
+**Probado** con la app instalada (WebView2 manejado por el protocolo de depuración):
+- abre en `http://tauri.localhost` sin errores en consola;
+- Explorar: descarga un EPUB de **Project Gutenberg** (El crimen y el castigo, 637 KB) y otro de **archive.org** vía Open Library (La isla del Tesoro, 2,2 MB);
+- lector **EPUB**: abre y avanza páginas;
+- lector **PDF**: abre un PDF de prueba de 3 páginas y pasa de página (pdf.js funciona con la CSP);
+- idioma: cambio a francés y de vuelta a español;
+- permisos:
+  - `https://example.com` y `http://www.gutenberg.org` se **rechazan** ("url not allowed on the configured scope");
+  - la notificación nativa se envía sin error.
+
+**Pendiente**
+- Compilar y probar la versión de Linux (`.deb`, AppImage). Hace falta Linux, WSL o GitHub Actions; desde Windows no se puede.
+- Firmar el instalador (certificado o Azure Trusted Signing) o empaquetar MSIX para la Store.
+- No se probó a mano:
+  - abrir un enlace externo en el navegador;
+  - soltar un archivo sobre la ventana.
+
 ## 2026-11-08 (2) — Revisión completa: seguridad, UX/UI y guía de publicación
 
 **Pedido del usuario**:

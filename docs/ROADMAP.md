@@ -20,7 +20,7 @@
 - [x] Nombre definitivo **Readora**, logo e íconos
 - [x] Multilingüe: español, inglés, portugués y francés ([IDIOMAS.md](IDIOMAS.md))
 - [x] Descargas con HTTP nativo en Android
-- [ ] Descargas con HTTP nativo en PC (Tauri)
+- [x] Descargas con HTTP nativo en PC (Tauri, 2026-11-08)
 - [x] Ajustes: idioma, acerca de, créditos
 - [x] Licencia GPL-2.0 y atajos de teclado adaptados de stremio-web (v0.1)
 - [x] v0.2: licencia GPL-3.0 + excepción, atajos reescritos sin código de Stremio
@@ -28,7 +28,7 @@
 - [ ] Cuentas reales de PostHog y AdMob, enlace de donaciones, `app-ads.txt`
 - [x] Revisión de seguridad (CSP, descargas solo HTTPS, permisos mínimos) y de UX/UI (2026-11-08)
 - [ ] Publicar en Google Play: firma, prueba cerrada (12 personas, 14 días), formularios ([PUBLICAR.md](PUBLICAR.md))
-- [ ] App de escritorio con Tauri (requisito para Microsoft Store y Steam)
+- [x] App de escritorio con Tauri para Windows: instaladores NSIS y MSI (2026-11-08). Requisito para Microsoft Store y Steam
 - [ ] Publicar en Microsoft Store y Steam (sin anuncios en PC)
 - [x] Código fuente público en GitHub y enlazado desde Ajustes
 - [ ] Ajustes: tema, color de acento, copia de seguridad
@@ -42,7 +42,7 @@
 - [ ] Portadas y metadatos desde Open Library cuando el archivo no los trae
 - [x] App Android con Capacitor: APK de prueba, notificaciones nativas, botón atrás ([ANDROID.md](ANDROID.md))
 - [ ] Android: abrir archivos desde otras apps, probar en teléfono real, APK firmado
-- [ ] App de escritorio con Tauri
+- [x] App de escritorio con Tauri (Windows). Falta: compilar y probar en Linux, firmar el instalador
 - [ ] Migrar almacenamiento a SQLite nativo + archivos en disco
 
 ## Fase 3 — Nube y Steam

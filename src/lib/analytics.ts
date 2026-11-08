@@ -1,5 +1,5 @@
 import type { PostHog } from 'posthog-js'
-import { Capacitor } from '@capacitor/core'
+import { platform } from './platform'
 import i18n from '../i18n'
 
 /**
@@ -121,5 +121,5 @@ export function trackScreen(section: string) {
 
 /** Se llama al abrir la app. */
 export function initAnalytics() {
-  track('app_opened', { platform: Capacitor.getPlatform(), language: i18n.resolvedLanguage ?? 'en', version: __APP_VERSION__ })
+  track('app_opened', { platform, language: i18n.resolvedLanguage ?? 'en', version: __APP_VERSION__ })
 }

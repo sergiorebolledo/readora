@@ -20,8 +20,8 @@ portadas grandes, filas de "Continuar leyendo", historial de lectura, página ac
 | Cómics CBZ | JSZip | Un CBZ es un ZIP de imágenes. |
 | TXT | Nativo | Se pagina por bloques de texto. |
 | App Android | Capacitor | Empaqueta la app web como APK/AAB nativo (Play Store). |
-| App PC / Steam | Tauri 2 | Instalador liviano (~10 MB) para Windows, Linux (Steam Deck) y macOS. |
-| Recordatorios | Notification API (web) / `@capacitor/local-notifications` (Android) | Avisos locales sin servidor. |
+| App PC / Steam | Tauri 2 (`src-tauri/`) | Instalador liviano para Windows, Linux (Steam Deck) y macOS. Usa el WebView del sistema (WebView2 en Windows). Plugins: `http` (descargas sin CORS), `notification` y `opener` (enlaces en el navegador). Detalle en [ARQUITECTURA.md](ARQUITECTURA.md#app-de-escritorio-tauri). |
+| Recordatorios | Notification API (web) / `@capacitor/local-notifications` (Android) / `@tauri-apps/plugin-notification` (PC) | Avisos locales sin servidor. |
 | Idiomas | i18next + react-i18next | Traducciones en JSON, plurales y detección del idioma del sistema ([IDIOMAS.md](IDIOMAS.md)). |
 | Iconos | lucide-react (ISC) | Iconos de línea consistentes. |
 | Sincronización (fase 2) | Supabase | Cuentas + Postgres + Storage para seguir leyendo en otro dispositivo. |
@@ -45,3 +45,13 @@ portadas grandes, filas de "Continuar leyendo", historial de lectura, página ac
 | DOCX | 🔜 Fase 2 | mammoth.js |
 
 > ⚠️ Los libros con **DRM** (Kindle, algunas tiendas) no se pueden abrir: es una restricción legal, no técnica.
+
+## Herramientas para compilar la app de escritorio (Windows)
+
+Instaladas el 2026-11-08 con `winget`:
+
+- **Rust** (`Rustlang.Rustup`, toolchain `stable-x86_64-pc-windows-msvc`). Tauri compila la parte nativa en Rust.
+- **Visual Studio 2022 Build Tools** con "Desarrollo de escritorio con C++" y el SDK de Windows (el enlazador de Rust para MSVC).
+- **WebView2**: ya viene con Windows 10/11. El instalador lo descarga si falta.
+- **NSIS** y **WiX**: Tauri los descarga solo la primera vez que genera los instaladores.
+- La app de Linux (`.deb`, AppImage) se compila **en Linux** (o en WSL / GitHub Actions); necesita `libwebkit2gtk-4.1-dev` y compañía (ver la guía de prerrequisitos de Tauri).

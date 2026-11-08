@@ -11,7 +11,9 @@ Steam acepta aplicaciones que no son juegos (categoría **Software / Utilities**
 
 ## Cómo encaja con nuestro stack
 
-- La versión de PC se compila con **Tauri** → genera `.exe` (Windows), binario Linux (Steam Deck) y `.app` (macOS).
+- La versión de PC se compila con **Tauri** (`src-tauri/`, lista desde el 2026-11-08) → `Readora.exe` (Windows), binario Linux (Steam Deck) y `.app` (macOS). Ver [ARQUITECTURA.md](ARQUITECTURA.md#app-de-escritorio-tauri).
+- Para Steam se sube la **carpeta del programa**, no el instalador: `src-tauri/target/release/Readora.exe` (Windows). En Windows, WebView2 ya viene con el sistema; si falta, se puede agregar como "redistributable" en Steamworks. En Linux/Steam Deck se sube el AppImage o el binario compilado en Linux.
+- **Sin anuncios**: Steam los prohíbe. Readora no carga AdMob fuera de Android (`ads.ts`), así que la build de PC ya cumple.
 - Esa carpeta se sube a Steam con **SteamPipe** (`steamcmd` + scripts `app_build.vdf`).
 - **Integración Steamworks** (opcional pero recomendada):
   - Logros ("Leíste tu primer libro", "Racha de 7 días") y **Steam Cloud** para sincronizar progreso sin servidor propio.
@@ -35,7 +37,8 @@ En la v0.2 se reescribió ese código y la licencia pasó a GPL-3.0 con una **ex
 ## Checklist (fase 3)
 
 - [ ] Crear cuenta Steamworks y pagar Steam Direct
-- [ ] Empaquetar con Tauri para Windows y Linux
+- [x] Empaquetar con Tauri para Windows (2026-11-08)
+- [ ] Compilar la versión de Linux (en Linux / WSL / GitHub Actions) y probarla en Steam Deck
 - [x] Decidir cómo integrar Steamworks sin romper la GPL (excepción en v0.2)
 - [ ] Integrar Steamworks (logros, Steam Cloud)
 - [ ] Soporte de mando / Steam Deck

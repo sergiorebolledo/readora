@@ -5,8 +5,8 @@ Guía paso a paso para **Google Play**, **Microsoft Store** y **Steam**. Revisad
 | Tienda | Costo de la cuenta | Qué se sube | ¿Anuncios? | Estado de Readora |
 |---|---|---|---|---|
 | Google Play | 25 USD (una vez) | `.aab` firmado | ✅ AdMob | Lista para preparar (falta la firma y las cuentas) |
-| Microsoft Store | Gratis (personas) | `.msix` o instalador `.exe`/`.msi` | ❌ (no hay SDK de anuncios para PC) | Falta la app de escritorio (Tauri) |
-| Steam | 100 USD por app (Steam Direct) | Build de Windows/Linux con SteamPipe | ❌ **Prohibidos** por Valve | Falta la app de escritorio (Tauri) |
+| Microsoft Store | Gratis (personas) | `.msix` o instalador `.exe`/`.msi` | ❌ (no hay SDK de anuncios para PC) | App de escritorio lista (Tauri); falta cuenta y envío |
+| Steam | 100 USD por app (Steam Direct) | Build de Windows/Linux con SteamPipe | ❌ **Prohibidos** por Valve | App de escritorio lista (Tauri); falta cuenta y envío |
 
 ---
 
@@ -143,31 +143,69 @@ Las cuentas personales creadas después de noviembre de 2023 deben hacer una **p
 
 ## 2. Microsoft Store (Windows)
 
-> ⚠️ **Antes hace falta la app de escritorio.** La versión web sola no sirve: Project Gutenberg no permite descargas desde una página web (CORS). Hay que empaquetar Readora con **Tauri**, que usa HTTP nativo como en Android. Ver el ROADMAP.
+La app de escritorio ya existe (Tauri 2, `src-tauri/`, desde el 2026-11-08). Descarga los libros con HTTP nativo, así que Gutenberg y archive.org funcionan aunque no permitan CORS.
 
-Con la app de escritorio lista:
+### 2.1 Generar el paquete
+
+Requisitos (una sola vez; ver [STACK.md](STACK.md#herramientas-para-compilar-la-app-de-escritorio-windows)): Rust y Visual Studio Build Tools con C++.
+
+```bash
+npm run desktop:build
+```
+
+Sale en `src-tauri/target/release/bundle/`:
+
+| Archivo | Para qué |
+|---|---|
+| `nsis/Readora_<versión>_x64-setup.exe` | Instalador recomendado. Se instala para el usuario actual (sin pedir administrador), en 4 idiomas. |
+| `msi/Readora_<versión>_x64_es-ES.msi` y `_en-US.msi` | Instalador MSI (empresas, Intune, `winget`). |
+| `../Readora.exe` | El programa sin instalador (para Steam). |
+
+La versión sale de `package.json`: subirla ahí antes de cada envío.
+
+> **MSIX**: Tauri **no** genera MSIX. Para la Store hay dos caminos.
+
+### 2.2 Opción A (recomendada para empezar): subir el instalador `.exe`
+
+Partner Center acepta apps Win32 con instalador `.exe`/`.msi`:
+
+1. Subir `Readora_<versión>_x64-setup.exe` a una **URL HTTPS fija con versión** (por ejemplo, un asset de GitHub Releases). La URL no puede cambiar de contenido después.
+2. El instalador debe estar **firmado** con un certificado de firma de código de una autoridad reconocida (Microsoft no lo firma por ti en esta opción). Alternativa más barata: **Azure Trusted Signing** (aprox. 10 USD/mes).
+   - Con el certificado: rellenar `bundle.windows.certificateThumbprint` (o `signCommand`) en `tauri.conf.json` y volver a compilar.
+3. En Partner Center → "Paquetes", elegir **EXE/MSI**, pegar la URL, arquitectura x64 e idiomas.
+4. **Instalación silenciosa**: con NSIS el parámetro es `/S`.
+
+### 2.3 Opción B: empaquetar como MSIX
+
+Con MSIX **Microsoft firma el paquete al publicar** (no hace falta certificado propio) y la Store gestiona las actualizaciones.
+
+1. Instalar **MSIX Packaging Tool** (gratis, desde la Microsoft Store).
+2. "Paquete de aplicación" → crear a partir de `Readora_<versión>_x64-setup.exe`, en una máquina limpia o VM, con instalación silenciosa `/S`.
+3. Identidad del paquete: copiar **Name**, **Publisher** (`CN=…`) y **PublisherDisplayName** de Partner Center → Administración de productos → Identidad del producto. Si no coinciden, la Store rechaza el paquete.
+4. Subir el `.msix` en Partner Center → Paquetes.
+
+Más adelante se puede automatizar con `makeappx` (SDK de Windows) y un `AppxManifest.xml` propio en lugar de la herramienta gráfica.
+
+### 2.4 Cuenta y ficha
 
 1. **Cuenta**:
    - https://storedeveloper.microsoft.com → cuenta **individual (gratis)**;
    - verificación con documento de identidad y selfie.
 2. **Reservar el nombre** "Readora" en Partner Center → Apps y juegos → Nueva app.
-3. **Paquete**. Hay dos opciones:
-   - **MSIX**: Tauri puede generarlo. Microsoft lo firma por ti al publicar, y es lo recomendado.
-   - **Instalador `.exe`/`.msi`** (de Tauri): debe estar **firmado con un certificado** y alojado en una URL HTTPS fija (por ejemplo GitHub Releases).
-4. **Ficha**:
+3. **Ficha**:
    - descripción;
    - capturas de 1366×768 o más;
    - icono;
    - clasificación por edad (cuestionario IARC);
    - enlace a la política de privacidad (obligatorio, porque hay analítica).
-5. **Precio**: Gratis. **Sin anuncios**: AdMob es solo para móviles y Microsoft cerró su SDK de anuncios para apps. En PC, Readora se sostiene con donaciones.
-6. **Enviar a certificación**: suele tardar de unas horas a 3 días hábiles. Si la rechazan, el informe dice qué corregir.
+4. **Precio**: Gratis. **Sin anuncios**: AdMob es solo para móviles (en PC `ads.ts` no lo carga) y Microsoft cerró su SDK de anuncios para apps. En PC, Readora se sostiene con donaciones.
+5. **Enviar a certificación**: suele tardar de unas horas a 3 días hábiles. Si la rechazan, el informe dice qué corregir.
 
 ---
 
 ## 3. Steam
 
-> ⚠️ También necesita la **app de escritorio (Tauri)**.
+> La **app de escritorio (Tauri)** ya está lista: para Steam se sube `src-tauri/target/release/Readora.exe` (ver [STEAM.md](STEAM.md)).
 >
 > **Steam prohíbe los anuncios**: Valve no permite modelos con publicidad. La versión de Steam es **sin anuncios** (como ya está diseñado: AdMob solo se activa en Android). Las donaciones se pueden mantener como un enlace externo. Si tienes dudas, consulta las reglas en "Advertising on Steam" de la documentación de Steamworks.
 

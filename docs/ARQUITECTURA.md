@@ -6,6 +6,8 @@
 biblioteca-app/
 ├── docs/                  Documentación (este archivo, stack, hoja de ruta, Steam, bitácora)
 ├── index.html             Punto de entrada HTML
+├── android/               Proyecto de Android (Capacitor), ver ANDROID.md
+├── src-tauri/             App de escritorio (Tauri 2): Rust, íconos, permisos e instaladores
 ├── src/
 │   ├── main.tsx           Arranque de React
 │   ├── App.tsx            Enrutado por secciones + programador de recordatorios
@@ -17,6 +19,8 @@ biblioteca-app/
 │   │   ├── pdf.ts         Configuración de pdf.js (worker)
 │   │   ├── cover.ts       Portada generada cuando el archivo no trae una
 │   │   ├── reminders.ts   Programador de recordatorios + notificaciones
+│   │   ├── net.ts         Descargas (fetchBlob): HTTP nativo en Android y PC, fetch en web
+│   │   ├── platform.ts    ¿Android, escritorio (Tauri) o web? + enlaces externos en el navegador
 │   │   └── hooks.ts       Enrutador por hash, preferencias, utilidades de fechas
 │   ├── components/
 │   │   ├── Navbar.tsx     Barra lateral de iconos (PC), buscador superior y pestañas inferiores (celular)
@@ -69,7 +73,7 @@ Se usa enrutado por **hash** porque funciona igual en navegador, Capacitor (Andr
 
 - **Archivos dentro de IndexedDB**: simple y offline, pero el navegador puede limitar el espacio. En las apps nativas se moverán a disco (sistema de archivos de Capacitor/Tauri) y se guardará solo la ruta.
 - **Páginas de EPUB**: un EPUB no tiene páginas fijas; se calculan bloques de 1.200 caracteres y se guardan en caché (`localStorage`). El progreso exacto se guarda con CFI, así que no se pierde la posición aunque cambie el tamaño de letra.
-- **Recordatorios en la web**: solo funcionan con la app abierta (aunque sea en otra pestaña). En Android/PC se usarán notificaciones locales nativas que funcionan con la app cerrada.
+- **Recordatorios**: en Android son notificaciones programadas que llegan con la app cerrada. En la web y en PC (Tauri) solo llegan con la app abierta: Tauri no puede programar avisos en escritorio. En PC el aviso es una notificación nativa de Windows/Linux.
 
 ## Atajos de teclado
 
@@ -94,3 +98,32 @@ Se usa enrutado por **hash** porque funciona igual en navegador, Capacitor (Andr
   - la altura del banner se publica en `--ad-h` para dejarle espacio;
   - el consentimiento UMP se pide en `startAds()`.
 - Detalle y configuración: [MONETIZACION.md](MONETIZACION.md).
+
+## App de escritorio (Tauri)
+
+La app de PC (Windows, Linux y, más adelante, Steam) es la misma versión web compilada (`dist`) dentro de una ventana de Tauri 2. Rust solo aporta tres plugins.
+
+| Archivo | Qué hace |
+|---|---|
+| `src-tauri/tauri.conf.json` | Nombre "Readora", `identifier` `app.readora`, versión tomada de `package.json`, ventana (1200×800, mínimo 360×500), instaladores (NSIS y MSI en Windows; `.deb` y AppImage en Linux). |
+| `src-tauri/src/lib.rs` | Registra los plugins `http`, `notification` y `opener`. |
+| `src-tauri/capabilities/default.json` | Permisos de la ventana. El plugin HTTP solo puede pedir a `https://` de gutenberg.org, gutendex.com, openlibrary.org y archive.org (y sus subdominios). |
+| `src-tauri/icons/` | Generados con `npx tauri icon resources/icon-only.png`. |
+| `src/lib/platform.ts` | `isDesktop` (con `isTauri()`), `platform` (`android` / `desktop` / `web`) y `openExternalLinksInBrowser()`. |
+
+Cómo se comporta cada parte en escritorio:
+
+- **Descargas** (`net.ts`): `fetchBlob` usa el `fetch` de `@tauri-apps/plugin-http`. La petición la hace Rust, así que no la frena el CORS de Gutenberg y archive.org. Un dominio fuera de la lista blanca da error de red.
+- **Recordatorios** (`reminders.ts`): la misma revisión cada 30 s que en la web, pero el aviso sale con `sendNotification` de `@tauri-apps/plugin-notification`.
+- **Anuncios** (`ads.ts`): `adsSupported` solo es verdadero en Android (`Capacitor.getPlatform()` devuelve `web` en Tauri), así que AdMob nunca se inicia en PC. Steam prohíbe anuncios.
+- **Enlaces externos**: los `target="_blank"` se abren con `openUrl` (plugin `opener`) en el navegador del usuario.
+- **Arrastrar y soltar**: `dragDropEnabled: false` en la ventana, para que la página reciba los archivos soltados (si no, Tauri se los queda).
+- **CSP** (`vite.config.ts`): la página se sirve desde `http://tauri.localhost` (Windows) o `tauri://localhost` (Linux), que cuenta como `'self'`. Se agregaron `ipc:` y `http://ipc.localhost` a `connect-src`, que es el canal entre la página y Rust. En `tauri.conf.json` `security.csp` queda en `null` para no tener dos políticas distintas.
+- **Datos**: IndexedDB del WebView2, en `%LOCALAPPDATA%\app.readora\EBWebView`. Desinstalar con "borrar datos" los elimina.
+
+Comandos:
+
+```bash
+npm run desktop:dev     # ventana de Tauri con recarga en caliente (Vite en :5173)
+npm run desktop:build   # instaladores en src-tauri/target/release/bundle/
+```

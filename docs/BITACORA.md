@@ -2,6 +2,25 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (7) — RevenueCat conectado y probado en el emulador
+
+**Hecho**
+- Clave pública de Android (`goog_…`) guardada en `.env.local` (solo en este PC, no se sube a GitHub).
+- Probado con la clave de **Test Store** de RevenueCat (compras simuladas), solo en una compilación de prueba:
+  - el precio aparece en Ajustes;
+  - "Test valid purchase" activa la suscripción;
+  - Ajustes muestra "Activo" con la fecha de renovación;
+  - el banner desaparece de Inicio.
+- La versión normal se compiló de nuevo con la clave `goog_`. Se comprobó que la clave de Test Store **no** está en `dist` ni en el APK.
+
+**Errores encontrados y corregidos**
+- `"Purchases.then()" is not implemented on android`: el plugin de Capacitor es un proxy y no se puede devolver desde una promesa. Ahora se guarda en una variable del módulo.
+- El permiso del proyecto de RevenueCat se llama `readora_pro`, no `sin_anuncios`. Como Readora solo vende "sin anuncios", ahora vale cualquier permiso activo (primero `sin_anuncios`).
+- El mensaje "¡Gracias!" salía aunque la compra no activara ningún permiso. Ahora solo sale si el permiso queda activo; si no, se muestra un error.
+
+**Importante**
+- La clave `test_…` nunca debe ir en `.env.local` ni en una versión publicada: RevenueCat cierra la app a propósito si detecta una clave de Test Store en producción.
+
 ## 2026-11-08 (6) — Suscripción "Readora sin anuncios"
 
 **Pedido del usuario**: un pago de 2 USD para quitar la publicidad por un mes.

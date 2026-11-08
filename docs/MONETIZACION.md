@@ -108,7 +108,12 @@ Por **2 USD al mes**, la persona no ve anuncios. La suscripción se renueva sola
    4. **Products**: importar `readora_sin_anuncios:mensual` y asignarlo al permiso `sin_anuncios`.
    5. **Offerings**: en la oferta `default` (marcada como actual), agregar un paquete **Monthly** con ese producto.
    6. **API keys**: copiar la clave **pública** de Android (empieza con `goog_`) a `.env.local` como `VITE_REVENUECAT_KEY`.
-5. **Probar**: en Play Console → Configuración → **Pruebas de licencia**, agregar tu cuenta de Gmail.
+5. **Probar sin Google Play** (opcional): RevenueCat → API keys → clave de **Test Store** (empieza con `test_`).
+   - Úsala solo al compilar, sin guardarla: `VITE_REVENUECAT_KEY=test_… npm run build`.
+   - Muestra un diálogo de compra simulada ("Test valid purchase").
+   - **Nunca** la publiques: RevenueCat cierra la app si la detecta en producción.
+   - El permiso puede llamarse `sin_anuncios` u otro nombre (p. ej. `readora_pro`): la app acepta cualquier permiso activo.
+6. **Probar**: en Play Console → Configuración → **Pruebas de licencia**, agregar tu cuenta de Gmail.
    - Instala la app desde el enlace de la prueba interna (no por cable).
    - Las compras de prueba no se cobran y las suscripciones de prueba se renuevan cada pocos minutos.
 

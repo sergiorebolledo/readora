@@ -8,7 +8,8 @@ import { track } from './analytics'
  *
  * - Solo en Android y solo si hay clave (`VITE_REVENUECAT_KEY` en `.env.local`, empieza con `goog_`).
  * - RevenueCat comprueba el pago en sus servidores y avisa de renovaciones, cancelaciones y reembolsos.
- * - El permiso que da la suscripción se llama `sin_anuncios` (debe existir igual en el panel de RevenueCat).
+ * - El permiso que da la suscripción se llama `sin_anuncios`. Como Readora solo vende "sin anuncios",
+ *   también vale cualquier otro permiso activo (p. ej. si en RevenueCat se llamó `readora_pro`).
  * - El último estado conocido se guarda en el dispositivo para no mostrar el banner un instante al abrir
  *   la app (o sin internet) a quien ya pagó; RevenueCat lo confirma o lo corrige en cuanto responde.
  *
@@ -58,8 +59,14 @@ function set(patch: Partial<PremiumState>) {
   listeners.forEach((l) => l(state))
 }
 
+/** El permiso activo que quita los anuncios: `sin_anuncios` o, si no existe, cualquier otro activo. */
+function activeEntitlement(info: CustomerInfo) {
+  const active = info.entitlements.active
+  return active[ENTITLEMENT] ?? Object.values(active).find((e) => e.isActive)
+}
+
 function applyCustomerInfo(info: CustomerInfo) {
-  const e = info.entitlements.active[ENTITLEMENT]
+  const e = activeEntitlement(info)
   const active = !!e?.isActive
   const expires = e?.expirationDate ?? null
   const willRenew = !!e?.willRenew
@@ -72,27 +79,36 @@ function applyCustomerInfo(info: CustomerInfo) {
   set({ active, expires, willRenew, manageUrl: info.managementURL ?? PLAY_SUBSCRIPTIONS, ready: true })
 }
 
-let starting: Promise<typeof import('@revenuecat/purchases-capacitor').Purchases | null> | null = null
+type PurchasesApi = typeof import('@revenuecat/purchases-capacitor').Purchases
+// El plugin es un proxy de Capacitor: NO se puede devolver desde una promesa (JavaScript llamaría a
+// su .then() y falla con 'Purchases.then() is not implemented'). Por eso se guarda aquí.
+let purchases: PurchasesApi | null = null
+let starting: Promise<boolean> | null = null
+let configured = false
 
 /** Configura RevenueCat una sola vez y carga el estado y el precio. */
-function start() {
-  if (!premiumSupported) return Promise.resolve(null)
+function start(): Promise<boolean> {
+  if (!premiumSupported) return Promise.resolve(false)
   starting ??= (async () => {
     try {
       const { Purchases } = await import('@revenuecat/purchases-capacitor')
-      await Purchases.configure({ apiKey: KEY! })
-      await Purchases.addCustomerInfoUpdateListener(applyCustomerInfo)
+      if (!configured) {
+        await Purchases.configure({ apiKey: KEY! })
+        await Purchases.addCustomerInfoUpdateListener(applyCustomerInfo)
+        configured = true
+      }
       const { customerInfo } = await Purchases.getCustomerInfo()
       applyCustomerInfo(customerInfo)
       const offerings = await Purchases.getOfferings()
       monthly = offerings.current?.monthly ?? offerings.current?.availablePackages[0] ?? null
       set({ price: monthly?.product.priceString ?? null })
-      return Purchases
+      purchases = Purchases
+      return true
     } catch (e) {
       console.warn('RevenueCat no disponible', e)
       set({ ready: true })
       starting = null // se reintenta la próxima vez
-      return null
+      return false
     }
   })()
   return starting
@@ -120,11 +136,11 @@ export type BuyResult = 'success' | 'cancelled'
 
 /** Abre el pago de Google Play. Lanza un error con mensaje si falla (no si la persona cancela). */
 export async function buyPremium(): Promise<BuyResult> {
-  const Purchases = await start()
-  if (!Purchases || !monthly) throw new Error('unavailable')
+  if (!(await start()) || !purchases || !monthly) throw new Error('unavailable')
   try {
-    const { customerInfo } = await Purchases.purchasePackage({ aPackage: monthly })
+    const { customerInfo } = await purchases.purchasePackage({ aPackage: monthly })
     applyCustomerInfo(customerInfo)
+    if (!activeEntitlement(customerInfo)?.isActive) throw Object.assign(new Error('no entitlement'), { userCancelled: false })
     track('premium_purchase', { result: 'success' })
     return 'success'
   } catch (e) {
@@ -140,9 +156,8 @@ export async function buyPremium(): Promise<BuyResult> {
 
 /** "Restaurar compra" (p. ej. tras reinstalar o en otro teléfono con la misma cuenta de Google). */
 export async function restorePremium(): Promise<boolean> {
-  const Purchases = await start()
-  if (!Purchases) throw new Error('unavailable')
-  const { customerInfo } = await Purchases.restorePurchases()
+  if (!(await start()) || !purchases) throw new Error('unavailable')
+  const { customerInfo } = await purchases.restorePurchases()
   applyCustomerInfo(customerInfo)
-  return !!customerInfo.entitlements.active[ENTITLEMENT]?.isActive
+  return !!activeEntitlement(customerInfo)?.isActive
 }

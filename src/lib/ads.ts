@@ -32,10 +32,16 @@ function startAds(): Promise<boolean> {
   if (!adsSupported) return Promise.resolve(false)
   ready ??= (async () => {
     try {
-      let info = await AdMob.requestConsentInfo()
-      if (info.isConsentFormAvailable && info.status === AdmobConsentStatus.REQUIRED) info = await AdMob.showConsentForm()
-      privacyOptionsRequired = info.privacyOptionsRequirementStatus === ('REQUIRED' as typeof info.privacyOptionsRequirementStatus)
-      if (!info.canRequestAds) return false
+      try {
+        let info = await AdMob.requestConsentInfo()
+        if (info.isConsentFormAvailable && info.status === AdmobConsentStatus.REQUIRED) info = await AdMob.showConsentForm()
+        privacyOptionsRequired = info.privacyOptionsRequirementStatus === ('REQUIRED' as typeof info.privacyOptionsRequirementStatus)
+        if (!info.canRequestAds) return false
+      } catch (e) {
+        // Sin conexión, o falta el mensaje de consentimiento en AdMob ("Privacidad y mensajes").
+        // Igual se piden anuncios: los servidores de Google aplican sus reglas según el país.
+        console.warn('Consentimiento de anuncios no disponible', e)
+      }
       await AdMob.initialize({ initializeForTesting: IS_TEST })
       // Deja espacio bajo el contenido para que el banner no tape nada (variable CSS --ad-h, usada en App.tsx).
       AdMob.addListener(BannerAdPluginEvents.SizeChanged, ({ height }) => {

@@ -60,9 +60,13 @@ La política de privacidad pública está en [PRIVACIDAD.md](PRIVACIDAD.md). Goo
 ### Configurar
 
 1. Crear la cuenta en https://admob.google.com y agregar la app Android `app.readora`.
-2. Copiar el **ID de la app** (`ca-app-pub-XXXX~YYYY`) en `android/app/src/main/res/values/strings.xml` → `admob_app_id`. Ahora tiene el ID de prueba.
-3. Crear un bloque de anuncios **Banner** y poner su ID (`ca-app-pub-XXXX/ZZZZ`) en `.env.local` como `VITE_ADMOB_BANNER_ID`.
+2. Copiar el **ID de la app** (`ca-app-pub-XXXX~YYYY`) en `android/app/src/main/res/values/strings.xml` → `admob_app_id`. ✅ Hecho (2026-11-08): `ca-app-pub-7176254903754964~3796187388`.
+3. Crear un bloque de anuncios de tipo **Banner** y poner su ID (`ca-app-pub-XXXX/ZZZZ`) en `.env.local` como `VITE_ADMOB_BANNER_ID`.
 4. Crear el mensaje de consentimiento GDPR en "Privacidad y mensajes".
+   - Sin él, Google responde *"no form(s) configured for the input app ID"*.
+   - Desde el 2026-11-08 la app igual pide anuncios en ese caso, pero en Europa no podrá pedir permiso y saldrán pocos anuncios o ninguno.
+
+> ⚠️ El bloque debe ser **Banner**, no "Nativo avanzado": el plugin de Readora solo muestra banners y un ID nativo no da anuncios.
 5. Publicar `app-ads.txt` cuando la app esté en Google Play.
 6. Para probar con anuncios reales en tu teléfono, regístralo como dispositivo de prueba en AdMob.
 

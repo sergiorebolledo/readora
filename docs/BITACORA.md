@@ -2,6 +2,24 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (4) — ID real de AdMob
+
+**Pedido del usuario**: colocar los IDs de AdMob que creó.
+
+**Hecho**
+- ID de la **app** `ca-app-pub-7176254903754964~3796187388` en `strings.xml`.
+- El bloque que creó (`…/6935541951`) es **Nativo avanzado**. El plugin de Readora solo muestra **banners**, así que **no se usó**: hace falta crear un bloque **Banner**. Mientras tanto sigue el banner de prueba de Google.
+- **Problema encontrado**: con el ID real el banner desapareció.
+  - Google respondía *"no form(s) configured for the input app ID"*, porque falta el mensaje de consentimiento en AdMob.
+  - La app tomaba ese error como "no pedir anuncios".
+  - Ahora, si falla la consulta de consentimiento (configuración o red), igual se inicializa AdMob.
+  - Verificado en el emulador: el banner vuelve a aparecer.
+
+**Pendiente (usuario)**
+- Crear un bloque **Banner** y pasar su ID.
+- Crear el mensaje GDPR en AdMob → Privacidad y mensajes.
+- Pasar la clave `phc_…` de PostHog.
+
 ## 2026-11-08 (3) — App de escritorio con Tauri 2 (Windows)
 
 **Pedido**: empaquetar Readora como app de escritorio para Windows (y Linux si es fácil). Es requisito para Microsoft Store y Steam.

@@ -8,7 +8,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!-- ID de la app en AdMob (ahora el de PRUEBA de Google; cambiar en strings.xml). -->
+        <!-- ID de la app en AdMob: está en strings.xml (admob_app_id). -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />

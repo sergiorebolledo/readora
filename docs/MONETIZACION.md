@@ -48,7 +48,15 @@ La política de privacidad pública está en [PRIVACIDAD.md](PRIVACIDAD.md). Goo
 2. Copiar la *Project API key* (`phc_…`) en `.env.local` como `VITE_POSTHOG_KEY=phc_…`.
 3. `npm run build` (o reiniciar `npm run dev`). Los eventos se ven en PostHog → Activity.
 
-✅ Configurado el 2026-11-08: proyecto en la región UE, clave en `.env.local` del PC de compilación.
+✅ Configurado el 2026-11-08: proyecto en la región **UE**, clave en `.env.local` del PC de compilación.
+
+> ⚠️ **Comprobar la región de la clave.** Una clave de un proyecto de EE. UU. enviada a `eu.i.posthog.com` recibe igual **200 OK**, pero los eventos se pierden. Para saber de qué región es una clave:
+>
+> ```bash
+> curl -s -o /dev/null -w "%{http_code}" -X POST "https://eu.i.posthog.com/flags/?v=2" -H "Content-Type: application/json" -d '{"api_key":"phc_TU_CLAVE","distinct_id":"prueba"}'
+> ```
+>
+> 200 = proyecto UE · 401 = la clave no es de la UE (probar con `us.i.posthog.com`).
 
 > PostHog muestra durante el registro varios asistentes ("Install Logs", "Workflows", `npx @posthog/wizard`…). **No hay que instalarlos**: modificarían el código y Readora ya trae su integración. La clave sale con el botón **"Copy project token"**.
 

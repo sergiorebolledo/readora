@@ -4,7 +4,15 @@ Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
 ## 2026-11-08 (5) — Analítica PostHog activada
 
-**Pedido del usuario**: activar PostHog. El usuario pegó la clave del proyecto (`phc_…`).
+**Pedido del usuario**: activar PostHog con la clave del proyecto (`phc_…`).
+
+**Problema encontrado**
+- La primera clave era de un proyecto en **EE. UU.** La app envía a la UE (lo dice la política de privacidad), así que esos eventos se perdieron.
+- PostHog responde 200 igual, por eso la primera prueba parecía correcta.
+- El usuario creó un proyecto en la **UE** (`eu.posthog.com`) y pasó la nueva clave.
+- Verificado con el endpoint `/flags`:
+  - nueva clave: UE → 200, EE. UU. → 401;
+  - clave anterior: al revés.
 
 **Hecho**
 - Clave en `.env.local`, que no se sube a git.
@@ -13,10 +21,10 @@ Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 **Probado**
 - **Navegador**:
   - sin aceptar, **no** se envía nada;
-  - con "Compartir", 3 envíos a `eu.i.posthog.com` respondieron 200.
+  - con "Compartir", envíos a `eu.i.posthog.com` con la clave UE.
 - **Emulador** (versión compilada con CSP):
   - aparece el aviso;
-  - tras "Share", 2 envíos con respuesta 200, comprobados por DevTools del WebView.
+  - tras "Share", 2 envíos a la UE con la clave nueva, comprobados por DevTools del WebView.
 
 ## 2026-11-08 (4) — ID real de AdMob
 

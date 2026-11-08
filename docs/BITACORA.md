@@ -2,6 +2,26 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (9) — App creada en Play Console; logo subido por la API
+
+**Comprobado con la API de Google Play** (cuenta de servicio `gplay-967`)
+- Hay acceso a `app.readora`.
+- Prueba interna: versión 2 (0.2.0) en estado "completed".
+- El bundle subido es idéntico al generado aquí (SHA-256 `a4e09fd1…`).
+- Idioma predeterminado de la ficha: `en-US`. Solo tenía el título, sin descripciones ni imágenes.
+
+**Hecho**
+- Icono de tienda de 512×512 en [`store/play/icon-512.png`](../store/play/icon-512.png), subido a la ficha.
+  - Es cuadrado completo (Play redondea las esquinas solo).
+  - Se armó con las capas de fondo y frente del icono adaptable, con el libro más grande.
+- Scripts de la API (fuera del repo, en el directorio temporal de la sesión):
+  - firman un JWT con la clave de la cuenta de servicio;
+  - usan `edits` para la ficha y `subscriptions` para productos.
+
+**Bloqueado**
+- No se pudo crear la suscripción `readora_sin_anuncios`. Google responde: *"Cannot create a subscription without first registering a payments profile for the developer account."*
+- Falta que el usuario cree el **perfil de pagos**, con datos bancarios y fiscales que solo puede ingresar él. Después la suscripción se crea por la API en un minuto.
+
 ## 2026-11-08 (8) — Clave de firma, cuenta de servicio y primer .aab
 
 **Hecho**

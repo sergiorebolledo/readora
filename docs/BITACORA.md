@@ -8,6 +8,8 @@ Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 - `.aab` firmado con la misma clave de subida que la 0.2.0 (certificado SHA-256 `4A:B8:23:9C…`). Copia en `C:\Users\srebo\claves\Readora-0.2.1.aab` (SHA-256 `25f0ae92…`).
   - Comprobado dentro del paquete: versión 0.2.1, configuración de Firebase (`readora-c6e11`) y la recolección apagada en el manifiesto.
 - Subido con la API de Google Play (cuenta de servicio) a **Prueba interna**, estado "completed", con notas de la versión en es-419 y en-US.
+- El usuario recordó que los testers usan la **Prueba cerrada** (pista `alpha` en la API), que seguía en 0.2.0. Se asignó el mismo paquete (código 3) a la prueba cerrada, también "completed". Ahora las dos pistas tienen la 0.2.1.
+  - Ojo para las próximas versiones: subir a **las dos** pistas (o solo a la cerrada).
 - Incluye: arreglo del bucle Volver/X, color del lector, subrayado con notas y analítica con Firebase.
 
 **Pendiente**

@@ -1,6 +1,6 @@
 [package]
 name = "readora"
-version = "0.2.0"
+version = "0.2.1"
 description = "Readora: biblioteca de libros gratis para PC"
 authors = ["Readora"]
 license = "GPL-3.0-or-later"

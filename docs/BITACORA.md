@@ -2,6 +2,18 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (16) — Versión 0.2.1 en prueba interna de Google Play
+
+- Versión **0.2.1** (código 3) en `package.json`, `android/app/build.gradle` y `src-tauri/Cargo.toml`/`Cargo.lock`.
+- `.aab` firmado con la misma clave de subida que la 0.2.0 (certificado SHA-256 `4A:B8:23:9C…`). Copia en `C:\Users\srebo\claves\Readora-0.2.1.aab` (SHA-256 `25f0ae92…`).
+  - Comprobado dentro del paquete: versión 0.2.1, configuración de Firebase (`readora-c6e11`) y la recolección apagada en el manifiesto.
+- Subido con la API de Google Play (cuenta de servicio) a **Prueba interna**, estado "completed", con notas de la versión en es-419 y en-US.
+- Incluye: arreglo del bucle Volver/X, color del lector, subrayado con notas y analítica con Firebase.
+
+**Pendiente**
+- Probar la versión instalada desde Google Play en el teléfono (aceptar estadísticas y ver el evento en Firebase → DebugView o en Tiempo real).
+- Compra de prueba de "sin anuncios" con la cuenta de prueba de licencias.
+
 ## 2026-11-08 (15) — Analítica: de PostHog a Firebase
 
 **Pedido**: cambiar PostHog por Firebase y dejarlo configurado.

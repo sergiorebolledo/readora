@@ -2,6 +2,22 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (8) — Clave de firma, cuenta de servicio y primer .aab
+
+**Hecho**
+- Cuenta de servicio de Google Cloud `gplay-967@project-1f53a53d-dc65-4cd1-b3d.iam.gserviceaccount.com`.
+  - Su clave JSON está en `C:\Users\srebo\claves\` (fuera del repositorio).
+  - Probada: Google entrega el token y la API de Play responde. Contesta "Package not found" porque la app aún no existe en Play Console.
+- **Clave de subida** `readora-upload.jks` (alias `readora`) creada en `C:\Users\srebo\claves\`.
+  - La contraseña es aleatoria. Está en `readora-upload-CONTRASEÑA.txt` (misma carpeta) y en `android/keystore.properties`, que git ignora.
+  - Hay que guardar una copia de los dos archivos fuera del PC.
+  - Por qué la creé yo: `keytool` daba "token inesperado" en PowerShell.
+- Primer `.aab` firmado: `C:\Users\srebo\claves\Readora-0.2.0.aab` (versión 0.2.0, código 2).
+
+**Pendiente (usuario)**
+- Crear la app en Play Console y subir ese `.aab` a prueba interna.
+- Dar permisos a la cuenta de servicio en Play Console → Usuarios y permisos.
+
 ## 2026-11-08 (7) — RevenueCat conectado y probado en el emulador
 
 **Hecho**

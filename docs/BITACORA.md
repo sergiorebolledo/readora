@@ -2,6 +2,38 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (11) — Declaraciones de "Contenido de la aplicación" en Play Console
+
+Completadas en el navegador de la app, con la sesión del usuario y su confirmación. Play Console quedó en "Ya estás al día".
+
+| Declaración | Respuesta |
+|---|---|
+| Política de privacidad | `https://github.com/sergiorebolledo/readora/blob/main/docs/PRIVACIDAD.md` |
+| Datos de inicio de sesión | No: ninguna parte de la app está restringida |
+| Anuncios | Sí, contiene anuncios |
+| ID de publicidad | Sí: análisis y publicidad (SDK de AdMob) |
+| Aplicaciones gubernamentales | No |
+| Funciones financieras | Ninguna |
+| Salud | Ninguna |
+| Estado de operador | Sí, se aplica (la cuenta está declarada como operador); sin URL de términos |
+| Audiencia objetivo | 13-15, 16-17 y 18+ (no dirigida a niños) |
+| Categoría | Libros y obras de consulta |
+| Contacto | `srebolledolopez@gmail.com` y la web del repositorio (puesto por la API) |
+
+**Clasificación de contenido (IARC)**
+- Categoría "Todos los demás tipos de aplicaciones".
+- El paquete de la app no trae contenido sujeto a clasificación.
+- Sí hay **contenido en línea**: el catálogo de Gutenberg y Open Library. Se declaró, con honestidad, que puede incluir:
+  - violencia, sexualidad, lenguaje ofensivo (leve, moderado y discriminatorio) y referencias a drogas;
+  - solo en texto, no como imágenes, y sin ser el objetivo de la app.
+- Se pueden comprar contenidos digitales (la suscripción), sin cajas de botín.
+- Resultado: ESRB 13+, ClassInd 14+, USK 12, PEGI "supervisión parental", IARC genérico 12+.
+
+**Seguridad de los datos**
+- Se recogen datos; van cifrados en tránsito; la app no tiene cuentas.
+- **Historial de compras**: se recoge (RevenueCat), no se comparte. Es opcional y sirve para la funcionalidad y para prevenir fraudes.
+- **Interacciones con la app, registros de fallos, diagnósticos e ID de dispositivo**: se recogen y se comparten (AdMob y PostHog). Son necesarios y sirven para análisis, publicidad y prevención de fraudes.
+
 ## 2026-11-08 (10) — Ficha de Play completa y suscripción creada
 
 **Ficha de la tienda** (subida por la API, en `en-US`, `es-419`, `es-ES`, `pt-BR` y `fr-FR`)

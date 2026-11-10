@@ -2,6 +2,21 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-09 (18) — Copia de seguridad de Android: se queda en `true`
+
+**Qué pasó**
+- Una sesión de trabajo cambió `android:allowBackup` a `false`, subió la versión a 0.2.2 (código 4) y compiló `C:\Users\srebo\Desktop\Aplicaciones play store\readora\builds\Readora-0.2.2.aab` (SHA-256 `3c9633fe…`). No se subió a Google Play ni se hizo commit.
+- Al mismo tiempo se le preguntó al usuario y **eligió dejar `true` en Readora** (en PrintCost 3D sí va `false`). Se revirtieron el manifiesto y la versión: Readora sigue en **0.2.1** (código 3) y no hay versión nueva que publicar.
+- ⚠️ Ese `Readora-0.2.2.aab` quedó obsoleto (trae `allowBackup="false"`): **no subirlo**. La próxima versión real puede volver a usar el código 4.
+
+**Por qué `true`**
+- Readora no guarda secretos: libros importados, progreso, historial, notas y recordatorios. La suscripción "sin anuncios" se comprueba en los servidores de RevenueCat, así que copiar los datos no la activa.
+- `targetSdk` 36: en Android 12 o más nuevo, `adb backup` ya no copia los datos de una app así (solo las de depuración). El riesgo queda en teléfonos con Android 7 a 11, y aun así requiere el teléfono desbloqueado en la mano y confirmar en pantalla.
+- Con `false` Android tampoco copia ni restaura la biblioteca al cambiar de teléfono, y Readora todavía no tiene exportación propia (pendiente en el ROADMAP).
+- Revisado por la otra sesión: no hay `fullBackupContent` ni `dataExtractionRules`. La copia automática en Google Drive tiene un máximo de 25 MB por app, así que con muchos libros importados probablemente no los copia todos.
+- Se dejó un comentario en `AndroidManifest.xml` con esta decisión, para que no se cambie por error.
+- Si más adelante se quiere más control: `dataExtractionRules` (Android 12+) permite elegir qué se copia a Drive y qué se pasa entre teléfonos.
+
 ## 2026-11-08 (17) — Claves y builds reorganizados
 
 - Claves movidas a la estructura por proyecto (reglas en `C:\Users\srebo\Desktop\Aplicaciones play store\CLAUDE.md`):

@@ -258,6 +258,7 @@ Más adelante se puede automatizar con `makeappx` (SDK de Windows) y un `AppxMan
   - además, la versión compilada tiene una **política de seguridad de contenido (CSP)** que limita de dónde se cargan scripts y estilos.
 - **Descargas**: solo por `https://`. El proxy de descargas existe únicamente en `npm run dev`, con una lista blanca de dominios.
 - **Datos personales**: todo queda en el dispositivo. La analítica es opcional y no envía títulos, búsquedas ni URLs.
+- **Copia de seguridad de Android activada a propósito** (`allowBackup="true"`): Readora no guarda secretos y así Android puede restaurar la biblioteca al cambiar de teléfono. Con `targetSdk` 31+, en Android 12 o más nuevo `adb backup` ya no copia los datos de la app. Detalle en la [bitácora](BITACORA.md) (2026-11-09, entrada 18).
 - **Permisos de Android**:
   - internet;
   - notificaciones (recordatorios);

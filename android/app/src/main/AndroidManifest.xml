@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- allowBackup="true" a propósito (decisión del 2026-11-09, ver docs/BITACORA.md):
+         - Readora no guarda secretos (libros, progreso y notas); "sin anuncios" se comprueba en RevenueCat.
+         - Con targetSdk 31+ en Android 12 o más nuevo, `adb backup` ya no copia los datos de la app.
+         - Con "false" la gente perdería su biblioteca al cambiar de teléfono (aún no hay exportación propia). -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

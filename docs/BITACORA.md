@@ -27,7 +27,22 @@ Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 - Claves secretas de RevenueCat (`sk_…`), clave de prueba (`test_…`), claves de PostHog reales.
 - En el historial de git solo hay ejemplos (`phc_TU_CLAVE`, `phc_abc123`, `LA_CONTRASEÑA`).
 
-**Conclusión**: no hace falta actualizar la app. Mejora recomendada sin actualizar: restringir las dos claves `AIza…` en Google Cloud Console (la de Android a `app.readora` + huellas SHA-1; ambas solo a las APIs de Firebase que se usan). Así, si alguien la copia, no puede usarla para otras APIs de Google.
+**Conclusión**: no hace falta actualizar la app.
+
+**Hecho después, con permiso del usuario: claves restringidas** (Google Cloud Console → proyecto `readora-c6e11` → Credenciales; no cambia la app instalada)
+- **Android key**:
+  - solo funciona desde `app.readora` firmada con alguna de estas huellas SHA-1:
+    - firma de Google Play (la que llega a los teléfonos): `A9:20:42:9F:21:C5:3A:05:3F:BE:FF:45:9E:BF:60:DB:53:9E:21:DD`;
+    - clave de subida `readora-upload.jks`: `5B:A5:0A:6B:37:3C:3E:06:45:4F:55:72:DA:38:8D:86:A8:B6:13:88`;
+    - depuración (APK de pruebas en el emulador): `14:EA:0D:A3:B4:70:0A:C6:4D:63:DD:4A:BD:F3:9F:BD:59:EF:33:49`;
+  - solo 2 APIs (antes 25): Firebase Installations y Firebase Management.
+- **Browser key** (PC/web): solo esas 2 APIs. Sin restricción de sitio web: la app de escritorio no tiene una dirección web normal y se arriesgaba a romper las estadísticas.
+- La huella de Google Play se sacó del APK universal que genera Play (API `generatedApks`); su SHA-256 coincide con el que informa Play.
+- **Probado** con peticiones reales (script que lee las claves sin mostrarlas):
+  - Android desde Readora → 200; desde otra app o sin app → 403 "are blocked";
+  - Android o web contra otra API (Identity Toolkit) → 403;
+  - web → configuración y Installations → 200.
+- Si algún día se usa otro servicio de Firebase (p. ej. Remote Config o Crashlytics), hay que agregar su API a las dos claves.
 
 ## 2026-11-08 (16) — Versión 0.2.1 en prueba interna de Google Play
 

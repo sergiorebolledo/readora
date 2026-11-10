@@ -2,6 +2,33 @@
 
 Registro de lo hecho en cada sesión de trabajo (lo más reciente arriba).
 
+## 2026-11-08 (17) — Claves y builds reorganizados
+
+- Claves movidas a la estructura por proyecto (reglas en `C:\Users\srebo\Desktop\Aplicaciones play store\CLAUDE.md`):
+  - Clave de subida y su contraseña: `C:\Users\srebo\claves\readora\` (`android/keystore.properties` ya apunta ahí).
+  - JSON de la cuenta de servicio de Google Play: `C:\Users\srebo\claves\_compartidas\`.
+- `.aab` 0.2.0 y 0.2.1 movidos a `C:\Users\srebo\Desktop\Aplicaciones play store\readora\builds\`. Las rutas antiguas de las entradas de abajo ya no valen.
+
+## 2026-11-09 (17) — Revisión de claves dentro de la app
+
+**Pregunta del usuario**: ¿se ven las claves (API) dentro de la app? ¿Hay que actualizarla?
+
+**Revisado**: el `.aab` 0.2.1 publicado (SHA-256 `25f0ae92…`), la compilación de PC/web (`dist`), los archivos de git y todo su historial.
+
+**Lo que sí va dentro de la app (es público por diseño, igual que en cualquier app)**
+- Claves de Firebase `AIza…`: una de Android (de `google-services.json`) y otra web (de `.env.local`). Solo identifican el proyecto; no dan acceso a datos ni a la cuenta.
+- Clave **pública** de RevenueCat `goog_…`: solo sirve para consultar compras desde la app.
+- IDs de AdMob `ca-app-pub-…` (app y banner).
+- El `test_…` que aparece es un texto interno de la librería WorkManager, no la clave de prueba de RevenueCat.
+
+**Lo que NO está ni en la app ni en git** (comprobado)
+- Clave de subida `readora-upload.jks` y su contraseña.
+- JSON de la cuenta de servicio de Google Play (`private_key`).
+- Claves secretas de RevenueCat (`sk_…`), clave de prueba (`test_…`), claves de PostHog reales.
+- En el historial de git solo hay ejemplos (`phc_TU_CLAVE`, `phc_abc123`, `LA_CONTRASEÑA`).
+
+**Conclusión**: no hace falta actualizar la app. Mejora recomendada sin actualizar: restringir las dos claves `AIza…` en Google Cloud Console (la de Android a `app.readora` + huellas SHA-1; ambas solo a las APIs de Firebase que se usan). Así, si alguien la copia, no puede usarla para otras APIs de Google.
+
 ## 2026-11-08 (16) — Versión 0.2.1 en prueba interna de Google Play
 
 - Versión **0.2.1** (código 3) en `package.json`, `android/app/build.gradle` y `src-tauri/Cargo.toml`/`Cargo.lock`.
